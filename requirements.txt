@@ -1,0 +1,27 @@
+# Computer Vision & Machine Learning
+opencv-python==4.8.1.78
+opencv-contrib-python==4.8.1.78  # For BEBLID descriptor
+ultralytics==8.3.0                # YOLO11
+torch==2.1.0
+torchvision==0.16.0
+
+# Numerical Computing
+numpy==1.24.3
+scipy==1.11.3
+
+# API & Web (Optional - for web version)
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+aiohttp==3.9.1
+
+# Price Data APIs
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Utilities
+pillow==10.1.0
+pyyaml==6.0.1
+
+# Performance Optimization
+numba==0.58.1  # JIT compilation for feature matching

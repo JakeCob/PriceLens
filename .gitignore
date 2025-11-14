@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Data Files
+data/card_database/*.jpg
+data/card_database/*.png
+data/features/*.pkl
+data/train/images/*
+data/train/labels/*
+*.cache
+
+# Model Files
+models/*.pt
+models/*.pth
+models/*.onnx
+!models/.gitkeep
+
+# Output Files
+screenshots/
+*.jpg
+*.png
+*.mp4
+*.avi
+!tests/fixtures/*.jpg
+!tests/fixtures/*.png
+
+# Logs
+*.log
+logs/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Documentation Build
+docs/_build/
+site/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# OS Files
+Thumbs.db
+.DS_Store
+
+# Temporary Files
+*.tmp
+*.bak
+*.swp
+*.lock
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# API Keys and Credentials
+credentials.json
+api_keys.txt

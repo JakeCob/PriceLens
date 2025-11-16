@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  pricelens:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: pricelens
+    image: pricelens:latest
+    devices:
+      - /dev/video0:/dev/video0  # Default webcam
+      # Add more video devices as needed:
+      # - /dev/video1:/dev/video1
+    environment:
+      - POKEMON_PRICE_API_KEY=${POKEMON_PRICE_API_KEY}
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ../data:/app/data
+      - ../models:/app/models
+      - ../config.yaml:/app/config.yaml:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    network_mode: host
+    privileged: true  # Required for camera access
+    stdin_open: true
+    tty: true
+
+  # Optional development container with additional tools
+  pricelens-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    container_name: pricelens-dev
+    image: pricelens:dev
+    devices:
+      - /dev/video0:/dev/video0
+    environment:
+      - POKEMON_PRICE_API_KEY=${POKEMON_PRICE_API_KEY}
+      - DISPLAY=${DISPLAY}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ..:/app  # Mount entire project for development
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    network_mode: host
+    privileged: true
+    stdin_open: true
+    tty: true
+    command: /bin/bash

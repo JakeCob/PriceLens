@@ -19,7 +19,7 @@
                     "rarity": "Holo Rare",
                     "type": "Psychic",
                     "image_path": "base_set/Alakazam_base1-1.jpg",
-                    "features_computed": false
+                    "features_computed": true
                 },
                 {
                     "id": "base1-2",
@@ -28,7 +28,7 @@
                     "rarity": "Holo Rare",
                     "type": "Water",
                     "image_path": "base_set/Blastoise_base1-2.jpg",
-                    "features_computed": false
+                    "features_computed": true
                 },
                 {
                     "id": "base1-3",
@@ -37,7 +37,7 @@
                     "rarity": "Holo Rare",
                     "type": "Colorless",
                     "image_path": "base_set/Chansey_base1-3.jpg",
-                    "features_computed": false
+                    "features_computed": true
                 },
                 {
                     "id": "base1-4",
@@ -46,7 +46,7 @@
                     "rarity": "Holo Rare",
                     "type": "Fire",
                     "image_path": "base_set/Charizard_base1-4.jpg",
-                    "features_computed": false
+                    "features_computed": true
                 },
                 {
                     "id": "base1-5",
@@ -55,7 +55,7 @@
                     "rarity": "Holo Rare",
                     "type": "Colorless",
                     "image_path": "base_set/Clefairy_base1-5.jpg",
-                    "features_computed": false
+                    "features_computed": true
                 }
             ]
         }

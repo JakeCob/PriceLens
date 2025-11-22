@@ -45,7 +45,7 @@ class PokemonTCGClient(PriceSource):
             url = f"{self.BASE_URL}/cards/{card_id}"
             logger.info(f"Fetching price for {card_id} from {url}")
             
-            response = requests.get(url, headers=self.headers, timeout=30)
+            response = requests.get(url, headers=self.headers, timeout=60)
             
             if response.status_code == 404:
                 logger.warning(f"Card not found: {card_id}")

@@ -23,14 +23,17 @@ logger = logging.getLogger(__name__)
 def open_browser():
     """Open browser after server starts"""
     time.sleep(1.5)
-    webbrowser.open("http://localhost:8000")
-
+    try:
+        webbrowser.open("http://localhost:8080")
+    except Exception:
+        pass  # Ignore if browser cannot be opened
 
 if __name__ == "__main__":
     setup_logging(level="INFO")
     
     logger.info("Starting PriceLens Web Interface...")
-    logger.info("Open http://localhost:8000 in your browser")
+    logger.info("Open http://localhost:8080 in your browser")
+    logger.info("(If running remotely, use your server's IP or Proxy URL)")
     
     # Open browser in background
     threading.Thread(target=open_browser, daemon=True).start()
@@ -40,7 +43,7 @@ if __name__ == "__main__":
         uvicorn.run(
             "src.web.api:app",
             host="0.0.0.0",
-            port=8000,
+            port=8080,
             reload=True,
             log_level="info"
         )

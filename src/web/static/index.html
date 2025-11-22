@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceLens - Pokemon Card Scanner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="icon">🔍</span>
+                <h1>PriceLens</h1>
+            </div>
+            <p class="subtitle">Instant Pokemon Card Price Scanner</p>
+        </header>
+
+        <main>
+            <div class="upload-section" id="drop-zone">
+                <div class="upload-content">
+                    <div class="upload-icon">📸</div>
+                    <h2>Upload a Card Photo</h2>
+                    <p>Drag & drop or click to browse</p>
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loading" hidden>
+                <div class="spinner"></div>
+                <p>Analyzing Card...</p>
+            </div>
+
+            <div class="result-section" id="result-section" hidden>
+                <div class="result-card">
+                    <div class="image-container">
+                        <img id="result-image" src="" alt="Analyzed Card">
+                    </div>
+                    
+                    <div class="info-panel">
+                        <div class="card-header">
+                            <h2 id="card-name">Card Name</h2>
+                            <span class="badge" id="card-set">Set Name</span>
+                        </div>
+                        
+                        <div class="price-box">
+                            <span class="label">Market Price</span>
+                            <div class="price-value" id="card-price">$0.00</div>
+                        </div>
+
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="label">Confidence</span>
+                                <span class="value" id="card-confidence">100%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">ID</span>
+                                <span class="value" id="card-id">base1-1</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-reset" id="btn-reset">Scan Another</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by PriceLens CV Engine • Pokemon TCG API</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

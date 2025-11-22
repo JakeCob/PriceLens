@@ -26,7 +26,7 @@ def download_sample_cards():
     }
 
     try:
-        response = requests.get(api_url, params=params, timeout=10)
+        response = requests.get(api_url, params=params, timeout=30)
         response.raise_for_status()
         data = response.json()
 
@@ -42,7 +42,7 @@ def download_sample_cards():
             image_url = card["images"]["large"]
 
             # Download image
-            img_response = requests.get(image_url, timeout=10)
+            img_response = requests.get(image_url, timeout=30)
             img_response.raise_for_status()
 
             # Save image

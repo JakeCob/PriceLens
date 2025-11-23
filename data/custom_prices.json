@@ -1,0 +1,620 @@
+{
+  "base1-1": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Alakazam",
+    "set": "Base"
+  },
+  "base1-2": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Blastoise",
+    "set": "Base"
+  },
+  "base1-3": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Chansey",
+    "set": "Base"
+  },
+  "base1-4": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Charizard",
+    "set": "Base"
+  },
+  "base1-5": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Clefairy",
+    "set": "Base"
+  },
+  "base1-6": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Gyarados",
+    "set": "Base"
+  },
+  "base1-7": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Hitmonchan",
+    "set": "Base"
+  },
+  "base1-8": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Machamp",
+    "set": "Base"
+  },
+  "base1-9": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Magneton",
+    "set": "Base"
+  },
+  "base1-10": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Mewtwo",
+    "set": "Base"
+  },
+  "base1-11": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Nidoking",
+    "set": "Base"
+  },
+  "base1-12": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Ninetales",
+    "set": "Base"
+  },
+  "base1-13": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Poliwrath",
+    "set": "Base"
+  },
+  "base1-14": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Raichu",
+    "set": "Base"
+  },
+  "base1-15": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Venusaur",
+    "set": "Base"
+  },
+  "base1-16": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Zapdos",
+    "set": "Base"
+  },
+  "base1-17": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Beedrill",
+    "set": "Base"
+  },
+  "base1-18": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Dragonair",
+    "set": "Base"
+  },
+  "base1-19": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Dugtrio",
+    "set": "Base"
+  },
+  "base1-20": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Electabuzz",
+    "set": "Base"
+  },
+  "base1-21": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Electrode",
+    "set": "Base"
+  },
+  "base1-22": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pidgeotto",
+    "set": "Base"
+  },
+  "base1-23": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Arcanine",
+    "set": "Base"
+  },
+  "base1-24": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Charmeleon",
+    "set": "Base"
+  },
+  "base1-25": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Dewgong",
+    "set": "Base"
+  },
+  "base1-26": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Dratini",
+    "set": "Base"
+  },
+  "base1-27": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Farfetch'd",
+    "set": "Base"
+  },
+  "base1-28": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Growlithe",
+    "set": "Base"
+  },
+  "base1-29": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Haunter",
+    "set": "Base"
+  },
+  "base1-30": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Ivysaur",
+    "set": "Base"
+  },
+  "base1-31": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Jynx",
+    "set": "Base"
+  },
+  "base1-32": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Kadabra",
+    "set": "Base"
+  },
+  "base1-33": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Kakuna",
+    "set": "Base"
+  },
+  "base1-34": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Machoke",
+    "set": "Base"
+  },
+  "base1-35": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Magikarp",
+    "set": "Base"
+  },
+  "base1-36": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Magmar",
+    "set": "Base"
+  },
+  "base1-37": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Nidorino",
+    "set": "Base"
+  },
+  "base1-38": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Poliwhirl",
+    "set": "Base"
+  },
+  "base1-39": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Porygon",
+    "set": "Base"
+  },
+  "base1-40": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Raticate",
+    "set": "Base"
+  },
+  "base1-41": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Seel",
+    "set": "Base"
+  },
+  "base1-42": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Wartortle",
+    "set": "Base"
+  },
+  "base1-43": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Abra",
+    "set": "Base"
+  },
+  "base1-44": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Bulbasaur",
+    "set": "Base"
+  },
+  "base1-45": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Caterpie",
+    "set": "Base"
+  },
+  "base1-46": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Charmander",
+    "set": "Base"
+  },
+  "base1-47": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Diglett",
+    "set": "Base"
+  },
+  "base1-48": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Doduo",
+    "set": "Base"
+  },
+  "base1-49": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Drowzee",
+    "set": "Base"
+  },
+  "base1-50": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Gastly",
+    "set": "Base"
+  },
+  "base1-51": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Koffing",
+    "set": "Base"
+  },
+  "base1-52": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Machop",
+    "set": "Base"
+  },
+  "base1-53": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Magnemite",
+    "set": "Base"
+  },
+  "base1-54": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Metapod",
+    "set": "Base"
+  },
+  "base1-55": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Nidoran \u2642",
+    "set": "Base"
+  },
+  "base1-56": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Onix",
+    "set": "Base"
+  },
+  "base1-57": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pidgey",
+    "set": "Base"
+  },
+  "base1-58": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pikachu",
+    "set": "Base"
+  },
+  "base1-59": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Poliwag",
+    "set": "Base"
+  },
+  "base1-60": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Ponyta",
+    "set": "Base"
+  },
+  "base1-61": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Rattata",
+    "set": "Base"
+  },
+  "base1-62": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Sandshrew",
+    "set": "Base"
+  },
+  "base1-63": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Squirtle",
+    "set": "Base"
+  },
+  "base1-64": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Starmie",
+    "set": "Base"
+  },
+  "base1-65": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Staryu",
+    "set": "Base"
+  },
+  "base1-66": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Tangela",
+    "set": "Base"
+  },
+  "base1-67": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Voltorb",
+    "set": "Base"
+  },
+  "base1-68": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Vulpix",
+    "set": "Base"
+  },
+  "base1-69": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Weedle",
+    "set": "Base"
+  },
+  "base1-70": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Clefairy Doll",
+    "set": "Base"
+  },
+  "base1-71": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Computer Search",
+    "set": "Base"
+  },
+  "base1-72": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Devolution Spray",
+    "set": "Base"
+  },
+  "base1-73": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Impostor Professor Oak",
+    "set": "Base"
+  },
+  "base1-74": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Item Finder",
+    "set": "Base"
+  },
+  "base1-75": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Lass",
+    "set": "Base"
+  },
+  "base1-76": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pok\u00e9mon Breeder",
+    "set": "Base"
+  },
+  "base1-77": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pok\u00e9mon Trader",
+    "set": "Base"
+  },
+  "base1-78": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Scoop Up",
+    "set": "Base"
+  },
+  "base1-79": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Super Energy Removal",
+    "set": "Base"
+  },
+  "base1-80": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Defender",
+    "set": "Base"
+  },
+  "base1-81": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Energy Retrieval",
+    "set": "Base"
+  },
+  "base1-82": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Full Heal",
+    "set": "Base"
+  },
+  "base1-83": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Maintenance",
+    "set": "Base"
+  },
+  "base1-84": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "PlusPower",
+    "set": "Base"
+  },
+  "base1-85": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pok\u00e9mon Center",
+    "set": "Base"
+  },
+  "base1-86": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pok\u00e9mon Flute",
+    "set": "Base"
+  },
+  "base1-87": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Pok\u00e9dex",
+    "set": "Base"
+  },
+  "base1-88": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Professor Oak",
+    "set": "Base"
+  },
+  "base1-89": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Revive",
+    "set": "Base"
+  },
+  "base1-90": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Super Potion",
+    "set": "Base"
+  },
+  "base1-91": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Bill",
+    "set": "Base"
+  },
+  "base1-92": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Energy Removal",
+    "set": "Base"
+  },
+  "base1-93": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Gust of Wind",
+    "set": "Base"
+  },
+  "base1-94": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Potion",
+    "set": "Base"
+  },
+  "base1-95": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Switch",
+    "set": "Base"
+  },
+  "base1-96": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Double Colorless Energy",
+    "set": "Base"
+  },
+  "base1-97": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Fighting Energy",
+    "set": "Base"
+  },
+  "base1-98": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Fire Energy",
+    "set": "Base"
+  },
+  "base1-99": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Grass Energy",
+    "set": "Base"
+  },
+  "base1-100": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Lightning Energy",
+    "set": "Base"
+  },
+  "base1-101": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Psychic Energy",
+    "set": "Base"
+  },
+  "base1-102": {
+    "price": 0.0,
+    "currency": "USD",
+    "name": "Water Energy",
+    "set": "Base"
+  },
+  "me1-179": {
+    "price": 206.7,
+    "currency": "USD",
+    "name": "Mega Lucario ex",
+    "set": "me1"
+  }
+}

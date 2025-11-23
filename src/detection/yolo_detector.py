@@ -118,6 +118,15 @@ class YOLOCardDetector(DetectorBase):
         # Card tracking (Phase 1.3)
         self.tracked_cards: Dict[str, Detection] = {}
         self.next_card_id = 0
+        
+        # Initialize Frame Interpolator
+        try:
+            from src.detection.frame_interpolator import FrameInterpolator
+            self.interpolator = FrameInterpolator()
+            logger.info("Frame Interpolator initialized")
+        except ImportError:
+            self.interpolator = None
+            logger.warning("FrameInterpolator not available (filterpy missing?)")
 
         logger.info(
             f"YOLO detector initialized on {self.device} "
@@ -285,6 +294,10 @@ class YOLOCardDetector(DetectorBase):
                 det.card_id = best_match_id
                 self.tracked_cards[best_match_id] = det
                 matched_detections.append(det)
+                
+                # Update interpolator
+                if self.interpolator:
+                    self.interpolator.update(best_match_id, det.bbox, 0) # Frame idx 0 for now
             else:
                 # New card detected
                 unmatched_detections.append(det)
@@ -293,6 +306,11 @@ class YOLOCardDetector(DetectorBase):
         for det in unmatched_detections:
             det.card_id = f"card_{self.next_card_id}"
             self.tracked_cards[det.card_id] = det
+            
+            # Initialize interpolator for new card
+            if self.interpolator:
+                self.interpolator.update(det.card_id, det.bbox, 0)
+                
             self.next_card_id += 1
             matched_detections.append(det)
 

@@ -1,14 +1,17 @@
 """
 Pokemon TCG API Client
-Fetches card data and prices from api.pokemontcg.io
+Fetches card data and prices from api.pokemontcg.io / dev.pokemontcg.io.
 """
 
 import logging
-import requests
-from typing import Optional, Dict
+import os
 from datetime import datetime
+from typing import Dict, Optional
 
-from src.api.base import PriceSource, PriceData
+import requests
+from dotenv import load_dotenv
+
+from src.api.base import PriceData, PriceSource
 
 logger = logging.getLogger(__name__)
 
@@ -16,17 +19,30 @@ logger = logging.getLogger(__name__)
 class PokemonTCGClient(PriceSource):
     """Client for Pokemon TCG API (pokemontcg.io)"""
 
-    BASE_URL = "https://api.pokemontcg.io/v2"
+    PROD_BASE_URL = "https://api.pokemontcg.io/v2"
+    DEV_BASE_URL = "https://dev.pokemontcg.io/v2"
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None):
         """
         Initialize client
         
         Args:
             api_key: Optional API key (increases rate limit)
+            base_url: Override base URL (defaults to dev if key present, else prod)
         """
-        self.api_key = api_key
-        self.headers = {"X-Api-Key": api_key} if api_key else {}
+        load_dotenv()
+
+        # Support both legacy and dev-prefixed env var names
+        env_key = os.getenv("POKEMONTCG_API_KEY") or os.getenv("DEV_POKEMONTCG_IO_API_KEY")
+        env_base = os.getenv("POKEMONTCG_BASE_URL") or os.getenv("DEV_POKEMONTCG_IO_BASE_URL")
+
+        self.api_key = api_key or env_key
+        self.base_url = (
+            base_url
+            or env_base
+            or (self.DEV_BASE_URL if self.api_key else self.PROD_BASE_URL)
+        )
+        self.headers = {"X-Api-Key": self.api_key} if self.api_key else {}
 
     def get_name(self) -> str:
         return "Pokemon TCG API"
@@ -42,10 +58,10 @@ class PokemonTCGClient(PriceSource):
             PriceData or None
         """
         try:
-            url = f"{self.BASE_URL}/cards/{card_id}"
-            logger.info(f"Fetching price for {card_id} from {url}")
+            url = f"{self.base_url}/cards/{card_id}"
+            logger.info(f"Fetching price for %s from %s", card_id, url)
             
-            response = requests.get(url, headers=self.headers, timeout=60)
+            response = requests.get(url, headers=self.headers, timeout=120)
             
             if response.status_code == 404:
                 logger.warning(f"Card not found: {card_id}")

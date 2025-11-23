@@ -55,11 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData();
             formData.append('file', file);
 
+            // Create AbortController for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 120000); // 120s timeout
+
             const response = await fetch('/analyze', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
 
+            clearTimeout(timeoutId);
             const data = await response.json();
 
             if (data.success) {
@@ -70,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while processing the image');
+            if (error.name === 'AbortError') {
+                alert('Request timed out. The price API is very slow. The card was identified, but price could not be fetched in time.');
+            } else {
+                alert('An error occurred while processing the image');
+            }
             loadingOverlay.hidden = true;
         }
     }
@@ -86,11 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const confPercent = Math.round(data.card.confidence * 100);
         cardConfidence.textContent = `${confPercent}%`;
 
-        // Format price
-        if (data.price && data.price.market) {
+        // Format price with better feedback
+        if (data.price && data.price.market !== null && data.price.market !== undefined) {
             cardPrice.textContent = `$${data.price.market.toFixed(2)}`;
+            cardPrice.classList.remove('fetching');
         } else {
+            // Show N/A but indicate it might be a temporary issue
             cardPrice.textContent = 'N/A';
+            cardPrice.classList.remove('fetching');
+            cardPrice.title = 'Price not available (API timeout or card not found)';
         }
 
         // Hide upload, show result

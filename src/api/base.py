@@ -3,7 +3,7 @@ Base classes for Price API integration.
 """
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, Dict
 
@@ -18,7 +18,7 @@ class PriceData:
     high: Optional[float] = None
     market: Optional[float] = None
     direct_low: Optional[float] = None  # TCGPlayer direct low
-    updated_at: datetime = datetime.now()
+    updated_at: datetime = field(default_factory=datetime.now)
     source: str = "unknown"
     url: Optional[str] = None
 

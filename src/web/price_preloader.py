@@ -40,11 +40,36 @@ class PricePreloader:
         """Start preloader with initial load"""
         logger.info("Starting price preloader...")
         
-        # Start initial load in background (non-blocking)
+        # 1. Load stale prices immediately (Stale-While-Revalidate)
+        await self.load_stale_prices()
+        
+        # 2. Start fresh load in background (non-blocking)
         asyncio.create_task(self.refresh_all_prices())
         
-        # Start periodic refresh task
+        # 3. Start periodic refresh task
         self.refresh_task = asyncio.create_task(self._periodic_refresh())
+
+    async def load_stale_prices(self):
+        """Load stale prices from persistent cache immediately"""
+        try:
+            logger.info("Loading stale prices from cache...")
+            card_ids = self._get_all_card_ids()
+            count = 0
+            for card_id in card_ids:
+                # Use get_stale to retrieve expired entries from SmartCache
+                # We access the underlying cache directly to bypass TTL checks
+                price_data = self.service.cache.get_stale(card_id)
+                
+                if price_data:
+                    self.cache[card_id] = {
+                        'price': price_data.market,
+                        'timestamp': datetime.now(), # UI will see this immediately
+                        'data': price_data
+                    }
+                    count += 1
+            logger.info(f"Loaded {count} stale prices from cache")
+        except Exception as e:
+            logger.error(f"Error loading stale prices: {e}")
         
     async def stop(self):
         """Stop periodic refresh"""

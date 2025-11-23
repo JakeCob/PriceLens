@@ -98,6 +98,32 @@ class SmartCache:
             
         return None
 
+    def get_stale(self, key: str) -> Optional[Any]:
+        """
+        Get value from cache even if expired (for Stale-While-Revalidate)
+        """
+        # 1. Check Memory
+        if key in self.memory_cache:
+            return self.memory_cache[key][0]
+
+        # 2. Check Disk (SQLite)
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.execute(
+                    "SELECT value FROM cache WHERE key = ?", (key,)
+                )
+                row = cursor.fetchone()
+                
+                if row:
+                    value = pickle.loads(row[0])
+                    # Promote to memory (with old timestamp)
+                    self.memory_cache[key] = (value, datetime.min) 
+                    return value
+        except Exception as e:
+            logger.error(f"Cache read error: {e}")
+            
+        return None
+
     def set(self, key: str, value: Any) -> None:
         """
         Set value in cache

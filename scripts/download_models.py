@@ -25,12 +25,15 @@ def download_yolo11():
 
     try:
         # Download YOLO11 nano model
-        model = YOLO('yolo11n.pt')  # Downloads automatically if not present
+        model_n = YOLO('yolo11n.pt')
+        model_n.save(models_dir / "yolo11n.pt")
+        
+        # Download YOLO11 medium model
+        logger.info("Downloading YOLO11m model...")
+        model_m = YOLO('yolo11m.pt')
+        model_m.save(models_dir / "yolo11m.pt")
 
-        # Save to models directory
-        model_path = models_dir / "yolo11n.pt"
-
-        logger.info(f"✓ Model ready at: {model_path}")
+        logger.info(f"✓ Models ready at: {models_dir}")
 
         # Create model info file
         info_path = models_dir / "model_info.yaml"
@@ -40,9 +43,11 @@ def download_yolo11():
     version: "11.0"
     type: "nano"
     task: "detection"
-    classes: 80
-    input_size: 640
-    description: "YOLO11 nano model for object detection"
+  yolo11m:
+    version: "11.0"
+    type: "medium"
+    task: "detection"
+    description: "YOLO11 medium model for better accuracy"
 """)
         logger.info("✓ Model info file created")
 

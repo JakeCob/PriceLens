@@ -27,8 +27,8 @@ feature_matching:
   match_method: "FLANN"  # FLANN or BF (Brute Force)
 
 api:
-  primary: "pokemonpricetracker"
-  fallback: "pokemontcg"
+  primary: "pokemontcg"
+  fallback: "pokemonpricetracker"
   cache_ttl: 300  # 5 minutes
   rate_limit: 60  # requests per minute
   timeout: 5  # seconds

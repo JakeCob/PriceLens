@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  pricelens:
+    build: .
+    container_name: pricelens-web
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persist data (database, features, logs)
+      - ./data:/app/data
+      - ./logs:/app/logs
+      # Mount source for development (optional, remove for production)
+      - ./src:/app/src
+    restart: unless-stopped

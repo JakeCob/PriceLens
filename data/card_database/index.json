@@ -1,60 +1,3815 @@
 {
     "version": "1.0",
-    "last_updated": "2025-11-22T09:26:00+08:00",
-    "total_sets": 1,
-    "total_cards": 5,
+    "last_updated": "2025-11-22T06:39:03.623810+00:00",
+    "total_sets": 3,
+    "total_cards": 420,
     "sets": {
         "base1": {
-            "name": "Base Set",
+            "name": "Base",
             "code": "base1",
-            "release_date": "1999-01-09",
-            "total_cards": 102,
-            "cards_in_database": 5,
-            "folder": "base_set",
+            "folder": "base1",
             "cards": [
                 {
                     "id": "base1-1",
                     "name": "Alakazam",
                     "number": "1",
-                    "rarity": "Holo Rare",
+                    "rarity": "Rare Holo",
                     "type": "Psychic",
-                    "image_path": "base_set/Alakazam_base1-1.jpg",
+                    "image_path": "base1/Alakazam_base1-1.jpg",
                     "features_computed": true
                 },
                 {
                     "id": "base1-2",
                     "name": "Blastoise",
                     "number": "2",
-                    "rarity": "Holo Rare",
+                    "rarity": "Rare Holo",
                     "type": "Water",
-                    "image_path": "base_set/Blastoise_base1-2.jpg",
+                    "image_path": "base1/Blastoise_base1-2.jpg",
                     "features_computed": true
                 },
                 {
                     "id": "base1-3",
                     "name": "Chansey",
                     "number": "3",
-                    "rarity": "Holo Rare",
+                    "rarity": "Rare Holo",
                     "type": "Colorless",
-                    "image_path": "base_set/Chansey_base1-3.jpg",
+                    "image_path": "base1/Chansey_base1-3.jpg",
                     "features_computed": true
                 },
                 {
                     "id": "base1-4",
                     "name": "Charizard",
                     "number": "4",
-                    "rarity": "Holo Rare",
+                    "rarity": "Rare Holo",
                     "type": "Fire",
-                    "image_path": "base_set/Charizard_base1-4.jpg",
+                    "image_path": "base1/Charizard_base1-4.jpg",
                     "features_computed": true
                 },
                 {
                     "id": "base1-5",
                     "name": "Clefairy",
                     "number": "5",
-                    "rarity": "Holo Rare",
+                    "rarity": "Rare Holo",
                     "type": "Colorless",
-                    "image_path": "base_set/Clefairy_base1-5.jpg",
+                    "image_path": "base1/Clefairy_base1-5.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-6",
+                    "name": "Gyarados",
+                    "number": "6",
+                    "rarity": "Rare Holo",
+                    "type": "Water",
+                    "image_path": "base1/Gyarados_base1-6.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-7",
+                    "name": "Hitmonchan",
+                    "number": "7",
+                    "rarity": "Rare Holo",
+                    "type": "Fighting",
+                    "image_path": "base1/Hitmonchan_base1-7.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-8",
+                    "name": "Machamp",
+                    "number": "8",
+                    "rarity": "Rare Holo",
+                    "type": "Fighting",
+                    "image_path": "base1/Machamp_base1-8.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-9",
+                    "name": "Magneton",
+                    "number": "9",
+                    "rarity": "Rare Holo",
+                    "type": "Lightning",
+                    "image_path": "base1/Magneton_base1-9.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-10",
+                    "name": "Mewtwo",
+                    "number": "10",
+                    "rarity": "Rare Holo",
+                    "type": "Psychic",
+                    "image_path": "base1/Mewtwo_base1-10.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-11",
+                    "name": "Nidoking",
+                    "number": "11",
+                    "rarity": "Rare Holo",
+                    "type": "Grass",
+                    "image_path": "base1/Nidoking_base1-11.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-12",
+                    "name": "Ninetales",
+                    "number": "12",
+                    "rarity": "Rare Holo",
+                    "type": "Fire",
+                    "image_path": "base1/Ninetales_base1-12.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-13",
+                    "name": "Poliwrath",
+                    "number": "13",
+                    "rarity": "Rare Holo",
+                    "type": "Water",
+                    "image_path": "base1/Poliwrath_base1-13.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-14",
+                    "name": "Raichu",
+                    "number": "14",
+                    "rarity": "Rare Holo",
+                    "type": "Lightning",
+                    "image_path": "base1/Raichu_base1-14.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-15",
+                    "name": "Venusaur",
+                    "number": "15",
+                    "rarity": "Rare Holo",
+                    "type": "Grass",
+                    "image_path": "base1/Venusaur_base1-15.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-16",
+                    "name": "Zapdos",
+                    "number": "16",
+                    "rarity": "Rare Holo",
+                    "type": "Lightning",
+                    "image_path": "base1/Zapdos_base1-16.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-17",
+                    "name": "Beedrill",
+                    "number": "17",
+                    "rarity": "Rare",
+                    "type": "Grass",
+                    "image_path": "base1/Beedrill_base1-17.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-18",
+                    "name": "Dragonair",
+                    "number": "18",
+                    "rarity": "Rare",
+                    "type": "Colorless",
+                    "image_path": "base1/Dragonair_base1-18.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-19",
+                    "name": "Dugtrio",
+                    "number": "19",
+                    "rarity": "Rare",
+                    "type": "Fighting",
+                    "image_path": "base1/Dugtrio_base1-19.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-20",
+                    "name": "Electabuzz",
+                    "number": "20",
+                    "rarity": "Rare",
+                    "type": "Lightning",
+                    "image_path": "base1/Electabuzz_base1-20.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-21",
+                    "name": "Electrode",
+                    "number": "21",
+                    "rarity": "Rare",
+                    "type": "Lightning",
+                    "image_path": "base1/Electrode_base1-21.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-22",
+                    "name": "Pidgeotto",
+                    "number": "22",
+                    "rarity": "Rare",
+                    "type": "Colorless",
+                    "image_path": "base1/Pidgeotto_base1-22.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-23",
+                    "name": "Arcanine",
+                    "number": "23",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "base1/Arcanine_base1-23.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-24",
+                    "name": "Charmeleon",
+                    "number": "24",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "base1/Charmeleon_base1-24.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-25",
+                    "name": "Dewgong",
+                    "number": "25",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "base1/Dewgong_base1-25.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-26",
+                    "name": "Dratini",
+                    "number": "26",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "base1/Dratini_base1-26.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-27",
+                    "name": "Farfetch'd",
+                    "number": "27",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "base1/Farfetchd_base1-27.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-28",
+                    "name": "Growlithe",
+                    "number": "28",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "base1/Growlithe_base1-28.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-29",
+                    "name": "Haunter",
+                    "number": "29",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "base1/Haunter_base1-29.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-30",
+                    "name": "Ivysaur",
+                    "number": "30",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "base1/Ivysaur_base1-30.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-31",
+                    "name": "Jynx",
+                    "number": "31",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "base1/Jynx_base1-31.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-32",
+                    "name": "Kadabra",
+                    "number": "32",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "base1/Kadabra_base1-32.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-33",
+                    "name": "Kakuna",
+                    "number": "33",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "base1/Kakuna_base1-33.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-34",
+                    "name": "Machoke",
+                    "number": "34",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "base1/Machoke_base1-34.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-35",
+                    "name": "Magikarp",
+                    "number": "35",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "base1/Magikarp_base1-35.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-36",
+                    "name": "Magmar",
+                    "number": "36",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "base1/Magmar_base1-36.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-37",
+                    "name": "Nidorino",
+                    "number": "37",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "base1/Nidorino_base1-37.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-38",
+                    "name": "Poliwhirl",
+                    "number": "38",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "base1/Poliwhirl_base1-38.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-39",
+                    "name": "Porygon",
+                    "number": "39",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "base1/Porygon_base1-39.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-40",
+                    "name": "Raticate",
+                    "number": "40",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "base1/Raticate_base1-40.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-41",
+                    "name": "Seel",
+                    "number": "41",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "base1/Seel_base1-41.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-42",
+                    "name": "Wartortle",
+                    "number": "42",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "base1/Wartortle_base1-42.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-43",
+                    "name": "Abra",
+                    "number": "43",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "base1/Abra_base1-43.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-44",
+                    "name": "Bulbasaur",
+                    "number": "44",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Bulbasaur_base1-44.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-45",
+                    "name": "Caterpie",
+                    "number": "45",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Caterpie_base1-45.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-46",
+                    "name": "Charmander",
+                    "number": "46",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "base1/Charmander_base1-46.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-47",
+                    "name": "Diglett",
+                    "number": "47",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "base1/Diglett_base1-47.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-48",
+                    "name": "Doduo",
+                    "number": "48",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "base1/Doduo_base1-48.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-49",
+                    "name": "Drowzee",
+                    "number": "49",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "base1/Drowzee_base1-49.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-50",
+                    "name": "Gastly",
+                    "number": "50",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "base1/Gastly_base1-50.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-51",
+                    "name": "Koffing",
+                    "number": "51",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Koffing_base1-51.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-52",
+                    "name": "Machop",
+                    "number": "52",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "base1/Machop_base1-52.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-53",
+                    "name": "Magnemite",
+                    "number": "53",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "base1/Magnemite_base1-53.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-54",
+                    "name": "Metapod",
+                    "number": "54",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Metapod_base1-54.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-55",
+                    "name": "Nidoran \u2642",
+                    "number": "55",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Nidoran_base1-55.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-56",
+                    "name": "Onix",
+                    "number": "56",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "base1/Onix_base1-56.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-57",
+                    "name": "Pidgey",
+                    "number": "57",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "base1/Pidgey_base1-57.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-58",
+                    "name": "Pikachu",
+                    "number": "58",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "base1/Pikachu_base1-58.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-59",
+                    "name": "Poliwag",
+                    "number": "59",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "base1/Poliwag_base1-59.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-60",
+                    "name": "Ponyta",
+                    "number": "60",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "base1/Ponyta_base1-60.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-61",
+                    "name": "Rattata",
+                    "number": "61",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "base1/Rattata_base1-61.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-62",
+                    "name": "Sandshrew",
+                    "number": "62",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "base1/Sandshrew_base1-62.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-63",
+                    "name": "Squirtle",
+                    "number": "63",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "base1/Squirtle_base1-63.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-64",
+                    "name": "Starmie",
+                    "number": "64",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "base1/Starmie_base1-64.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-65",
+                    "name": "Staryu",
+                    "number": "65",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "base1/Staryu_base1-65.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-66",
+                    "name": "Tangela",
+                    "number": "66",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Tangela_base1-66.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-67",
+                    "name": "Voltorb",
+                    "number": "67",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "base1/Voltorb_base1-67.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-68",
+                    "name": "Vulpix",
+                    "number": "68",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "base1/Vulpix_base1-68.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-69",
+                    "name": "Weedle",
+                    "number": "69",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "base1/Weedle_base1-69.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-70",
+                    "name": "Clefairy Doll",
+                    "number": "70",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Clefairy Doll_base1-70.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-71",
+                    "name": "Computer Search",
+                    "number": "71",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Computer Search_base1-71.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-72",
+                    "name": "Devolution Spray",
+                    "number": "72",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Devolution Spray_base1-72.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-73",
+                    "name": "Impostor Professor Oak",
+                    "number": "73",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Impostor Professor Oak_base1-73.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-74",
+                    "name": "Item Finder",
+                    "number": "74",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Item Finder_base1-74.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-75",
+                    "name": "Lass",
+                    "number": "75",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Lass_base1-75.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-76",
+                    "name": "Pok\u00e9mon Breeder",
+                    "number": "76",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Pok\u00e9mon Breeder_base1-76.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-77",
+                    "name": "Pok\u00e9mon Trader",
+                    "number": "77",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Pok\u00e9mon Trader_base1-77.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-78",
+                    "name": "Scoop Up",
+                    "number": "78",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Scoop Up_base1-78.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-79",
+                    "name": "Super Energy Removal",
+                    "number": "79",
+                    "rarity": "Rare",
+                    "type": "Unknown",
+                    "image_path": "base1/Super Energy Removal_base1-79.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-80",
+                    "name": "Defender",
+                    "number": "80",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Defender_base1-80.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-81",
+                    "name": "Energy Retrieval",
+                    "number": "81",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Energy Retrieval_base1-81.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-82",
+                    "name": "Full Heal",
+                    "number": "82",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Full Heal_base1-82.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-83",
+                    "name": "Maintenance",
+                    "number": "83",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Maintenance_base1-83.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-84",
+                    "name": "PlusPower",
+                    "number": "84",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/PlusPower_base1-84.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-85",
+                    "name": "Pok\u00e9mon Center",
+                    "number": "85",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Pok\u00e9mon Center_base1-85.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-86",
+                    "name": "Pok\u00e9mon Flute",
+                    "number": "86",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Pok\u00e9mon Flute_base1-86.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-87",
+                    "name": "Pok\u00e9dex",
+                    "number": "87",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Pok\u00e9dex_base1-87.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-88",
+                    "name": "Professor Oak",
+                    "number": "88",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Professor Oak_base1-88.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-89",
+                    "name": "Revive",
+                    "number": "89",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Revive_base1-89.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-90",
+                    "name": "Super Potion",
+                    "number": "90",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Super Potion_base1-90.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-91",
+                    "name": "Bill",
+                    "number": "91",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "base1/Bill_base1-91.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-92",
+                    "name": "Energy Removal",
+                    "number": "92",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "base1/Energy Removal_base1-92.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-93",
+                    "name": "Gust of Wind",
+                    "number": "93",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "base1/Gust of Wind_base1-93.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-94",
+                    "name": "Potion",
+                    "number": "94",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "base1/Potion_base1-94.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-95",
+                    "name": "Switch",
+                    "number": "95",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "base1/Switch_base1-95.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-96",
+                    "name": "Double Colorless Energy",
+                    "number": "96",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "base1/Double Colorless Energy_base1-96.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-97",
+                    "name": "Fighting Energy",
+                    "number": "97",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Fighting Energy_base1-97.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-98",
+                    "name": "Fire Energy",
+                    "number": "98",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Fire Energy_base1-98.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-99",
+                    "name": "Grass Energy",
+                    "number": "99",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Grass Energy_base1-99.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-100",
+                    "name": "Lightning Energy",
+                    "number": "100",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Lightning Energy_base1-100.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-101",
+                    "name": "Psychic Energy",
+                    "number": "101",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Psychic Energy_base1-101.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "base1-102",
+                    "name": "Water Energy",
+                    "number": "102",
+                    "rarity": "Unknown",
+                    "type": "Unknown",
+                    "image_path": "base1/Water Energy_base1-102.jpg",
+                    "features_computed": true
+                }
+            ],
+            "release_date": "1999-01-09",
+            "total_cards": 102,
+            "cards_in_database": 102
+        },
+        "me1": {
+            "name": "Mega Evolution",
+            "code": "me1",
+            "release_date": "2025-09-26",
+            "total_cards": 188,
+            "cards_in_database": 188,
+            "folder": "me1",
+            "cards": [
+                {
+                    "id": "me1-1",
+                    "name": "Bulbasaur",
+                    "number": "1",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Bulbasaur_me1-1.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-2",
+                    "name": "Ivysaur",
+                    "number": "2",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Ivysaur_me1-2.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-3",
+                    "name": "Mega Venusaur ex",
+                    "number": "3",
+                    "rarity": "Double Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Mega Venusaur ex_me1-3.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-4",
+                    "name": "Exeggcute",
+                    "number": "4",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Exeggcute_me1-4.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-5",
+                    "name": "Exeggutor",
+                    "number": "5",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Exeggutor_me1-5.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-6",
+                    "name": "Tangela",
+                    "number": "6",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Tangela_me1-6.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-7",
+                    "name": "Tangrowth",
+                    "number": "7",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Tangrowth_me1-7.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-8",
+                    "name": "Chikorita",
+                    "number": "8",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Chikorita_me1-8.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-9",
+                    "name": "Bayleef",
+                    "number": "9",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Bayleef_me1-9.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-10",
+                    "name": "Meganium",
+                    "number": "10",
+                    "rarity": "Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Meganium_me1-10.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-11",
+                    "name": "Shuckle",
+                    "number": "11",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Shuckle_me1-11.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-12",
+                    "name": "Celebi",
+                    "number": "12",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Celebi_me1-12.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-13",
+                    "name": "Seedot",
+                    "number": "13",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Seedot_me1-13.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-14",
+                    "name": "Nuzleaf",
+                    "number": "14",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Nuzleaf_me1-14.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-15",
+                    "name": "Shiftry",
+                    "number": "15",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Shiftry_me1-15.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-16",
+                    "name": "Nincada",
+                    "number": "16",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Nincada_me1-16.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-17",
+                    "name": "Ninjask",
+                    "number": "17",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me1/Ninjask_me1-17.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-18",
+                    "name": "Dhelmise",
+                    "number": "18",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me1/Dhelmise_me1-18.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-19",
+                    "name": "Vulpix",
+                    "number": "19",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Vulpix_me1-19.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-20",
+                    "name": "Ninetales",
+                    "number": "20",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me1/Ninetales_me1-20.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-21",
+                    "name": "Numel",
+                    "number": "21",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Numel_me1-21.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-22",
+                    "name": "Mega Camerupt ex",
+                    "number": "22",
+                    "rarity": "Double Rare",
+                    "type": "Fire",
+                    "image_path": "me1/Mega Camerupt ex_me1-22.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-23",
+                    "name": "Litleo",
+                    "number": "23",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Litleo_me1-23.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-24",
+                    "name": "Pyroar",
+                    "number": "24",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me1/Pyroar_me1-24.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-25",
+                    "name": "Volcanion",
+                    "number": "25",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me1/Volcanion_me1-25.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-26",
+                    "name": "Scorbunny",
+                    "number": "26",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Scorbunny_me1-26.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-27",
+                    "name": "Raboot",
+                    "number": "27",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Raboot_me1-27.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-28",
+                    "name": "Cinderace",
+                    "number": "28",
+                    "rarity": "Rare",
+                    "type": "Fire",
+                    "image_path": "me1/Cinderace_me1-28.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-29",
+                    "name": "Sizzlipede",
+                    "number": "29",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me1/Sizzlipede_me1-29.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-30",
+                    "name": "Centiskorch",
+                    "number": "30",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me1/Centiskorch_me1-30.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-31",
+                    "name": "Chi-Yu",
+                    "number": "31",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me1/Chi-Yu_me1-31.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-32",
+                    "name": "Mantine",
+                    "number": "32",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Mantine_me1-32.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-33",
+                    "name": "Corphish",
+                    "number": "33",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Corphish_me1-33.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-34",
+                    "name": "Kyogre",
+                    "number": "34",
+                    "rarity": "Rare",
+                    "type": "Water",
+                    "image_path": "me1/Kyogre_me1-34.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-35",
+                    "name": "Snover",
+                    "number": "35",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Snover_me1-35.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-36",
+                    "name": "Mega Abomasnow ex",
+                    "number": "36",
+                    "rarity": "Double Rare",
+                    "type": "Water",
+                    "image_path": "me1/Mega Abomasnow ex_me1-36.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-37",
+                    "name": "Clauncher",
+                    "number": "37",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Clauncher_me1-37.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-38",
+                    "name": "Clawitzer",
+                    "number": "38",
+                    "rarity": "Rare",
+                    "type": "Water",
+                    "image_path": "me1/Clawitzer_me1-38.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-39",
+                    "name": "Sobble",
+                    "number": "39",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Sobble_me1-39.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-40",
+                    "name": "Drizzile",
+                    "number": "40",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Drizzile_me1-40.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-41",
+                    "name": "Inteleon",
+                    "number": "41",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "me1/Inteleon_me1-41.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-42",
+                    "name": "Snom",
+                    "number": "42",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Snom_me1-42.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-43",
+                    "name": "Frosmoth",
+                    "number": "43",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "me1/Frosmoth_me1-43.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-44",
+                    "name": "Eiscue",
+                    "number": "44",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me1/Eiscue_me1-44.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-45",
+                    "name": "Magnemite",
+                    "number": "45",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Magnemite_me1-45.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-46",
+                    "name": "Magneton",
+                    "number": "46",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Magneton_me1-46.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-47",
+                    "name": "Magnezone",
+                    "number": "47",
+                    "rarity": "Uncommon",
+                    "type": "Lightning",
+                    "image_path": "me1/Magnezone_me1-47.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-48",
+                    "name": "Raikou",
+                    "number": "48",
+                    "rarity": "Rare",
+                    "type": "Lightning",
+                    "image_path": "me1/Raikou_me1-48.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-49",
+                    "name": "Electrike",
+                    "number": "49",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Electrike_me1-49.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-50",
+                    "name": "Mega Manectric ex",
+                    "number": "50",
+                    "rarity": "Double Rare",
+                    "type": "Lightning",
+                    "image_path": "me1/Mega Manectric ex_me1-50.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-51",
+                    "name": "Pachirisu",
+                    "number": "51",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Pachirisu_me1-51.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-52",
+                    "name": "Helioptile",
+                    "number": "52",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Helioptile_me1-52.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-53",
+                    "name": "Heliolisk",
+                    "number": "53",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me1/Heliolisk_me1-53.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-54",
+                    "name": "Abra",
+                    "number": "54",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Abra_me1-54.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-55",
+                    "name": "Kadabra",
+                    "number": "55",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me1/Kadabra_me1-55.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-56",
+                    "name": "Alakazam",
+                    "number": "56",
+                    "rarity": "Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Alakazam_me1-56.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-57",
+                    "name": "Jynx",
+                    "number": "57",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Jynx_me1-57.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-58",
+                    "name": "Ralts",
+                    "number": "58",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Ralts_me1-58.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-59",
+                    "name": "Kirlia",
+                    "number": "59",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Kirlia_me1-59.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-60",
+                    "name": "Mega Gardevoir ex",
+                    "number": "60",
+                    "rarity": "Double Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Mega Gardevoir ex_me1-60.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-61",
+                    "name": "Shedinja",
+                    "number": "61",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me1/Shedinja_me1-61.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-62",
+                    "name": "Spoink",
+                    "number": "62",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Spoink_me1-62.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-63",
+                    "name": "Grumpig",
+                    "number": "63",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me1/Grumpig_me1-63.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-64",
+                    "name": "Xerneas",
+                    "number": "64",
+                    "rarity": "Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Xerneas_me1-64.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-65",
+                    "name": "Greavard",
+                    "number": "65",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Greavard_me1-65.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-66",
+                    "name": "Houndstone",
+                    "number": "66",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me1/Houndstone_me1-66.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-67",
+                    "name": "Gimmighoul",
+                    "number": "67",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me1/Gimmighoul_me1-67.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-68",
+                    "name": "Sandshrew",
+                    "number": "68",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Sandshrew_me1-68.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-69",
+                    "name": "Sandslash",
+                    "number": "69",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Sandslash_me1-69.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-70",
+                    "name": "Onix",
+                    "number": "70",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Onix_me1-70.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-71",
+                    "name": "Tyrogue",
+                    "number": "71",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Tyrogue_me1-71.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-72",
+                    "name": "Makuhita",
+                    "number": "72",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Makuhita_me1-72.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-73",
+                    "name": "Hariyama",
+                    "number": "73",
+                    "rarity": "Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Hariyama_me1-73.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-74",
+                    "name": "Lunatone",
+                    "number": "74",
+                    "rarity": "Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Lunatone_me1-74.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-75",
+                    "name": "Solrock",
+                    "number": "75",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me1/Solrock_me1-75.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-76",
+                    "name": "Riolu",
+                    "number": "76",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Riolu_me1-76.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-77",
+                    "name": "Mega Lucario ex",
+                    "number": "77",
+                    "rarity": "Double Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Mega Lucario ex_me1-77.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-78",
+                    "name": "Croagunk",
+                    "number": "78",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Croagunk_me1-78.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-79",
+                    "name": "Toxicroak",
+                    "number": "79",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Toxicroak_me1-79.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-80",
+                    "name": "Marshadow",
+                    "number": "80",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me1/Marshadow_me1-80.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-81",
+                    "name": "Stonjourner",
+                    "number": "81",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me1/Stonjourner_me1-81.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-82",
+                    "name": "Nacli",
+                    "number": "82",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Nacli_me1-82.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-83",
+                    "name": "Naclstack",
+                    "number": "83",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me1/Naclstack_me1-83.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-84",
+                    "name": "Garganacl",
+                    "number": "84",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me1/Garganacl_me1-84.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-85",
+                    "name": "Crawdaunt",
+                    "number": "85",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me1/Crawdaunt_me1-85.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-86",
+                    "name": "Mega Absol ex",
+                    "number": "86",
+                    "rarity": "Double Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Mega Absol ex_me1-86.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-87",
+                    "name": "Spiritomb",
+                    "number": "87",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me1/Spiritomb_me1-87.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-88",
+                    "name": "Yveltal",
+                    "number": "88",
+                    "rarity": "Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Yveltal_me1-88.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-89",
+                    "name": "Nickit",
+                    "number": "89",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me1/Nickit_me1-89.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-90",
+                    "name": "Thievul",
+                    "number": "90",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me1/Thievul_me1-90.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-91",
+                    "name": "Shroodle",
+                    "number": "91",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me1/Shroodle_me1-91.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-92",
+                    "name": "Grafaiai",
+                    "number": "92",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me1/Grafaiai_me1-92.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-93",
+                    "name": "Steelix",
+                    "number": "93",
+                    "rarity": "Rare",
+                    "type": "Metal",
+                    "image_path": "me1/Steelix_me1-93.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-94",
+                    "name": "Mega Mawile ex",
+                    "number": "94",
+                    "rarity": "Double Rare",
+                    "type": "Metal",
+                    "image_path": "me1/Mega Mawile ex_me1-94.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-95",
+                    "name": "Dialga",
+                    "number": "95",
+                    "rarity": "Rare",
+                    "type": "Metal",
+                    "image_path": "me1/Dialga_me1-95.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-96",
+                    "name": "Tinkatink",
+                    "number": "96",
+                    "rarity": "Common",
+                    "type": "Metal",
+                    "image_path": "me1/Tinkatink_me1-96.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-97",
+                    "name": "Tinkatuff",
+                    "number": "97",
+                    "rarity": "Common",
+                    "type": "Metal",
+                    "image_path": "me1/Tinkatuff_me1-97.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-98",
+                    "name": "Tinkaton",
+                    "number": "98",
+                    "rarity": "Uncommon",
+                    "type": "Metal",
+                    "image_path": "me1/Tinkaton_me1-98.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-99",
+                    "name": "Gholdengo",
+                    "number": "99",
+                    "rarity": "Uncommon",
+                    "type": "Metal",
+                    "image_path": "me1/Gholdengo_me1-99.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-100",
+                    "name": "Mega Latias ex",
+                    "number": "100",
+                    "rarity": "Double Rare",
+                    "type": "Dragon",
+                    "image_path": "me1/Mega Latias ex_me1-100.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-101",
+                    "name": "Latios",
+                    "number": "101",
+                    "rarity": "Uncommon",
+                    "type": "Dragon",
+                    "image_path": "me1/Latios_me1-101.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-102",
+                    "name": "Spearow",
+                    "number": "102",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Spearow_me1-102.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-103",
+                    "name": "Fearow",
+                    "number": "103",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Fearow_me1-103.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-104",
+                    "name": "Mega Kangaskhan ex",
+                    "number": "104",
+                    "rarity": "Double Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Mega Kangaskhan ex_me1-104.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-105",
+                    "name": "Delibird",
+                    "number": "105",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Delibird_me1-105.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-106",
+                    "name": "Miltank",
+                    "number": "106",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Miltank_me1-106.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-107",
+                    "name": "Buneary",
+                    "number": "107",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Buneary_me1-107.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-108",
+                    "name": "Lopunny",
+                    "number": "108",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Lopunny_me1-108.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-109",
+                    "name": "Yungoos",
+                    "number": "109",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Yungoos_me1-109.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-110",
+                    "name": "Gumshoos",
+                    "number": "110",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "me1/Gumshoos_me1-110.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-111",
+                    "name": "Stufful",
+                    "number": "111",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Stufful_me1-111.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-112",
+                    "name": "Bewear",
+                    "number": "112",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me1/Bewear_me1-112.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-113",
+                    "name": "Acerola's Mischief",
+                    "number": "113",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Acerolas Mischief_me1-113.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-114",
+                    "name": "Boss's Orders",
+                    "number": "114",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Bosss Orders_me1-114.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-115",
+                    "name": "Energy Switch",
+                    "number": "115",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "me1/Energy Switch_me1-115.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-116",
+                    "name": "Fighting Gong",
+                    "number": "116",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Fighting Gong_me1-116.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-117",
+                    "name": "Forest of Vitality",
+                    "number": "117",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Forest of Vitality_me1-117.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-118",
+                    "name": "Iron Defender",
+                    "number": "118",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Iron Defender_me1-118.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-119",
+                    "name": "Lillie's Determination",
+                    "number": "119",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Lillies Determination_me1-119.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-120",
+                    "name": "Lt. Surge's Bargain",
+                    "number": "120",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Lt Surges Bargain_me1-120.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-121",
+                    "name": "Mega Signal",
+                    "number": "121",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Mega Signal_me1-121.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-122",
+                    "name": "Mystery Garden",
+                    "number": "122",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Mystery Garden_me1-122.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-123",
+                    "name": "Pok\u00e9mon Center Lady",
+                    "number": "123",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "me1/Pok\u00e9mon Center Lady_me1-123.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-124",
+                    "name": "Premium Power Pro",
+                    "number": "124",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Premium Power Pro_me1-124.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-125",
+                    "name": "Rare Candy",
+                    "number": "125",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "me1/Rare Candy_me1-125.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-126",
+                    "name": "Repel",
+                    "number": "126",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Repel_me1-126.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-127",
+                    "name": "Risky Ruins",
+                    "number": "127",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Risky Ruins_me1-127.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-128",
+                    "name": "Strange Timepiece",
+                    "number": "128",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Strange Timepiece_me1-128.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-129",
+                    "name": "Surfing Beach",
+                    "number": "129",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Surfing Beach_me1-129.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-130",
+                    "name": "Switch",
+                    "number": "130",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "me1/Switch_me1-130.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-131",
+                    "name": "Ultra Ball",
+                    "number": "131",
+                    "rarity": "Common",
+                    "type": "Unknown",
+                    "image_path": "me1/Ultra Ball_me1-131.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-132",
+                    "name": "Wally's Compassion",
+                    "number": "132",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me1/Wallys Compassion_me1-132.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-133",
+                    "name": "Bulbasaur",
+                    "number": "133",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Bulbasaur_me1-133.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-134",
+                    "name": "Ivysaur",
+                    "number": "134",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Ivysaur_me1-134.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-135",
+                    "name": "Exeggutor",
+                    "number": "135",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Exeggutor_me1-135.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-136",
+                    "name": "Shuckle",
+                    "number": "136",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Shuckle_me1-136.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-137",
+                    "name": "Ninjask",
+                    "number": "137",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Ninjask_me1-137.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-138",
+                    "name": "Vulpix",
+                    "number": "138",
+                    "rarity": "Illustration Rare",
+                    "type": "Fire",
+                    "image_path": "me1/Vulpix_me1-138.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-139",
+                    "name": "Litleo",
+                    "number": "139",
+                    "rarity": "Illustration Rare",
+                    "type": "Fire",
+                    "image_path": "me1/Litleo_me1-139.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-140",
+                    "name": "Snover",
+                    "number": "140",
+                    "rarity": "Illustration Rare",
+                    "type": "Water",
+                    "image_path": "me1/Snover_me1-140.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-141",
+                    "name": "Clawitzer",
+                    "number": "141",
+                    "rarity": "Illustration Rare",
+                    "type": "Water",
+                    "image_path": "me1/Clawitzer_me1-141.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-142",
+                    "name": "Inteleon",
+                    "number": "142",
+                    "rarity": "Illustration Rare",
+                    "type": "Water",
+                    "image_path": "me1/Inteleon_me1-142.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-143",
+                    "name": "Helioptile",
+                    "number": "143",
+                    "rarity": "Illustration Rare",
+                    "type": "Lightning",
+                    "image_path": "me1/Helioptile_me1-143.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-144",
+                    "name": "Shedinja",
+                    "number": "144",
+                    "rarity": "Illustration Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Shedinja_me1-144.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-145",
+                    "name": "Houndstone",
+                    "number": "145",
+                    "rarity": "Illustration Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Houndstone_me1-145.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-146",
+                    "name": "Marshadow",
+                    "number": "146",
+                    "rarity": "Illustration Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Marshadow_me1-146.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-147",
+                    "name": "Garganacl",
+                    "number": "147",
+                    "rarity": "Illustration Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Garganacl_me1-147.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-148",
+                    "name": "Spiritomb",
+                    "number": "148",
+                    "rarity": "Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Spiritomb_me1-148.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-149",
+                    "name": "Shroodle",
+                    "number": "149",
+                    "rarity": "Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Shroodle_me1-149.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-150",
+                    "name": "Steelix",
+                    "number": "150",
+                    "rarity": "Illustration Rare",
+                    "type": "Metal",
+                    "image_path": "me1/Steelix_me1-150.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-151",
+                    "name": "Spearow",
+                    "number": "151",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Spearow_me1-151.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-152",
+                    "name": "Delibird",
+                    "number": "152",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Delibird_me1-152.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-153",
+                    "name": "Gumshoos",
+                    "number": "153",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Gumshoos_me1-153.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-154",
+                    "name": "Stufful",
+                    "number": "154",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Stufful_me1-154.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-155",
+                    "name": "Mega Venusaur ex",
+                    "number": "155",
+                    "rarity": "Ultra Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Mega Venusaur ex_me1-155.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-156",
+                    "name": "Mega Camerupt ex",
+                    "number": "156",
+                    "rarity": "Ultra Rare",
+                    "type": "Fire",
+                    "image_path": "me1/Mega Camerupt ex_me1-156.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-157",
+                    "name": "Mega Abomasnow ex",
+                    "number": "157",
+                    "rarity": "Ultra Rare",
+                    "type": "Water",
+                    "image_path": "me1/Mega Abomasnow ex_me1-157.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-158",
+                    "name": "Mega Manectric ex",
+                    "number": "158",
+                    "rarity": "Ultra Rare",
+                    "type": "Lightning",
+                    "image_path": "me1/Mega Manectric ex_me1-158.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-159",
+                    "name": "Mega Gardevoir ex",
+                    "number": "159",
+                    "rarity": "Ultra Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Mega Gardevoir ex_me1-159.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-160",
+                    "name": "Mega Lucario ex",
+                    "number": "160",
+                    "rarity": "Ultra Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Mega Lucario ex_me1-160.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-161",
+                    "name": "Mega Absol ex",
+                    "number": "161",
+                    "rarity": "Ultra Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Mega Absol ex_me1-161.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-162",
+                    "name": "Mega Mawile ex",
+                    "number": "162",
+                    "rarity": "Ultra Rare",
+                    "type": "Metal",
+                    "image_path": "me1/Mega Mawile ex_me1-162.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-163",
+                    "name": "Mega Latias ex",
+                    "number": "163",
+                    "rarity": "Ultra Rare",
+                    "type": "Dragon",
+                    "image_path": "me1/Mega Latias ex_me1-163.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-164",
+                    "name": "Mega Kangaskhan ex",
+                    "number": "164",
+                    "rarity": "Ultra Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Mega Kangaskhan ex_me1-164.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-165",
+                    "name": "Acerola's Mischief",
+                    "number": "165",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Acerolas Mischief_me1-165.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-166",
+                    "name": "Air Balloon",
+                    "number": "166",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Air Balloon_me1-166.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-167",
+                    "name": "Buddy-Buddy Poffin",
+                    "number": "167",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Buddy-Buddy Poffin_me1-167.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-168",
+                    "name": "Fighting Gong",
+                    "number": "168",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Fighting Gong_me1-168.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-169",
+                    "name": "Lillie's Determination",
+                    "number": "169",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Lillies Determination_me1-169.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-170",
+                    "name": "Lt. Surge's Bargain",
+                    "number": "170",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Lt Surges Bargain_me1-170.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-171",
+                    "name": "Mega Signal",
+                    "number": "171",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Mega Signal_me1-171.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-172",
+                    "name": "Mystery Garden",
+                    "number": "172",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Mystery Garden_me1-172.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-173",
+                    "name": "Night Stretcher",
+                    "number": "173",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Night Stretcher_me1-173.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-174",
+                    "name": "Premium Power Pro",
+                    "number": "174",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Premium Power Pro_me1-174.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-175",
+                    "name": "Rare Candy",
+                    "number": "175",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Rare Candy_me1-175.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-176",
+                    "name": "Wally's Compassion",
+                    "number": "176",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Wallys Compassion_me1-176.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-177",
+                    "name": "Mega Venusaur ex",
+                    "number": "177",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me1/Mega Venusaur ex_me1-177.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-178",
+                    "name": "Mega Gardevoir ex",
+                    "number": "178",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Mega Gardevoir ex_me1-178.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-179",
+                    "name": "Mega Lucario ex",
+                    "number": "179",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Mega Lucario ex_me1-179.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-180",
+                    "name": "Mega Absol ex",
+                    "number": "180",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me1/Mega Absol ex_me1-180.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-181",
+                    "name": "Mega Latias ex",
+                    "number": "181",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Dragon",
+                    "image_path": "me1/Mega Latias ex_me1-181.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-182",
+                    "name": "Mega Kangaskhan ex",
+                    "number": "182",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me1/Mega Kangaskhan ex_me1-182.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-183",
+                    "name": "Acerola's Mischief",
+                    "number": "183",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Acerolas Mischief_me1-183.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-184",
+                    "name": "Lillie's Determination",
+                    "number": "184",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Lillies Determination_me1-184.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-185",
+                    "name": "Lt. Surge's Bargain",
+                    "number": "185",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Lt Surges Bargain_me1-185.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-186",
+                    "name": "Wally's Compassion",
+                    "number": "186",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Unknown",
+                    "image_path": "me1/Wallys Compassion_me1-186.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-187",
+                    "name": "Mega Gardevoir ex",
+                    "number": "187",
+                    "rarity": "Mega Hyper Rare",
+                    "type": "Psychic",
+                    "image_path": "me1/Mega Gardevoir ex_me1-187.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me1-188",
+                    "name": "Mega Lucario ex",
+                    "number": "188",
+                    "rarity": "Mega Hyper Rare",
+                    "type": "Fighting",
+                    "image_path": "me1/Mega Lucario ex_me1-188.jpg",
+                    "features_computed": true
+                }
+            ]
+        },
+        "me2": {
+            "name": "Phantasmal Flames",
+            "code": "me2",
+            "release_date": "2025-11-14",
+            "total_cards": 130,
+            "cards_in_database": 130,
+            "folder": "me2",
+            "cards": [
+                {
+                    "id": "me2-1",
+                    "name": "Oddish",
+                    "number": "1",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me2/Oddish_me2-1.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-2",
+                    "name": "Gloom",
+                    "number": "2",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me2/Gloom_me2-2.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-3",
+                    "name": "Vileplume",
+                    "number": "3",
+                    "rarity": "Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Vileplume_me2-3.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-4",
+                    "name": "Mega Heracross ex",
+                    "number": "4",
+                    "rarity": "Double Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Mega Heracross ex_me2-4.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-5",
+                    "name": "Lotad",
+                    "number": "5",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me2/Lotad_me2-5.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-6",
+                    "name": "Lombre",
+                    "number": "6",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me2/Lombre_me2-6.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-7",
+                    "name": "Ludicolo",
+                    "number": "7",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me2/Ludicolo_me2-7.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-8",
+                    "name": "Genesect",
+                    "number": "8",
+                    "rarity": "Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Genesect_me2-8.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-9",
+                    "name": "Nymble",
+                    "number": "9",
+                    "rarity": "Common",
+                    "type": "Grass",
+                    "image_path": "me2/Nymble_me2-9.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-10",
+                    "name": "Lokix",
+                    "number": "10",
+                    "rarity": "Uncommon",
+                    "type": "Grass",
+                    "image_path": "me2/Lokix_me2-10.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-11",
+                    "name": "Charmander",
+                    "number": "11",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me2/Charmander_me2-11.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-12",
+                    "name": "Charmeleon",
+                    "number": "12",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me2/Charmeleon_me2-12.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-13",
+                    "name": "Mega Charizard X ex",
+                    "number": "13",
+                    "rarity": "Double Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Mega Charizard X ex_me2-13.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-14",
+                    "name": "Moltres",
+                    "number": "14",
+                    "rarity": "Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Moltres_me2-14.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-15",
+                    "name": "Darumaka",
+                    "number": "15",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me2/Darumaka_me2-15.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-16",
+                    "name": "Darmanitan",
+                    "number": "16",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me2/Darmanitan_me2-16.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-17",
+                    "name": "Reshiram",
+                    "number": "17",
+                    "rarity": "Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Reshiram_me2-17.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-18",
+                    "name": "Oricorio ex",
+                    "number": "18",
+                    "rarity": "Double Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Oricorio ex_me2-18.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-19",
+                    "name": "Charcadet",
+                    "number": "19",
+                    "rarity": "Common",
+                    "type": "Fire",
+                    "image_path": "me2/Charcadet_me2-19.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-20",
+                    "name": "Ceruledge",
+                    "number": "20",
+                    "rarity": "Uncommon",
+                    "type": "Fire",
+                    "image_path": "me2/Ceruledge_me2-20.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-21",
+                    "name": "Seel",
+                    "number": "21",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Seel_me2-21.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-22",
+                    "name": "Dewgong",
+                    "number": "22",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Dewgong_me2-22.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-23",
+                    "name": "Swinub",
+                    "number": "23",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Swinub_me2-23.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-24",
+                    "name": "Piloswine",
+                    "number": "24",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Piloswine_me2-24.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-25",
+                    "name": "Mamoswine",
+                    "number": "25",
+                    "rarity": "Uncommon",
+                    "type": "Water",
+                    "image_path": "me2/Mamoswine_me2-25.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-26",
+                    "name": "Suicune",
+                    "number": "26",
+                    "rarity": "Rare",
+                    "type": "Water",
+                    "image_path": "me2/Suicune_me2-26.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-27",
+                    "name": "Piplup",
+                    "number": "27",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Piplup_me2-27.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-28",
+                    "name": "Prinplup",
+                    "number": "28",
+                    "rarity": "Common",
+                    "type": "Water",
+                    "image_path": "me2/Prinplup_me2-28.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-29",
+                    "name": "Rotom ex",
+                    "number": "29",
+                    "rarity": "Double Rare",
+                    "type": "Lightning",
+                    "image_path": "me2/Rotom ex_me2-29.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-30",
+                    "name": "Yamper",
+                    "number": "30",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me2/Yamper_me2-30.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-31",
+                    "name": "Boltund",
+                    "number": "31",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me2/Boltund_me2-31.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-32",
+                    "name": "Pawmi",
+                    "number": "32",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me2/Pawmi_me2-32.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-33",
+                    "name": "Pawmo",
+                    "number": "33",
+                    "rarity": "Common",
+                    "type": "Lightning",
+                    "image_path": "me2/Pawmo_me2-33.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-34",
+                    "name": "Pawmot",
+                    "number": "34",
+                    "rarity": "Rare",
+                    "type": "Lightning",
+                    "image_path": "me2/Pawmot_me2-34.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-35",
+                    "name": "Misdreavus",
+                    "number": "35",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me2/Misdreavus_me2-35.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-36",
+                    "name": "Mismagius ex",
+                    "number": "36",
+                    "rarity": "Double Rare",
+                    "type": "Psychic",
+                    "image_path": "me2/Mismagius ex_me2-36.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-37",
+                    "name": "Snubbull",
+                    "number": "37",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me2/Snubbull_me2-37.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-38",
+                    "name": "Granbull",
+                    "number": "38",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me2/Granbull_me2-38.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-39",
+                    "name": "Cresselia",
+                    "number": "39",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me2/Cresselia_me2-39.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-40",
+                    "name": "Meloetta",
+                    "number": "40",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me2/Meloetta_me2-40.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-41",
+                    "name": "Mega Diancie ex",
+                    "number": "41",
+                    "rarity": "Double Rare",
+                    "type": "Psychic",
+                    "image_path": "me2/Mega Diancie ex_me2-41.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-42",
+                    "name": "Mimikyu",
+                    "number": "42",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me2/Mimikyu_me2-42.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-43",
+                    "name": "Milcery",
+                    "number": "43",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me2/Milcery_me2-43.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-44",
+                    "name": "Alcremie",
+                    "number": "44",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me2/Alcremie_me2-44.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-45",
+                    "name": "Zacian",
+                    "number": "45",
+                    "rarity": "Rare",
+                    "type": "Psychic",
+                    "image_path": "me2/Zacian_me2-45.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-46",
+                    "name": "Bramblin",
+                    "number": "46",
+                    "rarity": "Common",
+                    "type": "Psychic",
+                    "image_path": "me2/Bramblin_me2-46.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-47",
+                    "name": "Brambleghast",
+                    "number": "47",
+                    "rarity": "Uncommon",
+                    "type": "Psychic",
+                    "image_path": "me2/Brambleghast_me2-47.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-48",
+                    "name": "Paldean Tauros",
+                    "number": "48",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me2/Paldean Tauros_me2-48.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-49",
+                    "name": "Gligar",
+                    "number": "49",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me2/Gligar_me2-49.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-50",
+                    "name": "Gliscor",
+                    "number": "50",
+                    "rarity": "Uncommon",
+                    "type": "Fighting",
+                    "image_path": "me2/Gliscor_me2-50.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-51",
+                    "name": "Trapinch",
+                    "number": "51",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me2/Trapinch_me2-51.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-52",
+                    "name": "Vibrava",
+                    "number": "52",
+                    "rarity": "Common",
+                    "type": "Fighting",
+                    "image_path": "me2/Vibrava_me2-52.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-53",
+                    "name": "Flygon",
+                    "number": "53",
+                    "rarity": "Rare",
+                    "type": "Fighting",
+                    "image_path": "me2/Flygon_me2-53.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-54",
+                    "name": "Gastly",
+                    "number": "54",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Gastly_me2-54.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-55",
+                    "name": "Haunter",
+                    "number": "55",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me2/Haunter_me2-55.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-56",
+                    "name": "Mega Gengar ex",
+                    "number": "56",
+                    "rarity": "Double Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Mega Gengar ex_me2-56.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-57",
+                    "name": "Murkrow",
+                    "number": "57",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Murkrow_me2-57.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-58",
+                    "name": "Honchkrow",
+                    "number": "58",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me2/Honchkrow_me2-58.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-59",
+                    "name": "Sableye",
+                    "number": "59",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Sableye_me2-59.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-60",
+                    "name": "Carvanha",
+                    "number": "60",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Carvanha_me2-60.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-61",
+                    "name": "Mega Sharpedo ex",
+                    "number": "61",
+                    "rarity": "Double Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Mega Sharpedo ex_me2-61.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-62",
+                    "name": "Seviper",
+                    "number": "62",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me2/Seviper_me2-62.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-63",
+                    "name": "Absol",
+                    "number": "63",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Absol_me2-63.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-64",
+                    "name": "Sandile",
+                    "number": "64",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Sandile_me2-64.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-65",
+                    "name": "Krokorok",
+                    "number": "65",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Krokorok_me2-65.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-66",
+                    "name": "Krookodile",
+                    "number": "66",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me2/Krookodile_me2-66.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-67",
+                    "name": "Toxel",
+                    "number": "67",
+                    "rarity": "Common",
+                    "type": "Darkness",
+                    "image_path": "me2/Toxel_me2-67.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-68",
+                    "name": "Toxtricity",
+                    "number": "68",
+                    "rarity": "Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Toxtricity_me2-68.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-69",
+                    "name": "Eternatus",
+                    "number": "69",
+                    "rarity": "Uncommon",
+                    "type": "Darkness",
+                    "image_path": "me2/Eternatus_me2-69.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-70",
+                    "name": "Empoleon ex",
+                    "number": "70",
+                    "rarity": "Double Rare",
+                    "type": "Metal",
+                    "image_path": "me2/Empoleon ex_me2-70.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-71",
+                    "name": "Bronzor",
+                    "number": "71",
+                    "rarity": "Common",
+                    "type": "Metal",
+                    "image_path": "me2/Bronzor_me2-71.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-72",
+                    "name": "Bronzong",
+                    "number": "72",
+                    "rarity": "Uncommon",
+                    "type": "Metal",
+                    "image_path": "me2/Bronzong_me2-72.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-73",
+                    "name": "Togedemaru",
+                    "number": "73",
+                    "rarity": "Common",
+                    "type": "Metal",
+                    "image_path": "me2/Togedemaru_me2-73.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-74",
+                    "name": "Duraludon",
+                    "number": "74",
+                    "rarity": "Common",
+                    "type": "Metal",
+                    "image_path": "me2/Duraludon_me2-74.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-75",
+                    "name": "Archaludon",
+                    "number": "75",
+                    "rarity": "Uncommon",
+                    "type": "Metal",
+                    "image_path": "me2/Archaludon_me2-75.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-76",
+                    "name": "Jigglypuff",
+                    "number": "76",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me2/Jigglypuff_me2-76.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-77",
+                    "name": "Wigglytuff",
+                    "number": "77",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "me2/Wigglytuff_me2-77.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-78",
+                    "name": "Aipom",
+                    "number": "78",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me2/Aipom_me2-78.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-79",
+                    "name": "Ambipom",
+                    "number": "79",
+                    "rarity": "Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Ambipom_me2-79.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-80",
+                    "name": "Smeargle",
+                    "number": "80",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me2/Smeargle_me2-80.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-81",
+                    "name": "Zigzagoon",
+                    "number": "81",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me2/Zigzagoon_me2-81.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-82",
+                    "name": "Linoone",
+                    "number": "82",
+                    "rarity": "Uncommon",
+                    "type": "Colorless",
+                    "image_path": "me2/Linoone_me2-82.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-83",
+                    "name": "Buneary",
+                    "number": "83",
+                    "rarity": "Common",
+                    "type": "Colorless",
+                    "image_path": "me2/Buneary_me2-83.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-84",
+                    "name": "Mega Lopunny ex",
+                    "number": "84",
+                    "rarity": "Double Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Mega Lopunny ex_me2-84.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-85",
+                    "name": "Battle Cage",
+                    "number": "85",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Battle Cage_me2-85.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-86",
+                    "name": "Blowtorch",
+                    "number": "86",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Blowtorch_me2-86.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-87",
+                    "name": "Dawn",
+                    "number": "87",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Dawn_me2-87.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-88",
+                    "name": "Dizzying Valley",
+                    "number": "88",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Dizzying Valley_me2-88.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-89",
+                    "name": "Firebreather",
+                    "number": "89",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Firebreather_me2-89.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-90",
+                    "name": "Grimsley's Move",
+                    "number": "90",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Grimsleys Move_me2-90.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-91",
+                    "name": "Jumbo Ice Cream",
+                    "number": "91",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Jumbo Ice Cream_me2-91.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-92",
+                    "name": "Punk Helmet",
+                    "number": "92",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Punk Helmet_me2-92.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-93",
+                    "name": "Sacred Charm",
+                    "number": "93",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Sacred Charm_me2-93.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-94",
+                    "name": "Wondrous Patch",
+                    "number": "94",
+                    "rarity": "Uncommon",
+                    "type": "Unknown",
+                    "image_path": "me2/Wondrous Patch_me2-94.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-95",
+                    "name": "Ludicolo",
+                    "number": "95",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Ludicolo_me2-95.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-96",
+                    "name": "Nymble",
+                    "number": "96",
+                    "rarity": "Illustration Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Nymble_me2-96.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-97",
+                    "name": "Dewgong",
+                    "number": "97",
+                    "rarity": "Illustration Rare",
+                    "type": "Water",
+                    "image_path": "me2/Dewgong_me2-97.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-98",
+                    "name": "Piplup",
+                    "number": "98",
+                    "rarity": "Illustration Rare",
+                    "type": "Water",
+                    "image_path": "me2/Piplup_me2-98.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-99",
+                    "name": "Yamper",
+                    "number": "99",
+                    "rarity": "Illustration Rare",
+                    "type": "Lightning",
+                    "image_path": "me2/Yamper_me2-99.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-100",
+                    "name": "Zacian",
+                    "number": "100",
+                    "rarity": "Illustration Rare",
+                    "type": "Psychic",
+                    "image_path": "me2/Zacian_me2-100.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-101",
+                    "name": "Flygon",
+                    "number": "101",
+                    "rarity": "Illustration Rare",
+                    "type": "Fighting",
+                    "image_path": "me2/Flygon_me2-101.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-102",
+                    "name": "Paldean Wooper",
+                    "number": "102",
+                    "rarity": "Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Paldean Wooper_me2-102.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-103",
+                    "name": "Toxtricity",
+                    "number": "103",
+                    "rarity": "Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Toxtricity_me2-103.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-104",
+                    "name": "Togedemaru",
+                    "number": "104",
+                    "rarity": "Illustration Rare",
+                    "type": "Metal",
+                    "image_path": "me2/Togedemaru_me2-104.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-105",
+                    "name": "Wigglytuff",
+                    "number": "105",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Wigglytuff_me2-105.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-106",
+                    "name": "Meowth",
+                    "number": "106",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Meowth_me2-106.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-107",
+                    "name": "Ambipom",
+                    "number": "107",
+                    "rarity": "Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Ambipom_me2-107.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-108",
+                    "name": "Mega Heracross ex",
+                    "number": "108",
+                    "rarity": "Ultra Rare",
+                    "type": "Grass",
+                    "image_path": "me2/Mega Heracross ex_me2-108.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-109",
+                    "name": "Mega Charizard X ex",
+                    "number": "109",
+                    "rarity": "Ultra Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Mega Charizard X ex_me2-109.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-110",
+                    "name": "Oricorio ex",
+                    "number": "110",
+                    "rarity": "Ultra Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Oricorio ex_me2-110.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-111",
+                    "name": "Rotom ex",
+                    "number": "111",
+                    "rarity": "Ultra Rare",
+                    "type": "Lightning",
+                    "image_path": "me2/Rotom ex_me2-111.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-112",
+                    "name": "Mismagius ex",
+                    "number": "112",
+                    "rarity": "Ultra Rare",
+                    "type": "Psychic",
+                    "image_path": "me2/Mismagius ex_me2-112.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-113",
+                    "name": "Mega Sharpedo ex",
+                    "number": "113",
+                    "rarity": "Ultra Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Mega Sharpedo ex_me2-113.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-114",
+                    "name": "Empoleon ex",
+                    "number": "114",
+                    "rarity": "Ultra Rare",
+                    "type": "Metal",
+                    "image_path": "me2/Empoleon ex_me2-114.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-115",
+                    "name": "Mega Lopunny ex",
+                    "number": "115",
+                    "rarity": "Ultra Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Mega Lopunny ex_me2-115.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-116",
+                    "name": "Battle Cage",
+                    "number": "116",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Battle Cage_me2-116.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-117",
+                    "name": "Blowtorch",
+                    "number": "117",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Blowtorch_me2-117.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-118",
+                    "name": "Dawn",
+                    "number": "118",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Dawn_me2-118.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-119",
+                    "name": "Firebreather",
+                    "number": "119",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Firebreather_me2-119.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-120",
+                    "name": "Grimsley's Move",
+                    "number": "120",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Grimsleys Move_me2-120.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-121",
+                    "name": "Punk Helmet",
+                    "number": "121",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Punk Helmet_me2-121.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-122",
+                    "name": "Sacred Charm",
+                    "number": "122",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Sacred Charm_me2-122.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-123",
+                    "name": "Switch",
+                    "number": "123",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Switch_me2-123.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-124",
+                    "name": "Ignition Energy",
+                    "number": "124",
+                    "rarity": "Ultra Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Ignition Energy_me2-124.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-125",
+                    "name": "Mega Charizard X ex",
+                    "number": "125",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Mega Charizard X ex_me2-125.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-126",
+                    "name": "Rotom ex",
+                    "number": "126",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Lightning",
+                    "image_path": "me2/Rotom ex_me2-126.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-127",
+                    "name": "Mega Sharpedo ex",
+                    "number": "127",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Darkness",
+                    "image_path": "me2/Mega Sharpedo ex_me2-127.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-128",
+                    "name": "Mega Lopunny ex",
+                    "number": "128",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Colorless",
+                    "image_path": "me2/Mega Lopunny ex_me2-128.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-129",
+                    "name": "Dawn",
+                    "number": "129",
+                    "rarity": "Special Illustration Rare",
+                    "type": "Unknown",
+                    "image_path": "me2/Dawn_me2-129.jpg",
+                    "features_computed": true
+                },
+                {
+                    "id": "me2-130",
+                    "name": "Mega Charizard X ex",
+                    "number": "130",
+                    "rarity": "Mega Hyper Rare",
+                    "type": "Fire",
+                    "image_path": "me2/Mega Charizard X ex_me2-130.jpg",
                     "features_computed": true
                 }
             ]

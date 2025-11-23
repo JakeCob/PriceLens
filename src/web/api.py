@@ -20,6 +20,7 @@ from fastapi.responses import JSONResponse
 from src.identification.feature_matcher import FeatureMatcher
 from src.api.service import PriceService
 from src.overlay.renderer import OverlayRenderer
+from src.core.event_bus import event_bus
 from src.utils.logging_config import setup_logging
 
 # Setup logging
@@ -45,12 +46,17 @@ app.add_middleware(
 # Initialize Components (Lazy loading or startup event recommended, but global for MVP)
 logger.info("Initializing PriceLens components...")
 matcher = FeatureMatcher()
-# Check if features exist
-features_path = Path("data/features/base_set_features.pkl")
-if features_path.exists():
-    matcher.load_database(str(features_path))
+# Load all feature databases
+features_dir = Path("data/features")
+if features_dir.exists():
+    for feature_file in features_dir.glob("*.pkl"):
+        try:
+            matcher.load_database(str(feature_file))
+            logger.info(f"Loaded features from {feature_file.name}")
+        except Exception as e:
+            logger.error(f"Failed to load {feature_file.name}: {e}")
 else:
-    logger.warning(f"Features DB not found at {features_path}. Identification will fail.")
+    logger.warning(f"Features directory not found at {features_dir}. Identification will fail.")
 
 price_service = PriceService()
 renderer = OverlayRenderer()
@@ -104,6 +110,14 @@ async def analyze_image(file: UploadFile = File(...)):
             "price": price_data.to_dict() if price_data else None,
             "image": f"data:image/jpeg;base64,{jpg_as_text}"
         }
+        
+        # Emit event
+        event_bus.emit("card.identified", {
+            "card_id": card_id,
+            "name": top_match["name"],
+            "price": price_data.market if price_data else None,
+            "confidence": top_match["confidence"]
+        })
         
         return JSONResponse(content=response_data)
 

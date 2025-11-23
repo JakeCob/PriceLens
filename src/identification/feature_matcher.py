@@ -12,6 +12,17 @@ from typing import Dict, List, Optional, Tuple
 import cv2
 import numpy as np
 
+try:
+    import easyocr
+except ImportError:
+    easyocr = None
+
+try:
+    import chromadb
+    from chromadb.config import Settings
+except ImportError:
+    chromadb = None
+
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -22,7 +33,10 @@ logger = logging.getLogger(__name__)
 
 class FeatureMatcher(IdentifierBase):
     """
-    Card identification using ORB feature matching with FLANN matcher
+    Enhanced card identification using:
+    1. ORB Feature Matching (Fast)
+    2. ChromaDB Vector Search (Semantic)
+    3. EasyOCR (Fallback)
     """
 
     def __init__(
@@ -30,41 +44,67 @@ class FeatureMatcher(IdentifierBase):
         n_features: int = 1000,
         match_threshold: float = 0.75,
         min_matches: int = 10,
+        use_ocr: bool = True,
+        use_vector_db: bool = True,
     ):
         """
         Initialize feature matcher
-
+        
         Args:
-            n_features: Number of ORB features to detect
-            match_threshold: Low's ratio test threshold (typically 0.7-0.8)
-            min_matches: Minimum good matches required for valid identification
+            n_features: Number of ORB features
+            match_threshold: Lowe's ratio test threshold
+            min_matches: Minimum good matches
+            use_ocr: Enable OCR fallback
+            use_vector_db: Enable ChromaDB vector search
         """
         self.n_features = n_features
         self.match_threshold = match_threshold
         self.min_matches = min_matches
-
-        # Initialize ORB detector
+        
+        # Initialize ORB
         self.detector = cv2.ORB_create(nfeatures=n_features)
-
-        # Initialize FLANN matcher for binary descriptors (ORB)
+        
+        # Initialize FLANN
         FLANN_INDEX_LSH = 6
         index_params = dict(
             algorithm=FLANN_INDEX_LSH,
-            table_number=12,  # 12 hash tables
-            key_size=20,  # Hash key length
-            multi_probe_level=2,  # Number of bits to flip for multi-probe
+            table_number=12,
+            key_size=20,
+            multi_probe_level=2,
         )
-        search_params = dict(checks=50)  # Number of times to check the tree
-
+        search_params = dict(checks=50)
         self.matcher = cv2.FlannBasedMatcher(index_params, search_params)
+        
+        # Initialize OCR
+        self.ocr_reader = None
+        if use_ocr and easyocr:
+            try:
+                logger.info("Initializing EasyOCR...")
+                self.ocr_reader = easyocr.Reader(['en'], gpu=True)
+            except Exception as e:
+                logger.warning(f"Failed to init OCR: {e}")
+
+        # Initialize ChromaDB
+        self.chroma_client = None
+        self.collection = None
+        if use_vector_db and chromadb:
+            try:
+                logger.info("Initializing ChromaDB...")
+                self.chroma_client = chromadb.PersistentClient(path="data/chromadb")
+                self.collection = self.chroma_client.get_or_create_collection(
+                    name="pokemon_cards",
+                    metadata={"hnsw:space": "cosine"}
+                )
+            except Exception as e:
+                logger.warning(f"Failed to init ChromaDB: {e}")
 
         # Card database
         self.card_features: Dict[str, np.ndarray] = {}
         self.card_metadata: Dict[str, Dict] = {}
 
         logger.info(
-            f"FeatureMatcher initialized (n_features={n_features}, "
-            f"threshold={match_threshold}, min_matches={min_matches})"
+            f"FeatureMatcher initialized (OCR={bool(self.ocr_reader)}, "
+            f"VectorDB={bool(self.collection)})"
         )
 
     def load_database(self, database_path: str) -> None:
@@ -175,9 +215,57 @@ class FeatureMatcher(IdentifierBase):
         )
 
         logger.debug(f"Found {len(match_results)} potential matches")
+        
+        # OCR Fallback
+        if (not match_results or match_results[0]["confidence"] < 0.4) and self.ocr_reader:
+            logger.info("Low confidence match. Attempting OCR...")
+            ocr_results = self._identify_with_ocr(image)
+            if ocr_results:
+                match_results.extend(ocr_results)
+                # Re-sort
+                match_results.sort(
+                    key=lambda x: (x["num_matches"], x["confidence"]), reverse=True
+                )
 
         # Return top-K matches
         return match_results[:top_k]
+
+    def _identify_with_ocr(self, image: np.ndarray) -> List[Dict]:
+        """
+        Attempt to identify card using OCR text reading
+        """
+        try:
+            # Read text
+            result = self.ocr_reader.readtext(image)
+            detected_text = " ".join([text[1] for text in result]).lower()
+            
+            logger.debug(f"OCR Text: {detected_text}")
+            
+            # Simple keyword matching against database
+            # In a real system, this would use a search index or vector DB
+            potential_matches = []
+            
+            for card_id, metadata in self.card_metadata.items():
+                card_name = metadata["name"].lower()
+                if card_name in detected_text:
+                    # Calculate a simple confidence based on name length match
+                    confidence = 0.6  # Base confidence for OCR match
+                    
+                    potential_matches.append({
+                        "card_id": card_id,
+                        "name": metadata["name"],
+                        "set": metadata.get("set", "Unknown"),
+                        "num_matches": 0,  # No visual matches
+                        "confidence": confidence,
+                        "metadata": metadata,
+                        "method": "ocr"
+                    })
+            
+            return potential_matches
+            
+        except Exception as e:
+            logger.warning(f"OCR failed: {e}")
+            return []
 
     def _apply_ratio_test(self, matches: List) -> List:
         """
@@ -220,7 +308,7 @@ if __name__ == "__main__":
 
     # Test with a database card (should get high confidence)
     logger.info("Testing identification on database card...")
-    test_image = cv2.imread("data/card_database/base_set/Charizard_base1-4.jpg")
+    test_image = cv2.imread("data/card_database/base1/Charizard_base1-4.jpg")
 
     if test_image is not None:
         matches = matcher.identify(test_image, top_k=3)

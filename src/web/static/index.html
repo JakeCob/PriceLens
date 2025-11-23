@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <header>
@@ -20,12 +22,32 @@
         </header>
 
         <main>
+            <!-- Mode Selector -->
+            <div class="mode-selector">
+                <button id="btn-upload-mode" class="active">📸 Upload Photo</button>
+                <button id="btn-camera-mode">📹 Live Camera</button>
+            </div>
+
+            <!-- Upload Section -->
             <div class="upload-section" id="drop-zone">
                 <div class="upload-content">
                     <div class="upload-icon">📸</div>
                     <h2>Upload a Card Photo</h2>
                     <p>Drag & drop or click to browse</p>
                     <input type="file" id="file-input" accept="image/*" hidden>
+                </div>
+            </div>
+
+            <!-- Camera Section -->
+            <div class="camera-section" id="camera-section" hidden>
+                <div class="camera-container">
+                    <video id="camera-feed" autoplay playsinline></video>
+                    <canvas id="overlay-canvas"></canvas>
+                </div>
+                <div class="camera-controls">
+                    <button id="btn-start-camera" class="btn-camera">Start Camera</button>
+                    <button id="btn-stop-camera" class="btn-camera" hidden>Stop Camera</button>
+                    <button id="btn-capture" class="btn-camera" hidden>📷 Capture</button>
                 </div>
             </div>
 
@@ -39,13 +61,13 @@
                     <div class="image-container">
                         <img id="result-image" src="" alt="Analyzed Card">
                     </div>
-                    
+
                     <div class="info-panel">
                         <div class="card-header">
                             <h2 id="card-name">Card Name</h2>
                             <span class="badge" id="card-set">Set Name</span>
                         </div>
-                        
+
                         <div class="price-box">
                             <span class="label">Market Price</span>
                             <div class="price-value" id="card-price">$0.00</div>
@@ -72,6 +94,8 @@
             <p>Powered by PriceLens CV Engine • Pokemon TCG API</p>
         </footer>
     </div>
+    <script src="camera.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

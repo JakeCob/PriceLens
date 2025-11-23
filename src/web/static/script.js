@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultSection = document.getElementById('result-section');
     const btnReset = document.getElementById('btn-reset');
 
+    // Mode switching
+    const btnUploadMode = document.getElementById('btn-upload-mode');
+    const btnCameraMode = document.getElementById('btn-camera-mode');
+    const cameraSection = document.getElementById('camera-section');
+    const btnStartCamera = document.getElementById('btn-start-camera');
+    const btnStopCamera = document.getElementById('btn-stop-camera');
+    const btnCapture = document.getElementById('btn-capture');
+
     // Elements to update
     const resultImage = document.getElementById('result-image');
     const cardName = document.getElementById('card-name');
@@ -12,6 +20,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardPrice = document.getElementById('card-price');
     const cardConfidence = document.getElementById('card-confidence');
     const cardId = document.getElementById('card-id');
+
+    // Mode switching handlers
+    btnUploadMode.addEventListener('click', () => {
+        btnUploadMode.classList.add('active');
+        btnCameraMode.classList.remove('active');
+        dropZone.hidden = false;
+        cameraSection.hidden = true;
+        if (window.cameraManager) {
+            window.cameraManager.stopCamera();
+        }
+    });
+
+    btnCameraMode.addEventListener('click', () => {
+        btnCameraMode.classList.add('active');
+        btnUploadMode.classList.remove('active');
+        dropZone.hidden = true;
+        cameraSection.hidden = false;
+        resultSection.hidden = true;
+    });
+
+    // Camera control handlers
+    btnStartCamera.addEventListener('click', async () => {
+        const started = await window.cameraManager.startCamera();
+        if (started) {
+            btnStartCamera.hidden = true;
+            btnStopCamera.hidden = false;
+            btnCapture.hidden = false;
+            window.cameraManager.startDetection();
+        }
+    });
+
+    btnStopCamera.addEventListener('click', () => {
+        window.cameraManager.stopCamera();
+        btnStartCamera.hidden = false;
+        btnStopCamera.hidden = true;
+        btnCapture.hidden = true;
+    });
+
+    btnCapture.addEventListener('click', () => {
+        window.cameraManager.captureFrame();
+    });
 
     // Drag & Drop Handlers
     dropZone.addEventListener('click', () => fileInput.click());
@@ -119,4 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.hidden = false;
         resultSection.hidden = true;
     }
+
+    // Expose functions globally for camera.js
+    window.showResult = showResult;
+    window.resetUI = resetUI;
 });

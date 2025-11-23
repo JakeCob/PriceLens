@@ -30,7 +30,7 @@ def test_api():
     
     try:
         # 2. Prepare test image
-        image_path = "data/card_database/base_set/Charizard_base1-4.jpg"
+        image_path = "data/card_database/base1/Charizard_base1-4.jpg"
         if not Path(image_path).exists():
             logger.error(f"Test image not found: {image_path}")
             return False

@@ -34,11 +34,11 @@ def test_identification():
 
     # Test cards
     test_cards = [
-        ("base1-1", "Alakazam", "data/card_database/base_set/Alakazam_base1-1.jpg"),
-        ("base1-2", "Blastoise", "data/card_database/base_set/Blastoise_base1-2.jpg"),
-        ("base1-3", "Chansey", "data/card_database/base_set/Chansey_base1-3.jpg"),
-        ("base1-4", "Charizard", "data/card_database/base_set/Charizard_base1-4.jpg"),
-        ("base1-5", "Clefairy", "data/card_database/base_set/Clefairy_base1-5.jpg"),
+        ("base1-1", "Alakazam", "data/card_database/base1/Alakazam_base1-1.jpg"),
+        ("base1-2", "Blastoise", "data/card_database/base1/Blastoise_base1-2.jpg"),
+        ("base1-3", "Chansey", "data/card_database/base1/Chansey_base1-3.jpg"),
+        ("base1-4", "Charizard", "data/card_database/base1/Charizard_base1-4.jpg"),
+        ("base1-5", "Clefairy", "data/card_database/base1/Clefairy_base1-5.jpg"),
     ]
 
     correct = 0

@@ -256,12 +256,13 @@ class YOLOCardDetector(DetectorBase):
 
         return card_regions
 
-    def track_cards(self, detections: List[Detection]) -> List[Detection]:
+    def track_cards(self, detections: List[Detection], frame_idx: int = 0) -> List[Detection]:
         """
         Track cards across frames (simple IoU-based tracking)
-
+        
         Args:
             detections: Current frame detections
+            frame_idx: Current frame number (for interpolation)
 
         Returns:
             Detections with consistent card_ids
@@ -271,12 +272,20 @@ class YOLOCardDetector(DetectorBase):
             for det in detections:
                 det.card_id = f"card_{self.next_card_id}"
                 self.tracked_cards[det.card_id] = det
+                
+                # Initialize interpolator
+                if self.interpolator:
+                    self.interpolator.update(det.card_id, det.bbox, frame_idx)
+                
                 self.next_card_id += 1
             return detections
 
         # Match current detections to tracked cards using IoU
         matched_detections = []
         unmatched_detections = []
+        
+        # Keep track of which tracked cards were matched
+        matched_card_ids = set()
 
         for det in detections:
             best_match_id = None
@@ -294,17 +303,41 @@ class YOLOCardDetector(DetectorBase):
                 det.card_id = best_match_id
                 self.tracked_cards[best_match_id] = det
                 matched_detections.append(det)
+                matched_card_ids.add(best_match_id)
                 
                 # Update interpolator
                 if self.interpolator:
-                    self.interpolator.update(best_match_id, det.bbox, 0) # Frame idx 0 for now
+                    self.interpolator.update(best_match_id, det.bbox, frame_idx)
                     # Use smoothed bbox
-                    smoothed = self.interpolator.get_smoothed_bbox(best_match_id)
-                    if smoothed:
-                        det.bbox = smoothed
+                    smoothed_bbox = self.interpolator.get_smoothed_bbox(best_match_id)
+                    if smoothed_bbox:
+                        det.bbox = smoothed_bbox
             else:
                 # New card detected
                 unmatched_detections.append(det)
+
+        # Handle lost cards (coasting)
+        if self.interpolator:
+            for card_id, tracked_det in self.tracked_cards.items():
+                if card_id not in matched_card_ids:
+                    # Predict next position
+                    pred_bbox = self.interpolator.predict(card_id)
+                    
+                    # Check if we should keep it (e.g. not too old)
+                    last_update = self.interpolator.last_update.get(card_id, 0)
+                    if pred_bbox and (frame_idx - last_update < 10): # Coast for 10 frames
+                        # Create a predicted detection
+                        new_det = Detection(
+                            bbox=pred_bbox,
+                            confidence=tracked_det.confidence * 0.95, # Decay confidence
+                            class_id=tracked_det.class_id,
+                            class_name=tracked_det.class_name,
+                            aspect_ratio=tracked_det.aspect_ratio,
+                            card_id=card_id
+                        )
+                        matched_detections.append(new_det)
+                        # Note: We don't update self.tracked_cards with prediction to avoid drift
+                        # But we return it so the overlay sees it
 
         # Assign new IDs to unmatched detections
         for det in unmatched_detections:
@@ -313,13 +346,22 @@ class YOLOCardDetector(DetectorBase):
             
             # Initialize interpolator for new card
             if self.interpolator:
-                self.interpolator.update(det.card_id, det.bbox, 0)
+                self.interpolator.update(det.card_id, det.bbox, frame_idx)
                 
             self.next_card_id += 1
             matched_detections.append(det)
 
-        # Clean up lost cards (not seen for N frames)
-        # TODO: Implement frame counter for cleanup
+        # Clean up old filters
+        if self.interpolator:
+            self.interpolator.cleanup(frame_idx, max_age=30)
+            
+            # Also cleanup tracked_cards
+            to_remove = []
+            for card_id in self.tracked_cards:
+                if card_id not in self.interpolator.filters:
+                    to_remove.append(card_id)
+            for card_id in to_remove:
+                del self.tracked_cards[card_id]
 
         return matched_detections
 

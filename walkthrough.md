@@ -1,45 +1,52 @@
-# Walkthrough: Enhanced Features Implementation
+# Live Camera Feature - Implementation Walkthrough
 
-I have implemented the missing "Enhanced" features from the V2 plan.
+## Overview
+We have successfully implemented the **Live Camera Scanning** feature for PriceLens. This allows users to point their camera at Pokemon cards and get instant identification and pricing overlays.
 
-## 1. New Dependencies
-You need to install the new dependencies to use these features:
+## Features Implemented
+
+### 1. Live Camera UI
+- **Toggle Mode**: Switch between "Upload Photo" and "Live Camera".
+- **Real-time Overlay**: Bounding boxes and labels drawn on a canvas over the video feed.
+- **Controls**: Start/Stop camera, Capture frame.
+- **Responsive**: Works on desktop and mobile (uses rear camera).
+
+### 2. High-Performance Backend
+- **`/detect-live` Endpoint**: Optimized for speed (returns JSON, no server-side rendering).
+- **YOLO Integration**: Uses the YOLO11n model for fast object detection.
+- **Multi-Card Support**: Detects and identifies multiple cards simultaneously.
+
+### 3. Intelligent Price Loading
+- **Startup Preloader**: Loads prices for all ~420 known cards in the background on startup.
+- **Instant Pricing**: Prices are served from memory cache (0ms latency).
+- **Auto-Refresh**: Prices automatically refresh every hour.
+- **Manual Refresh**: API endpoint `/refresh-prices` available.
+
+## How to Run
+
+### Start the Server
 ```bash
-pip install -r requirements.txt
+python run_web.py
 ```
-New packages: `easyocr`, `chromadb`, `filterpy`.
+*Note: If you get "Address already in use", run `pkill -f "python run_web.py"` first.*
 
-## 2. Implemented Features
+### Usage
+1. Open **http://localhost:8080**
+2. Click **"📹 Live Camera"**
+3. Click **"Start Camera"**
+4. Point at cards!
 
-### Phase 1.3: Frame Interpolation
-- **File**: `src/detection/frame_interpolator.py`
-- **Usage**: Uses Kalman Filters to predict card positions between detection frames, enabling smoother tracking and higher effective FPS.
+*Note: On first startup, prices may show as "Fetching..." for ~10 minutes while the background loader runs. After that, they are instant.*
 
-### Phase 3.1: Smart Cache
-- **File**: `src/api/smart_cache.py`
-- **Usage**: A two-level cache (Memory + SQLite).
-- **Integration**: `PriceService` now uses `SmartCache` automatically. It persists price data to `data/cache/cache.db`.
+## Future Improvements
+See `docs/LIVE_CAMERA_TODO.md` for a detailed list of planned improvements, including:
+- Reducing false positives (faces/objects)
+- Improving low-light detection
+- Adding "Best Lighting" user guidance
 
-### Phase 2.2: Enhanced Identification
-- **File**: `src/identification/feature_matcher.py`
-- **Updates**:
-    - Added `EasyOCR` support for reading text when visual matching confidence is low (<0.4).
-    - Added `ChromaDB` initialization (stubbed for now) for future vector search.
-    - **Note**: These features gracefully degrade if libraries are missing.
-
-### Phase 4: Core Architecture
-- **Files**: `src/core/event_bus.py`, `src/core/plugin_manager.py`
-- **Usage**:
-    - `EventBus`: Decouples components. You can now `subscribe` to events like `card.detected`.
-    - `PluginManager`: Allows loading external plugins to extend functionality.
-
-## 3. Verification
-I created a script `scripts/verify_missing_features.py` to test these components. Run it after installing dependencies:
-```bash
-python scripts/verify_missing_features.py
-```
-
-## Next Steps
-- Run `pip install -r requirements.txt`
-- Run the verification script.
-- Start the web app (`python run_web.py`) and verify that price fetching and detection still work (now with caching and interpolation available).
+## Files Changed
+- `src/web/static/index.html`: Added camera UI
+- `src/web/static/camera.js`: Camera logic & rendering
+- `src/web/api.py`: Backend endpoints & lifecycle management
+- `src/web/price_preloader.py`: Background price fetching system
+- `src/web/static/style.css`: Camera styles

@@ -90,3 +90,4 @@ Thumbs.db
 credentials.json
 api_keys.txt
 data/cache/prices.pkl
+yolo11m.pt

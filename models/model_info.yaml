@@ -3,6 +3,8 @@ models:
     version: "11.0"
     type: "nano"
     task: "detection"
-    classes: 80
-    input_size: 640
-    description: "YOLO11 nano model for object detection"
+  yolo11m:
+    version: "11.0"
+    type: "medium"
+    task: "detection"
+    description: "YOLO11 medium model for better accuracy"

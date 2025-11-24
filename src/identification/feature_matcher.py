@@ -23,6 +23,13 @@ try:
 except ImportError:
     chromadb = None
 
+try:
+    import torch
+    from src.identification.embedding_generator import EmbeddingGenerator
+except ImportError:
+    torch = None
+    EmbeddingGenerator = None
+
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -84,19 +91,25 @@ class FeatureMatcher(IdentifierBase):
             except Exception as e:
                 logger.warning(f"Failed to init OCR: {e}")
 
-        # Initialize ChromaDB
+        # Initialize ChromaDB and Embedder
         self.chroma_client = None
         self.collection = None
-        if use_vector_db and chromadb:
+        self.embedder = None
+        
+        if use_vector_db and chromadb and EmbeddingGenerator:
             try:
-                logger.info("Initializing ChromaDB...")
+                logger.info("Initializing ChromaDB and Embedder...")
                 self.chroma_client = chromadb.PersistentClient(path="data/chromadb")
                 self.collection = self.chroma_client.get_or_create_collection(
                     name="pokemon_cards",
                     metadata={"hnsw:space": "cosine"}
                 )
+                
+                device = "cuda" if torch and torch.cuda.is_available() else "cpu"
+                self.embedder = EmbeddingGenerator(device=device)
+                
             except Exception as e:
-                logger.warning(f"Failed to init ChromaDB: {e}")
+                logger.warning(f"Failed to init ChromaDB/Embedder: {e}")
 
         # Card database
         self.card_features: Dict[str, np.ndarray] = {}
@@ -216,6 +229,50 @@ class FeatureMatcher(IdentifierBase):
 
         logger.debug(f"Found {len(match_results)} potential matches")
         
+        # Vector Search Fallback/Enhancement
+        if (not match_results or match_results[0]["confidence"] < 0.6) and self.collection and self.embedder:
+            logger.info("Low confidence ORB match. Attempting Vector Search...")
+            try:
+                embedding = self.embedder.generate(image)
+                results = self.collection.query(
+                    query_embeddings=[embedding.tolist()],
+                    n_results=top_k
+                )
+                
+                if results and results['ids'] and len(results['ids'][0]) > 0:
+                    ids = results['ids'][0]
+                    distances = results['distances'][0]
+                    metadatas = results['metadatas'][0]
+                    
+                    for i, card_id in enumerate(ids):
+                        # Convert distance to confidence (cosine distance is 0-2, usually small for matches)
+                        # 0 distance = 1.0 confidence
+                        dist = distances[i]
+                        confidence = max(0.0, 1.0 - dist)
+                        
+                        # Check if already in match_results
+                        existing = next((m for m in match_results if m["card_id"] == card_id), None)
+                        if existing:
+                            # Boost confidence if both methods agree
+                            existing["confidence"] = max(existing["confidence"], confidence)
+                            existing["method"] = "hybrid"
+                        else:
+                            match_results.append({
+                                "card_id": card_id,
+                                "name": metadatas[i]["name"],
+                                "set": metadatas[i]["set"],
+                                "num_matches": 0,
+                                "confidence": confidence,
+                                "metadata": metadatas[i],
+                                "method": "vector"
+                            })
+                            
+                    # Re-sort
+                    match_results.sort(key=lambda x: x["confidence"], reverse=True)
+                    
+            except Exception as e:
+                logger.warning(f"Vector search failed: {e}")
+
         # OCR Fallback
         if (not match_results or match_results[0]["confidence"] < 0.4) and self.ocr_reader:
             logger.info("Low confidence match. Attempting OCR...")
@@ -223,9 +280,7 @@ class FeatureMatcher(IdentifierBase):
             if ocr_results:
                 match_results.extend(ocr_results)
                 # Re-sort
-                match_results.sort(
-                    key=lambda x: (x["num_matches"], x["confidence"]), reverse=True
-                )
+                match_results.sort(key=lambda x: x["confidence"], reverse=True)
 
         # Return top-K matches
         return match_results[:top_k]

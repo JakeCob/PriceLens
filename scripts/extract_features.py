@@ -21,6 +21,19 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.utils.logging_config import setup_logging
 
+from src.utils.logging_config import setup_logging
+try:
+    import torch
+    from src.identification.embedding_generator import EmbeddingGenerator
+except ImportError:
+    torch = None
+    EmbeddingGenerator = None
+
+try:
+    import chromadb
+except ImportError:
+    chromadb = None
+
 logger = logging.getLogger(__name__)
 
 
@@ -123,6 +136,31 @@ def extract_database_features(
     # Initialize feature extractor
     extractor = FeatureExtractor(n_features=1000)
 
+    # Initialize embedding generator and ChromaDB
+    embedder = None
+    collection = None
+    if EmbeddingGenerator and chromadb:
+        try:
+            device = "cuda" if torch and torch.cuda.is_available() else "cpu"
+            embedder = EmbeddingGenerator(device=device)
+            
+            chroma_client = chromadb.PersistentClient(path="data/chromadb")
+            # Delete existing collection to avoid duplicates/stale data
+            try:
+                chroma_client.delete_collection("pokemon_cards")
+            except:
+                pass
+            
+            collection = chroma_client.create_collection(
+                name="pokemon_cards",
+                metadata={"hnsw:space": "cosine"}
+            )
+            logger.info("Initialized ChromaDB and EmbeddingGenerator")
+        except Exception as e:
+            logger.error(f"Failed to init embedding system: {e}")
+            embedder = None
+            collection = None
+
     # Process each set
     all_cards_to_process = []
 
@@ -190,6 +228,20 @@ def extract_database_features(
                     "type": card.get("type"),
                 },
             }
+
+            # Compute and store embedding
+            if collection and embedder:
+                embedding = embedder.generate(image)
+                collection.add(
+                    ids=[card_id],
+                    embeddings=[embedding.tolist()],
+                    metadatas=[{
+                        "name": card_name,
+                        "set": card_set_name,
+                        "set_code": card_set_code,
+                        "image_path": image_path
+                    }]
+                )
 
             logger.debug(
                 "    ✓ Extracted %s keypoints, %s descriptors",

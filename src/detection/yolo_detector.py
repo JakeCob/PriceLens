@@ -298,6 +298,10 @@ class YOLOCardDetector(DetectorBase):
                 # Update interpolator
                 if self.interpolator:
                     self.interpolator.update(best_match_id, det.bbox, 0) # Frame idx 0 for now
+                    # Use smoothed bbox
+                    smoothed = self.interpolator.get_smoothed_bbox(best_match_id)
+                    if smoothed:
+                        det.bbox = smoothed
             else:
                 # New card detected
                 unmatched_detections.append(det)

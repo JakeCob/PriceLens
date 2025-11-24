@@ -139,3 +139,18 @@ class FrameInterpolator:
             del self.filters[card_id]
             del self.last_update[card_id]
             logger.debug(f"Removed stale filter for {card_id}")
+
+    def get_smoothed_bbox(self, card_id: str) -> Optional[List[int]]:
+        """Get current smoothed bounding box from filter state"""
+        if card_id not in self.filters:
+            return None
+        
+        kf = self.filters[card_id]
+        cx, cy, w, h = kf.x[:4].flatten()
+        
+        x1 = int(cx - w/2)
+        y1 = int(cy - h/2)
+        x2 = int(cx + w/2)
+        y2 = int(cy + h/2)
+        
+        return [x1, y1, x2, y2]

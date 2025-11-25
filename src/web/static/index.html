@@ -43,6 +43,18 @@
                 <div class="camera-container">
                     <video id="camera-feed" autoplay playsinline></video>
                     <canvas id="overlay-canvas"></canvas>
+
+                    <!-- Session Total Panel -->
+                    <div id="session-panel" class="session-panel">
+                        <div class="session-total">
+                            <span class="total-label">💰 Total:</span>
+                            <span id="total-value" class="total-value">$0.00</span>
+                        </div>
+                        <div class="session-count">
+                            <span id="card-count" class="card-count">📦 0 cards</span>
+                        </div>
+                        <button id="clear-session-btn" class="clear-btn">Clear Session</button>
+                    </div>
                 </div>
                 <div class="camera-controls">
                     <button id="btn-start-camera" class="btn-camera">Start Camera</button>

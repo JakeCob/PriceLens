@@ -371,6 +371,114 @@ header {
     box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
 }
 
+/* Session Panel */
+.session-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    z-index: 100;
+    min-width: 180px;
+}
+
+.session-total {
+    margin-bottom: 8px;
+}
+
+.total-label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.total-value {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--success-color);
+    font-family: 'Outfit', monospace;
+}
+
+.total-value.updating {
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+        color: #22c55e;
+    }
+}
+
+.session-count {
+    margin-bottom: 12px;
+}
+
+.card-count {
+    display: block;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.clear-btn {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 6px;
+    color: #fca5a5;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.clear-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.7);
+    color: #ef4444;
+}
+
+.clear-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .session-panel {
+        top: 10px;
+        right: 10px;
+        padding: 12px 16px;
+        min-width: 150px;
+    }
+
+    .total-value {
+        font-size: 24px;
+    }
+
+    .total-label,
+    .card-count {
+        font-size: 12px;
+    }
+
+    .clear-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
     .app-container {

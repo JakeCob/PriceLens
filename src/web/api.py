@@ -93,7 +93,7 @@ logger.info("Initializing YOLO detector...")
 try:
     detector = YOLOCardDetector(
         model_path="models/yolo11m.pt",
-        conf_threshold=0.5
+        conf_threshold=0.65
     )
     logger.info("YOLO detector initialized successfully")
 except Exception as e:

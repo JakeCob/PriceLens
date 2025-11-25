@@ -45,6 +45,7 @@ models/*.pt
 
 # Test and Debug Files
 check_imports.py
+check_haar.py
 reproduce_interpolation.py
 test_enhanced_id.py
 test_interpolation_fix.py

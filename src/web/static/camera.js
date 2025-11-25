@@ -1,4 +1,90 @@
 /**
+ * SessionTracker - Manages scanning session state
+ */
+class SessionTracker {
+    constructor() {
+        this.detectedCards = new Set();
+        this.cards = [];
+        this.runningTotal = 0;
+        this.load();
+    }
+
+    addCard(cardData) {
+        const cardId = cardData.card_id;
+        if (!cardId || this.detectedCards.has(cardId)) {
+            return false; // Duplicate or invalid
+        }
+
+        this.detectedCards.add(cardId);
+        this.cards.push({
+            id: cardId,
+            name: cardData.name,
+            price: cardData.price || 0,
+            timestamp: new Date().toISOString()
+        });
+        this.runningTotal += cardData.price || 0;
+        this.save();
+        this.updateDisplay();
+        return true; // New card added
+    }
+
+    clear() {
+        this.detectedCards.clear();
+        this.cards = [];
+        this.runningTotal = 0;
+        this.save();
+        this.updateDisplay();
+    }
+
+    save() {
+        try {
+            localStorage.setItem('pricelens_session', JSON.stringify({
+                cards: this.cards,
+                total: this.runningTotal,
+                count: this.cards.length
+            }));
+        } catch (error) {
+            console.error('Failed to save session:', error);
+        }
+    }
+
+    load() {
+        try {
+            const saved = localStorage.getItem('pricelens_session');
+            if (saved) {
+                const data = JSON.parse(saved);
+                this.cards = data.cards || [];
+                this.runningTotal = data.total || 0;
+                this.detectedCards = new Set(this.cards.map(c => c.id));
+                this.updateDisplay();
+            }
+        } catch (error) {
+            console.error('Failed to load session:', error);
+        }
+    }
+
+    updateDisplay() {
+        const totalElement = document.getElementById('total-value');
+        const countElement = document.getElementById('card-count');
+
+        if (totalElement) {
+            totalElement.textContent = `$${this.runningTotal.toFixed(2)}`;
+            // Add pulse animation
+            totalElement.classList.add('updating');
+            setTimeout(() => totalElement.classList.remove('updating'), 300);
+        }
+
+        if (countElement) {
+            const cardText = this.cards.length === 1 ? 'card' : 'cards';
+            countElement.textContent = `📦 ${this.cards.length} ${cardText}`;
+        }
+    }
+}
+
+// Global session tracker instance
+let sessionTracker = null;
+
+/**
  * CameraManager - Handles live camera scanning
  */
 class CameraManager {
@@ -10,6 +96,7 @@ class CameraManager {
         this.isDetecting = false;
         this.detectionInterval = null;
         this.detectionInProgress = false;
+        this.currentDetections = [];  // Track current detections
     }
 
     async startCamera() {
@@ -47,6 +134,12 @@ class CameraManager {
             this.video.srcObject = null;
         }
         this.stopDetection();
+
+        // Clear all detection overlays and reset state
+        if (this.ctx) {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+        this.currentDetections = [];  // Reset detection state
     }
 
     startDetection() {
@@ -69,10 +162,11 @@ class CameraManager {
             clearInterval(this.detectionInterval);
             this.detectionInterval = null;
         }
-        // Clear canvas
+        // Clear canvas and reset detection state
         if (this.ctx) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
+        this.currentDetections = [];  // Reset detection state
     }
 
     async detectFrame() {
@@ -104,11 +198,12 @@ class CameraManager {
 
             const data = await response.json();
 
-            if (data.success && data.detections) {
+            if (this.isDetecting && data.success && data.detections) {
                 this.drawDetections(data.detections);
             } else {
                 // Clear if no detections
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.currentDetections = [];  // Reset detection state
             }
         } catch (error) {
             console.error('Detection error:', error);
@@ -119,6 +214,9 @@ class CameraManager {
 
     drawDetections(detections) {
         if (!this.ctx) return;
+
+        // Store current detections
+        this.currentDetections = detections || [];
 
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -154,6 +252,15 @@ class CameraManager {
             this.ctx.font = '12px Outfit, sans-serif';
             this.ctx.fillStyle = '#38bdf8';
             this.ctx.fillText(confText, x2 - 40, y1 - 8);
+
+            // Add to session tracker if price is available
+            if (sessionTracker && det.price !== null && det.price !== undefined) {
+                sessionTracker.addCard({
+                    card_id: det.card_id,
+                    name: det.name,
+                    price: det.price
+                });
+            }
         });
     }
 
@@ -225,5 +332,18 @@ class CameraManager {
     }
 }
 
-// Initialize camera manager globally
+// Initialize camera manager and session tracker globally
 window.cameraManager = new CameraManager();
+sessionTracker = new SessionTracker();
+
+// Setup clear session button
+document.addEventListener('DOMContentLoaded', () => {
+    const clearBtn = document.getElementById('clear-session-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear current session? This will reset the total and card count.')) {
+                sessionTracker.clear();
+            }
+        });
+    }
+});

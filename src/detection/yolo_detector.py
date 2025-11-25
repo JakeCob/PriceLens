@@ -118,15 +118,37 @@ class YOLOCardDetector(DetectorBase):
         # Card tracking (Phase 1.3)
         self.tracked_cards: Dict[str, Detection] = {}
         self.next_card_id = 0
-        
-        # Initialize Frame Interpolator
+        self.hit_streaks = {} # Track consecutive detections (hits)
+        self.miss_counts = {} # Track consecutive misses
+        self.confirmed_cards = set() # Cards that passed 3-hit confirmation
+        self.interpolator = None
+
+        # Kalman smoothing temporarily disabled until tracking is stable
+        self.use_kalman_smoothing = False
+
+        # Block person/face classes if using COCO-pretrained model (class 0 = person)
+        # For custom-trained models, use allowed_class_names instead
+        self.blocked_class_ids = {0}  # Block "person" class to prevent face detections
+        # Alternative for custom models: self.allowed_class_names = {'pokemon_card', 'trading_card', 'card'}
+
         try:
-            from src.detection.frame_interpolator import FrameInterpolator
+            from .frame_interpolator import FrameInterpolator
             self.interpolator = FrameInterpolator()
-            logger.info("Frame Interpolator initialized")
+            if self.use_kalman_smoothing:
+                logger.info("Frame Interpolator initialized")
+            else:
+                logger.info("Frame Interpolator initialized but disabled (use_kalman_smoothing=False)")
         except ImportError:
-            self.interpolator = None
-            logger.warning("FrameInterpolator not available (filterpy missing?)")
+            logger.warning("FrameInterpolator not available")
+            
+        # Initialize Face Detector (Haar Cascade) to filter false positives
+        try:
+            cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+            self.face_cascade = cv2.CascadeClassifier(cascade_path)
+            logger.info("Face detector initialized for filtering")
+        except Exception as e:
+            logger.warning(f"Failed to initialize face detector: {e}")
+            self.face_cascade = None
 
         logger.info(
             f"YOLO detector initialized on {self.device} "
@@ -176,6 +198,20 @@ class YOLOCardDetector(DetectorBase):
             logger.warning("Empty frame received")
             return []
 
+        # Run face detection on the whole frame once to filter false positives
+        faces = []
+        if self.face_cascade:
+            try:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                faces = self.face_cascade.detectMultiScale(
+                    gray,
+                    scaleFactor=1.1,
+                    minNeighbors=4,
+                    minSize=(60, 60)
+                )
+            except Exception as e:
+                logger.warning(f"Face detection failed: {e}")
+
         # Run YOLO inference
         try:
             results = self.model.predict(
@@ -202,24 +238,64 @@ class YOLOCardDetector(DetectorBase):
                 class_id = int(box.cls[0])
                 class_name = result.names[class_id]
 
+                # DIAGNOSTIC: Log all detections before filtering
+                logger.debug(f"YOLO detected: class_id={class_id}, class_name={class_name}, conf={confidence:.2f}")
+
+                # Skip blocked classes (person, face, etc.)
+                if class_id in self.blocked_class_ids:
+                    logger.debug(f"Skipping blocked class: {class_name} (id={class_id})")
+                    continue
+
                 # Validate detection is card-like (rectangular)
                 width = x2 - x1
                 height = y2 - y1
                 aspect_ratio = width / height if height > 0 else 0
 
                 # Pokemon cards are approximately 2.5" x 3.5" (aspect ~0.71)
-                if self.min_aspect_ratio < aspect_ratio < self.max_aspect_ratio:
-                    detection = Detection(
-                        bbox=[int(x1), int(y1), int(x2), int(y2)],
-                        confidence=confidence,
-                        class_id=class_id,
-                        class_name=class_name,
-                        aspect_ratio=aspect_ratio,
-                    )
-                    detections.append(detection)
+                # Tightened range to 0.6-0.85 to reduce false positives
+                if 0.6 < aspect_ratio < 0.85:
+                    # Filter small detections (noise)
+                    area = width * height
+                    frame_area = frame.shape[0] * frame.shape[1]
+                    if area / frame_area > 0.01: # Must be at least 1% of frame
+                        
+                        # Check for overlap with detected faces
+                        if len(faces) > 0:
+                            if self._is_face_overlap([x1, y1, x2, y2], faces):
+                                continue
+
+                        detection = Detection(
+                            bbox=[int(x1), int(y1), int(x2), int(y2)],
+                            confidence=confidence,
+                            class_id=class_id,
+                            class_name=class_name,
+                            aspect_ratio=aspect_ratio,
+                        )
+                        detections.append(detection)
 
         logger.debug(f"Detected {len(detections)} cards")
         return detections
+
+    def _is_face_overlap(self, card_bbox, faces) -> bool:
+        """Check if card bbox overlaps with any detected face"""
+        cx1, cy1, cx2, cy2 = card_bbox
+        card_area = (cx2 - cx1) * (cy2 - cy1)
+        
+        for (fx, fy, fw, fh) in faces:
+            fx2, fy2 = fx + fw, fy + fh
+            
+            # Calculate intersection
+            ix1 = max(cx1, fx)
+            iy1 = max(cy1, fy)
+            ix2 = min(cx2, fx2)
+            iy2 = min(cy2, fy2)
+            
+            if ix2 > ix1 and iy2 > iy1:
+                intersection = (ix2 - ix1) * (iy2 - iy1)
+                # If intersection covers significant portion of the card (30%)
+                if intersection / card_area > 0.3:
+                    return True
+        return False
 
     def extract_card_regions(
         self, frame: np.ndarray, detections: List[Detection]
@@ -272,11 +348,11 @@ class YOLOCardDetector(DetectorBase):
             for det in detections:
                 det.card_id = f"card_{self.next_card_id}"
                 self.tracked_cards[det.card_id] = det
-                
-                # Initialize interpolator
-                if self.interpolator:
+
+                # Initialize interpolator (if smoothing enabled)
+                if self.use_kalman_smoothing and self.interpolator:
                     self.interpolator.update(det.card_id, det.bbox, frame_idx)
-                
+
                 self.next_card_id += 1
             return detections
 
@@ -289,7 +365,7 @@ class YOLOCardDetector(DetectorBase):
 
         for det in detections:
             best_match_id = None
-            best_iou = 0.3  # Minimum IoU threshold
+            best_iou = 0.5  # Minimum IoU threshold (raised from 0.3 to reduce false positives)
 
             # Find best matching tracked card
             for card_id, tracked_det in self.tracked_cards.items():
@@ -304,9 +380,17 @@ class YOLOCardDetector(DetectorBase):
                 self.tracked_cards[best_match_id] = det
                 matched_detections.append(det)
                 matched_card_ids.add(best_match_id)
-                
-                # Update interpolator
-                if self.interpolator:
+
+                # Increment hit streak and reset miss count
+                self.hit_streaks[best_match_id] = self.hit_streaks.get(best_match_id, 0) + 1
+                self.miss_counts[best_match_id] = 0  # Reset miss count on successful match
+
+                # Mark as confirmed if hit streak reaches 3
+                if self.hit_streaks[best_match_id] >= 3:
+                    self.confirmed_cards.add(best_match_id)
+
+                # Update interpolator (if smoothing enabled)
+                if self.use_kalman_smoothing and self.interpolator:
                     self.interpolator.update(best_match_id, det.bbox, frame_idx)
                     # Use smoothed bbox
                     smoothed_bbox = self.interpolator.get_smoothed_bbox(best_match_id)
@@ -316,54 +400,70 @@ class YOLOCardDetector(DetectorBase):
                 # New card detected
                 unmatched_detections.append(det)
 
-        # Handle lost cards (coasting)
-        if self.interpolator:
-            for card_id, tracked_det in self.tracked_cards.items():
-                if card_id not in matched_card_ids:
-                    # Predict next position
-                    pred_bbox = self.interpolator.predict(card_id)
-                    
-                    # Check if we should keep it (e.g. not too old)
-                    last_update = self.interpolator.last_update.get(card_id, 0)
-                    if pred_bbox and (frame_idx - last_update < 10): # Coast for 10 frames
-                        # Create a predicted detection
-                        new_det = Detection(
-                            bbox=pred_bbox,
-                            confidence=tracked_det.confidence * 0.95, # Decay confidence
-                            class_id=tracked_det.class_id,
-                            class_name=tracked_det.class_name,
-                            aspect_ratio=tracked_det.aspect_ratio,
-                            card_id=card_id
-                        )
-                        matched_detections.append(new_det)
-                        # Note: We don't update self.tracked_cards with prediction to avoid drift
-                        # But we return it so the overlay sees it
+        # Handle unmatched tracked cards (increment miss counts)
+        cards_to_remove = []
+        for card_id in self.tracked_cards.keys():
+            if card_id not in matched_card_ids:
+                # Increment miss count and reset hit streak
+                self.miss_counts[card_id] = self.miss_counts.get(card_id, 0) + 1
+                self.hit_streaks[card_id] = 0  # Reset hit streak on miss
+
+                # Remove if missed too many times (>= 2 frames)
+                if self.miss_counts[card_id] >= 2:
+                    cards_to_remove.append(card_id)
+                    if card_id in self.confirmed_cards:
+                        self.confirmed_cards.remove(card_id)
+                    logger.debug(f"Removing card {card_id} after {self.miss_counts[card_id]} misses")
+
+        # Remove cards that have been missed too many times
+        for card_id in cards_to_remove:
+            del self.tracked_cards[card_id]
+            if card_id in self.hit_streaks:
+                del self.hit_streaks[card_id]
+            if card_id in self.miss_counts:
+                del self.miss_counts[card_id]
+            if self.use_kalman_smoothing and self.interpolator and card_id in self.interpolator.filters:
+                # Remove from interpolator as well
+                del self.interpolator.filters[card_id]
+                if card_id in self.interpolator.last_update:
+                    del self.interpolator.last_update[card_id]
 
         # Assign new IDs to unmatched detections
         for det in unmatched_detections:
             det.card_id = f"card_{self.next_card_id}"
             self.tracked_cards[det.card_id] = det
-            
-            # Initialize interpolator for new card
-            if self.interpolator:
+            self.hit_streaks[det.card_id] = 1  # Initialize streak with 1 hit
+            self.miss_counts[det.card_id] = 0  # Initialize miss count
+
+            # Initialize interpolator for new card (if smoothing enabled)
+            if self.use_kalman_smoothing and self.interpolator:
                 self.interpolator.update(det.card_id, det.bbox, frame_idx)
-                
+
             self.next_card_id += 1
             matched_detections.append(det)
 
-        # Clean up old filters
-        if self.interpolator:
+        # Clean up old filters and streaks (if smoothing enabled)
+        if self.use_kalman_smoothing and self.interpolator:
             self.interpolator.cleanup(frame_idx, max_age=30)
-            
-            # Also cleanup tracked_cards
+
+            # Also cleanup tracked_cards and streaks
             to_remove = []
             for card_id in self.tracked_cards:
                 if card_id not in self.interpolator.filters:
                     to_remove.append(card_id)
             for card_id in to_remove:
                 del self.tracked_cards[card_id]
+                if card_id in self.hit_streaks:
+                    del self.hit_streaks[card_id]
+                    
+        # Filter output based on hit streak (Temporal Consistency)
+        # Only show confirmed cards (3+ consecutive hits)
+        final_detections = []
+        for det in matched_detections:
+            if det.card_id in self.confirmed_cards:
+                final_detections.append(det)
 
-        return matched_detections
+        return final_detections
 
     @staticmethod
     def _calculate_iou(bbox1: List[int], bbox2: List[int]) -> float:

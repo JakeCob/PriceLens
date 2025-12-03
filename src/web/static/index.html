@@ -46,6 +46,16 @@
 
                     <!-- Session Total Panel -->
                     <div id="session-panel" class="session-panel">
+                        <div class="session-header">
+                            <select id="currency-selector" class="currency-selector">
+                                <option value="PHP">PHP (₱)</option>
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="GBP">GBP (£)</option>
+                                <option value="JPY">JPY (¥)</option>
+                                <option value="CAD">CAD (C$)</option>
+                            </select>
+                        </div>
                         <div class="session-total">
                             <span class="total-label">💰 Total:</span>
                             <span id="total-value" class="total-value">$0.00</span>
@@ -53,7 +63,10 @@
                         <div class="session-count">
                             <span id="card-count" class="card-count">📦 0 cards</span>
                         </div>
-                        <button id="clear-session-btn" class="clear-btn">Clear Session</button>
+                        <div class="session-controls">
+                            <button id="mute-btn" class="icon-btn" title="Toggle Sound">🔊</button>
+                            <button id="clear-session-btn" class="clear-btn">Clear Session</button>
+                        </div>
                     </div>
                 </div>
                 <div class="camera-controls">

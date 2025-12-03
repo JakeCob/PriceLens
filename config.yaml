@@ -10,8 +10,9 @@ camera:
   fps: 30
 
 detection:
-  model_path: "models/yolo11n.pt"
-  confidence_threshold: 0.5
+  model_path: "models/yolo11m.pt"  # Standard YOLO medium model (more accurate)
+  use_card_specific_model: false  # Use COCO model with class filtering
+  confidence_threshold: 0.25  # Lower threshold to catch more detections
   iou_threshold: 0.45
   max_detections: 6
 

@@ -382,7 +382,36 @@ header {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(56, 189, 248, 0.3);
     z-index: 100;
-    min-width: 180px;
+    min-width: 200px;
+}
+
+.session-header {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.currency-selector {
+    width: 100%;
+    padding: 6px 10px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.currency-selector:hover {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.currency-selector:focus {
+    outline: none;
+    border-color: rgba(56, 189, 248, 0.7);
 }
 
 .session-total {
@@ -431,8 +460,39 @@ header {
     color: var(--text-secondary);
 }
 
+.session-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.icon-btn {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.6);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
 .clear-btn {
-    width: 100%;
+    flex: 1;
     padding: 8px 12px;
     background: rgba(239, 68, 68, 0.2);
     border: 1px solid rgba(239, 68, 68, 0.5);
@@ -443,6 +503,7 @@ header {
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
     transition: all 0.2s;
+    height: 36px;
 }
 
 .clear-btn:hover {

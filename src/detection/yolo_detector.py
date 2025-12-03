@@ -72,6 +72,7 @@ class YOLOCardDetector(DetectorBase):
         quantize: bool = False,
         min_aspect_ratio: float = 0.5,
         max_aspect_ratio: float = 0.9,
+        use_card_specific_model: bool = False,
     ):
         """
         Initialize YOLO card detector
@@ -84,6 +85,9 @@ class YOLOCardDetector(DetectorBase):
             quantize: Use INT8 quantization for faster inference
             min_aspect_ratio: Minimum aspect ratio for card filtering
             max_aspect_ratio: Maximum aspect ratio for card filtering
+            use_card_specific_model: Set to True if using Pokemon card-specific model
+                                      (e.g., downloaded from Roboflow). This disables
+                                      COCO class filtering and trusts the model output.
         """
         if YOLO is None:
             raise ImportError(
@@ -95,13 +99,14 @@ class YOLOCardDetector(DetectorBase):
         if not self.model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}\n"
-                f"Run 'python scripts/download_models.py' to download"
+                f"For COCO model: Run 'python scripts/download_models.py'\n"
+                f"For Pokemon card model: Run 'python scripts/download_card_model.py'"
             )
 
         self.conf_threshold = conf_threshold
         self.iou_threshold = iou_threshold
-        self.min_aspect_ratio = min_aspect_ratio
-        self.max_aspect_ratio = max_aspect_ratio
+        self.min_aspect_ratio = 0.4  # Widened from 0.6
+        self.max_aspect_ratio = 1.8  # Widened from 0.85 to allow landscape/rotatedtio
 
         # Determine device
         self.device = self._get_device(device)
@@ -126,10 +131,24 @@ class YOLOCardDetector(DetectorBase):
         # Kalman smoothing temporarily disabled until tracking is stable
         self.use_kalman_smoothing = False
 
-        # Block person/face classes if using COCO-pretrained model (class 0 = person)
-        # For custom-trained models, use allowed_class_names instead
-        self.blocked_class_ids = {0}  # Block "person" class to prevent face detections
-        # Alternative for custom models: self.allowed_class_names = {'pokemon_card', 'trading_card', 'card'}
+        # Configure class filtering based on model type
+        self.use_card_specific_model = use_card_specific_model
+
+        if use_card_specific_model:
+            # Card-specific model (e.g., from Roboflow) - trust all detections
+            self.blocked_class_ids = set()
+            logger.info("Using card-specific model - no class filtering applied")
+        else:
+            # COCO-pretrained model - Allow only specific card-like classes
+            # 73: book, 67: cell phone, 74: clock, 65: remote
+            self.allowed_class_ids = {73, 67, 74, 65}
+            self.blocked_class_ids = None # Not used when allowed_class_ids is set
+            logger.info(f"Using COCO-pretrained model - allowing only classes: {self.allowed_class_ids}")
+            
+            # Tighten aspect ratio for standard model (Pokemon cards are ~0.71)
+            # Allow 0.5 - 1.0 (portrait) and 1.0 - 1.5 (landscape/rotated)
+            self.min_aspect_ratio = 0.5
+            self.max_aspect_ratio = 1.5
 
         try:
             from .frame_interpolator import FrameInterpolator
@@ -198,9 +217,13 @@ class YOLOCardDetector(DetectorBase):
             logger.warning("Empty frame received")
             return []
 
+        logger.info(f"Detector received frame: {frame.shape}")  # Force INFO log
+        scale = 1.0  # No resizing, so scale is 1.0
+
         # Run face detection on the whole frame once to filter false positives
+        # Only needed for COCO-pretrained models
         faces = []
-        if self.face_cascade:
+        if self.face_cascade and not self.use_card_specific_model:
             try:
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 faces = self.face_cascade.detectMultiScale(
@@ -214,71 +237,120 @@ class YOLOCardDetector(DetectorBase):
 
         # Run YOLO inference
         try:
+            # Determine if we can use half precision
+            # use_half = self.device == "cuda"  # Disabled for debugging
+            
             results = self.model.predict(
-                frame,
-                conf=self.conf_threshold,
-                iou=self.iou_threshold,
-                device=self.device,
-                verbose=False,
-                stream=False,
+                frame,  # Use original frame
+        if self.blocked_class_ids and 0 in self.blocked_class_ids:
+            faces = self.face_detector.detectMultiScale(
+                cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY),
+                scaleFactor=1.1,
+                minNeighbors=5,
+                minSize=(30, 30)
             )
-        except Exception as e:
-            logger.error(f"YOLO inference failed: {e}")
-            return []
+
+        # Run inference
+        # verbose=True enables YOLO's own internal logging to stdout
+        results = self.model.predict(
+            frame, 
+            conf=self.conf_threshold,
+            iou=self.iou_threshold,
+            device=self.device,
+            verbose=True,
+            stream=False
+        )
+
+        # Log raw YOLO output BEFORE any filtering
+        logger.warning(f"=== YOLO RAW RESULTS ===")
+        logger.warning(f"Number of result objects: {len(results)}")
 
         # Parse results
         detections = []
+        filtered_count = {"class": 0, "aspect": 0, "blocked": 0}
+
         for result in results:
+            logger.warning(f"Result boxes: {len(result.boxes)}")  # Log raw box count
             boxes = result.boxes
 
             for box in boxes:
-                # Extract box coordinates
                 x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                 confidence = float(box.conf[0])
                 class_id = int(box.cls[0])
-                class_name = result.names[class_id]
+                class_name = self.model.names[class_id]
 
-                # DIAGNOSTIC: Log all detections before filtering
-                logger.debug(f"YOLO detected: class_id={class_id}, class_name={class_name}, conf={confidence:.2f}")
+                logger.warning(f"  Box: class={class_name} (id={class_id}), conf={confidence:.3f}")
 
                 # Skip blocked classes (person, face, etc.)
-                if class_id in self.blocked_class_ids:
-                    logger.debug(f"Skipping blocked class: {class_name} (id={class_id})")
+                if self.blocked_class_ids and class_id in self.blocked_class_ids:
+                    logger.warning(f"  FILTERED (blocked): {class_name} (id={class_id})")
+                    filtered_count["blocked"] += 1
                     continue
+                    
+                # Filter by allowed classes (if set)
+                if hasattr(self, 'allowed_class_ids') and self.allowed_class_ids is not None:
+                    if class_id not in self.allowed_class_ids:
+                        logger.warning(f"  FILTERED (class): {class_name} (id={class_id}) not in allowed")
+                        filtered_count["class"] += 1
+                        continue
 
                 # Validate detection is card-like (rectangular)
                 width = x2 - x1
                 height = y2 - y1
+                
+                # Calculate aspect ratio
                 aspect_ratio = width / height if height > 0 else 0
+                
+                # Check aspect ratio
+                aspect_valid = self.min_aspect_ratio < aspect_ratio < self.max_aspect_ratio
+                
+                # For card-specific model, be more lenient or trust the model
+                if self.use_card_specific_model:
+                    # Trust the model more, but still sanity check
+                    aspect_valid = self.min_aspect_ratio < aspect_ratio < self.max_aspect_ratio
 
-                # Pokemon cards are approximately 2.5" x 3.5" (aspect ~0.71)
-                # Tightened range to 0.6-0.85 to reduce false positives
-                if 0.6 < aspect_ratio < 0.85:
-                    # Filter small detections (noise)
-                    area = width * height
-                    frame_area = frame.shape[0] * frame.shape[1]
-                    if area / frame_area > 0.01: # Must be at least 1% of frame
+                if not aspect_valid:
+                    valid_range = "0.4-1.8" if self.use_card_specific_model else f"{self.min_aspect_ratio}-{self.max_aspect_ratio}"
+                    logger.warning(f"  FILTERED (aspect): {aspect_ratio:.2f} (valid: {valid_range})")
+                    filtered_count["aspect"] += 1
+                    continue
+
+                if aspect_valid:
+                    # Check for overlap with detected faces
+                    # If detection overlaps significantly with a face, it's likely a false positive
+                    is_face = False
+                    det_center = ((x1 + x2) / 2, (y1 + y2) / 2)
+                    
+                    for (fx, fy, fw, fh) in faces:
+                        # Scale face coords back if we resized (currently scale=1.0)
+                        fx, fy, fw, fh = fx/scale, fy/scale, fw/scale, fh/scale
                         
-                        # Check for overlap with detected faces
-                        if len(faces) > 0:
-                            if self._is_face_overlap([x1, y1, x2, y2], faces):
-                                continue
+                        # Check if detection center is inside face box
+                        if (fx < det_center[0] < fx + fw) and (fy < det_center[1] < fy + fh):
+                            is_face = True
+                            break
+                    
+                    if is_face:
+                        logger.debug(f"Skipping face overlap: {class_name}")
+                        continue
 
-                        detection = Detection(
-                            bbox=[int(x1), int(y1), int(x2), int(y2)],
-                            confidence=confidence,
-                            class_id=class_id,
-                            class_name=class_name,
-                            aspect_ratio=aspect_ratio,
-                        )
-                        detections.append(detection)
+                    logger.warning(f"  PASSED: {class_name}, aspect={aspect_ratio:.3f}")
+                    
+                    # Create detection object
+                    detection = Detection(
+                        bbox=[int(x1), int(y1), int(x2), int(y2)],
+                        confidence=confidence,
+                        class_id=class_id,
+                        class_name=class_name,
+                        aspect_ratio=aspect_ratio
+                    )
+                    detections.append(detection)
 
-        logger.debug(f"Detected {len(detections)} cards")
+        logger.warning(f"=== DETECT COMPLETE: {len(detections)} detections, filtered: {filtered_count} ===")
         return detections
 
     def _is_face_overlap(self, card_bbox, faces) -> bool:
         """Check if card bbox overlaps with any detected face"""
-        cx1, cy1, cx2, cy2 = card_bbox
         card_area = (cx2 - cx1) * (cy2 - cy1)
         
         for (fx, fy, fw, fh) in faces:
@@ -385,8 +457,9 @@ class YOLOCardDetector(DetectorBase):
                 self.hit_streaks[best_match_id] = self.hit_streaks.get(best_match_id, 0) + 1
                 self.miss_counts[best_match_id] = 0  # Reset miss count on successful match
 
-                # Mark as confirmed if hit streak reaches 3
-                if self.hit_streaks[best_match_id] >= 3:
+                # Mark as confirmed - instant for card-specific models, 3 hits for generic models
+                required_hits = 1 if self.use_card_specific_model else 3
+                if self.hit_streaks[best_match_id] >= required_hits:
                     self.confirmed_cards.add(best_match_id)
 
                 # Update interpolator (if smoothing enabled)

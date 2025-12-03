@@ -29,9 +29,10 @@ def open_browser():
         pass  # Ignore if browser cannot be opened
 
 if __name__ == "__main__":
-    setup_logging(level="INFO")
+    # Setup logging
+    logger = setup_logging(level="DEBUG")
     
-    logger.info("Starting PriceLens Web Interface...")
+    logger.info("Starting PriceLens Web Server...")
     logger.info("Open http://localhost:8080 in your browser")
     logger.info("(If running remotely, use your server's IP or Proxy URL)")
     

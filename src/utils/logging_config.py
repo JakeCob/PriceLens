@@ -6,7 +6,12 @@ from pathlib import Path
 from datetime import datetime
 
 
-def setup_logging(level: str = "INFO", log_file: bool = True):
+def setup_logging(
+    name: str = "pricelens",
+    log_dir: str = "logs",
+    level: int = logging.DEBUG,  # Changed to DEBUG
+    log_file: bool = True  # Renamed back to log_file
+) -> logging.Logger:
     """
     Configure logging for the application
 

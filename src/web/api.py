@@ -6,6 +6,8 @@ FastAPI backend for the PriceLens web interface.
 import base64
 import logging
 import shutil
+import time
+import yaml
 from io import BytesIO
 from pathlib import Path
 from typing import Dict
@@ -32,6 +34,8 @@ logger = logging.getLogger(__name__)
 
 # Global instances
 price_preloader = None
+detection_cache = {}  # tracking_id -> {card_id, name, set, price, confidence, bbox, timestamp}
+CACHE_TTL = 5  # seconds - clear cache entries not seen for this long
 
 
 @asynccontextmanager
@@ -88,14 +92,27 @@ else:
 price_service = PriceService()
 renderer = OverlayRenderer()
 
+# Load configuration
+config_path = Path("config.yaml")
+config = {}
+if config_path.exists():
+    with open(config_path, 'r') as f:
+        config = yaml.safe_load(f)
+    logger.info(f"Loaded configuration from {config_path}")
+else:
+    logger.warning(f"Config file not found at {config_path}, using defaults")
+
 # Initialize YOLO detector for live detection
 logger.info("Initializing YOLO detector...")
 try:
+    detection_config = config.get('detection', {})
     detector = YOLOCardDetector(
-        model_path="models/yolo11m.pt",
-        conf_threshold=0.65
+        model_path=detection_config.get('model_path', 'models/yolo11m.pt'),
+        conf_threshold=detection_config.get('confidence_threshold', 0.65),
+        iou_threshold=detection_config.get('iou_threshold', 0.45),
+        use_card_specific_model=detection_config.get('use_card_specific_model', False)
     )
-    logger.info("YOLO detector initialized successfully")
+    logger.info(f"YOLO detector initialized successfully (model: {detection_config.get('model_path', 'models/yolo11m.pt')})")
 except Exception as e:
     logger.error(f"Failed to initialize YOLO detector: {e}")
     detector = None
@@ -125,16 +142,38 @@ async def detect_live(file: UploadFile = File(...)):
                 "message": "Detector not initialized"
             })
         
+        logger.warning(f"=== API /detect-live called ===")
+        logger.warning(f"Frame received: {type(image)}, shape: {image.shape if hasattr(image, 'shape') else 'N/A'}")
+
         # 3. Detect cards using YOLO
         detections = detector.detect(image)
+        logger.warning(f"Detector returned {len(detections)} detections")
         tracked = detector.track_cards(detections)
         
         # 4. Extract and identify each card region
         results = []
+        current_time = time.time()
+        
         if tracked:
             card_regions = detector.extract_card_regions(image, tracked)
             
             for det, region in zip(tracked, card_regions):
+                # Check cache first
+                if det.card_id in detection_cache:
+                    cached = detection_cache[det.card_id]
+                    # Check if cache is still valid
+                    if time.time() - cached["timestamp"] < CACHE_TTL:
+                        logger.debug(f"Using cached identification for {det.card_id}")
+                        results.append({
+                            "bbox": det.bbox,
+                            "name": cached["name"],
+                            "card_id": cached["card_id"],
+                            "set": cached["set"],
+                            "confidence": cached["confidence"],
+                            "price": cached["price"]
+                        })
+                        continue
+                
                 # Quick identification (ORB only)
                 matches = matcher.identify(region, top_k=1)
                 
@@ -147,14 +186,44 @@ async def detect_live(file: UploadFile = File(...)):
                     if price_preloader:
                         cached_price = price_preloader.get_price(card_id)
                     
+                    # Update cache with new identification
+                    detection_cache[det.card_id] = {
+                        "name": top["name"],
+                        "card_id": card_id,
+                        "set": top.get("set", "Unknown"),
+                        "confidence": top["confidence"],
+                        "price": cached_price,
+                        "bbox": det.bbox,
+                        "timestamp": current_time
+                    }
+                    logger.info(f"Cached new detection: {top['name']} (tracking_id={tracking_id})")
+                    
                     results.append({
                         "bbox": det.bbox,
                         "name": top["name"],
                         "card_id": card_id,
                         "set": top.get("set", "Unknown"),
                         "confidence": top["confidence"],
-                        "price": cached_price  # Should be instant from preload
+                        "price": cached_price
                     })
+                else:
+                    # Identification failed, but we still want to show the detection box
+                    logger.debug(f"Identification failed for {det.card_id}, returning 'Scanning...'")
+                    results.append({
+                        "bbox": det.bbox,
+                        "name": "Scanning...",
+                        "card_id": "unknown",
+                        "set": "...",
+                        "confidence": 0.0,
+                        "price": None
+                    })
+        
+        # Clean up stale cache entries (not seen in >CACHE_TTL seconds)
+        stale_ids = [tid for tid, data in detection_cache.items() 
+                     if current_time - data['timestamp'] > CACHE_TTL]
+        for tid in stale_ids:
+            logger.debug(f"Removing stale cache entry: {detection_cache[tid]['name']} (tracking_id={tid})")
+            del detection_cache[tid]
         
         return JSONResponse(content={
             "success": True,

@@ -55,13 +55,41 @@ cp .env.example .env
 python scripts/build_card_database.py
 ```
 
-### Running the Application
+### Running the Desktop Application
 
 ```bash
 python src/main.py
 ```
 
 Press `q` to quit, `s` to save screenshot.
+
+### Running the Web Application
+
+The web interface provides a modern browser-based experience:
+
+1. **Start the Python backend** (API server):
+```bash
+python run_web.py
+```
+The backend runs at `http://localhost:8080`
+
+2. **Start the Next.js frontend** (in a separate terminal):
+```bash
+cd web
+npm install        # First time only
+npm run dev
+```
+The frontend runs at `http://localhost:3000`
+
+3. Open your browser and go to `http://localhost:3000`
+
+#### Web App Features
+- 🌐 Modern responsive design with dark mode
+- 📱 Works on desktop and mobile browsers
+- 📸 Live camera integration
+- 💰 Real-time price overlay
+- 📊 Collection tracking and analytics
+
 
 ## Configuration
 

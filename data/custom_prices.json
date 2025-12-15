@@ -616,5 +616,23 @@
     "currency": "USD",
     "name": "Mega Lucario ex",
     "set": "me1"
+  },
+  "me2-58": {
+    "price": 0.04,
+    "currency": "USD",
+    "name": "Honchkrow",
+    "set": "Mythical Island"
+  },
+  "me2-59": {
+    "price": 1.25,
+    "currency": "USD",
+    "name": "Sharpedo",
+    "set": "Mysterious Evolutions"
+  },
+  "me2-60": {
+    "price": 0.75,
+    "currency": "USD",
+    "name": "Weavile",
+    "set": "Mysterious Evolutions"
   }
 }

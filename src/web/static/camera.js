@@ -166,16 +166,11 @@ class SessionTracker {
             totalVotes += count;
         }
 
-        if (totalVotes >= 2) {
-            const votes = Object.values(pending.votes);
-            const maxVote = Math.max(...votes);
-
-            // All votes agree on the same card
-            if (maxVote >= 2 && maxVote === totalVotes) {
-                this.commitCard(cardId, pending.lastData);
-                this.pendingCards.delete(cardId);
-                return true;
-            }
+        // Commit on first identification (instant)
+        if (totalVotes >= 1) {
+            this.commitCard(cardId, pending.lastData);
+            this.pendingCards.delete(cardId);
+            return true;
         }
 
         // 3. Check for Commitment (Stability Check)
@@ -253,7 +248,7 @@ class SessionTracker {
     }
 
     isCommitted(cardId) {
-        return this.detectedCards.has(cardId);
+        return this.detectedCards.has(cardId); // Restored proper check
     }
 
     clear() {

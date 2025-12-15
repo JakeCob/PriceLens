@@ -373,16 +373,32 @@ header {
 
 /* Session Panel */
 .session-panel {
-    position: absolute;
-    top: 20px;
-    right: 20px;
     background: rgba(0, 0, 0, 0.85);
     padding: 15px 20px;
     border-radius: 12px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(56, 189, 248, 0.3);
-    z-index: 100;
     min-width: 200px;
+}
+
+/* Session panel when inside camera (overlay) */
+.camera-container .session-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+/* Session panel when outside camera */
+.session-panel-outside {
+    position: static;
+    margin: 15px auto;
+    max-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
 }
 
 .session-header {

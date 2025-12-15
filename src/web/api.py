@@ -77,17 +77,17 @@ app.add_middleware(
 # Initialize Components (Lazy loading or startup event recommended, but global for MVP)
 logger.info("Initializing PriceLens components...")
 matcher = FeatureMatcher()
-# Load all feature databases
-features_dir = Path("data/features")
-if features_dir.exists():
-    for feature_file in features_dir.glob("*.pkl"):
-        try:
-            matcher.load_database(str(feature_file))
-            logger.info(f"Loaded features from {feature_file.name}")
-        except Exception as e:
-            logger.error(f"Failed to load {feature_file.name}: {e}")
+
+# Load me1 and me2 feature database (318 cards)
+me1_me2_features = Path("data/me1_me2_features.pkl")
+if me1_me2_features.exists():
+    try:
+        matcher.load_database(str(me1_me2_features))
+        logger.info(f"Loaded {len(matcher.card_features)} cards from me1_me2_features.pkl")
+    except Exception as e:
+        logger.error(f"Failed to load me1_me2_features.pkl: {e}")
 else:
-    logger.warning(f"Features directory not found at {features_dir}. Identification will fail.")
+    logger.warning("me1_me2_features.pkl not found. Run scripts/build_me1_me2_features.py first.")
 
 price_service = PriceService()
 renderer = OverlayRenderer()
@@ -196,7 +196,7 @@ async def detect_live(file: UploadFile = File(...)):
                         "bbox": det.bbox,
                         "timestamp": current_time
                     }
-                    logger.info(f"Cached new detection: {top['name']} (tracking_id={tracking_id})")
+                    logger.info(f"Cached new detection: {top['name']} (card_id={det.card_id})")
                     
                     results.append({
                         "bbox": det.bbox,
@@ -204,7 +204,7 @@ async def detect_live(file: UploadFile = File(...)):
                         "card_id": card_id,
                         "set": top.get("set", "Unknown"),
                         "confidence": top["confidence"],
-                        "price": cached_price
+                        "price": cached_price  # Use real price from API/cache
                     })
                 else:
                     # Identification failed, but we still want to show the detection box

@@ -1,39 +1,33 @@
 app:
-  name: "Pokemon Card Price Overlay"
-  version: "0.1.0"
+  name: Pokemon Card Price Overlay
+  version: 0.1.0
   debug: true
-
 camera:
-  source: 0  # 0 for default webcam, or video file path
+  source: 0
   width: 1280
   height: 720
   fps: 30
-
 detection:
-  model_path: "models/yolo11m.pt"  # Standard YOLO medium model (more accurate)
-  use_card_specific_model: false  # Use COCO model with class filtering
-  confidence_threshold: 0.25  # Lower threshold to catch more detections
+  model_path: models/yolo11m.pt
+  use_card_specific_model: false
+  confidence_threshold: 0.25
   iou_threshold: 0.45
   max_detections: 6
-
 identification:
-  method: "feature_matching"  # "feature_matching" or "classification"
+  method: feature_matching
   min_matches: 10
   match_ratio_threshold: 0.75
-
 feature_matching:
-  detector: "ORB"  # ORB, SIFT, AKAZE
-  descriptor: "BEBLID"  # BEBLID, ORB, SIFT
+  detector: ORB
+  descriptor: BEBLID
   n_features: 1000
-  match_method: "FLANN"  # FLANN or BF (Brute Force)
-
+  match_method: FLANN
 api:
-  primary: "pokemontcg"
-  fallback: "pokemonpricetracker"
-  cache_ttl: 300  # 5 minutes
-  rate_limit: 60  # requests per minute
-  timeout: 5  # seconds
-
+  primary: pokemontcg
+  fallback: pokemonpricetracker
+  cache_ttl: 300
+  rate_limit: 60
+  timeout: 5
 overlay:
   show_bounding_box: true
   show_confidence: true
@@ -41,8 +35,7 @@ overlay:
   show_trends: true
   panel_opacity: 0.8
   font_scale: 0.6
-
 performance:
-  use_gpu: true  # Use GPU if available
+  use_gpu: true
   num_threads: 4
-  frame_skip: 0  # Skip every N frames (0 = no skip)
+  frame_skip: 0

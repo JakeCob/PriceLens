@@ -139,14 +139,12 @@ class YOLOCardDetector(DetectorBase):
             self.blocked_class_ids = set()
             logger.info("Using card-specific model - no class filtering applied")
         else:
-            # COCO-pretrained model - Allow only specific card-like classes
-            # 73: book, 67: cell phone, 74: clock, 65: remote
-            self.allowed_class_ids = {73, 67, 74, 65}
-            self.blocked_class_ids = None # Not used when allowed_class_ids is set
-            logger.info(f"Using COCO-pretrained model - allowing only classes: {self.allowed_class_ids}")
+            # COCO-pretrained model - DEMO MODE: accept everything except person
+            self.allowed_class_ids = None  # Disabled for demo - accept all classes
+            self.blocked_class_ids = {0}  # Only block person class
+            logger.info("DEMO MODE: Accepting all classes except person")
             
             # Tighten aspect ratio for standard model (Pokemon cards are ~0.71)
-            # Allow 0.5 - 1.0 (portrait) and 1.0 - 1.5 (landscape/rotated)
             self.min_aspect_ratio = 0.5
             self.max_aspect_ratio = 1.5
 
@@ -237,29 +235,19 @@ class YOLOCardDetector(DetectorBase):
 
         # Run YOLO inference
         try:
-            # Determine if we can use half precision
-            # use_half = self.device == "cuda"  # Disabled for debugging
-            
+            # Run inference
+            # verbose=True enables YOLO's own internal logging to stdout
             results = self.model.predict(
-                frame,  # Use original frame
-        if self.blocked_class_ids and 0 in self.blocked_class_ids:
-            faces = self.face_detector.detectMultiScale(
-                cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY),
-                scaleFactor=1.1,
-                minNeighbors=5,
-                minSize=(30, 30)
+                frame,
+                conf=self.conf_threshold,
+                iou=self.iou_threshold,
+                device=self.device,
+                verbose=False,
+                stream=False
             )
-
-        # Run inference
-        # verbose=True enables YOLO's own internal logging to stdout
-        results = self.model.predict(
-            frame, 
-            conf=self.conf_threshold,
-            iou=self.iou_threshold,
-            device=self.device,
-            verbose=True,
-            stream=False
-        )
+        except Exception as e:
+            logger.error(f"YOLO inference failed: {e}")
+            return []
 
         # Log raw YOLO output BEFORE any filtering
         logger.warning(f"=== YOLO RAW RESULTS ===")
@@ -458,7 +446,7 @@ class YOLOCardDetector(DetectorBase):
                 self.miss_counts[best_match_id] = 0  # Reset miss count on successful match
 
                 # Mark as confirmed - instant for card-specific models, 3 hits for generic models
-                required_hits = 1 if self.use_card_specific_model else 3
+                required_hits = 1  # Instant confirmation for demo
                 if self.hit_streaks[best_match_id] >= required_hits:
                     self.confirmed_cards.add(best_match_id)
 

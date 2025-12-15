@@ -162,19 +162,31 @@ class PricePreloader:
     def _get_all_card_ids(self) -> List[str]:
         """Extract all card IDs from feature databases"""
         card_ids: Set[str] = set()
-        features_dir = Path("data/features")
         
-        if not features_dir.exists():
-            logger.warning("Features directory not found")
-            return []
-            
-        for pkl_file in features_dir.glob("*.pkl"):
+        # Check for me1_me2 database first
+        me1_me2_path = Path("data/me1_me2_features.pkl")
+        if me1_me2_path.exists():
             try:
-                with open(pkl_file, "rb") as f:
+                with open(me1_me2_path, "rb") as f:
                     data = pickle.load(f)
                     card_ids.update(data.keys())
+                    logger.info(f"Found {len(data)} cards in me1_me2_features.pkl")
             except Exception as e:
-                logger.error(f"Error reading {pkl_file}: {e}")
+                logger.error(f"Error reading me1_me2_features.pkl: {e}")
+        
+        # Also check data/features/ directory as fallback
+        features_dir = Path("data/features")
+        if features_dir.exists():
+            for pkl_file in features_dir.glob("*.pkl"):
+                try:
+                    with open(pkl_file, "rb") as f:
+                        data = pickle.load(f)
+                        card_ids.update(data.keys())
+                except Exception as e:
+                    logger.error(f"Error reading {pkl_file}: {e}")
+                    
+        if not card_ids:
+            logger.warning("No card IDs found in any feature database")
                 
         return sorted(list(card_ids))
         

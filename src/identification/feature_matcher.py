@@ -35,6 +35,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.identification.identifier_base import IdentifierBase
 
+# Import enhancer for type hints (lazy import at runtime)
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.preprocessing.enhancer import ImageEnhancer
+
 logger = logging.getLogger(__name__)
 
 
@@ -48,22 +53,26 @@ class FeatureMatcher(IdentifierBase):
 
     def __init__(
         self,
-        n_features: int = 1000,
+        n_features: int = 1000,  # Balanced: 2000 was too slow (3 FPS), 500 was too inaccurate
         match_threshold: float = 0.75,
         min_matches: int = 10,
         use_ocr: bool = True,
         use_vector_db: bool = True,
+        enhancer: Optional["ImageEnhancer"] = None,
     ):
         """
         Initialize feature matcher
-        
+
         Args:
             n_features: Number of ORB features
             match_threshold: Lowe's ratio test threshold
             min_matches: Minimum good matches
             use_ocr: Enable OCR fallback
             use_vector_db: Enable ChromaDB vector search
+            enhancer: Optional ImageEnhancer for preprocessing card images
         """
+        # Store enhancer for identification preprocessing
+        self.enhancer = enhancer
         self.n_features = n_features
         self.match_threshold = match_threshold
         self.min_matches = min_matches
@@ -87,7 +96,17 @@ class FeatureMatcher(IdentifierBase):
         if use_ocr and easyocr:
             try:
                 logger.info("Initializing EasyOCR...")
-                self.ocr_reader = easyocr.Reader(['en'], gpu=True)
+                # NOTE: Many dev/WSL environments have no CUDA available. EasyOCR will
+                # fail to initialize if `gpu=True` without a working CUDA runtime.
+                # Default to CPU unless we can positively detect CUDA availability.
+                use_gpu = False
+                try:
+                    use_gpu = bool(torch and hasattr(torch, "cuda") and torch.cuda.is_available())
+                except Exception:
+                    use_gpu = False
+
+                self.ocr_reader = easyocr.Reader(['en'], gpu=use_gpu)
+                logger.info(f"EasyOCR initialized (gpu={use_gpu})")
             except Exception as e:
                 logger.warning(f"Failed to init OCR: {e}")
 
@@ -148,7 +167,7 @@ class FeatureMatcher(IdentifierBase):
         self, image: np.ndarray
     ) -> Tuple[List[cv2.KeyPoint], np.ndarray]:
         """
-        Compute ORB features for an image
+        Compute ORB features for an image with preprocessing
 
         Args:
             image: Input image (BGR format)
@@ -156,11 +175,35 @@ class FeatureMatcher(IdentifierBase):
         Returns:
             Tuple of (keypoints, descriptors)
         """
-        # Convert to grayscale
-        if len(image.shape) == 3:
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # Apply enhanced preprocessing if enhancer is available
+        if self.enhancer is not None:
+            try:
+                enhanced = self.enhancer.enhance_for_identification(image)
+                # Convert enhanced image to grayscale
+                if len(enhanced.shape) == 3:
+                    gray = cv2.cvtColor(enhanced, cv2.COLOR_BGR2GRAY)
+                else:
+                    gray = enhanced
+            except Exception as e:
+                logger.warning(f"Identification enhancement failed: {e}")
+                # Fall back to standard preprocessing
+                if len(image.shape) == 3:
+                    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                else:
+                    gray = image
+                clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+                gray = clahe.apply(gray)
         else:
-            gray = image
+            # Standard preprocessing (CLAHE only)
+            if len(image.shape) == 3:
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            else:
+                gray = image
+
+            # CLAHE (Contrast Limited Adaptive Histogram Equalization)
+            # Normalizes lighting variations between camera captures and database images
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+            gray = clahe.apply(gray)
 
         # Detect and compute ORB features
         keypoints, descriptors = self.detector.detectAndCompute(gray, None)
@@ -245,15 +288,13 @@ class FeatureMatcher(IdentifierBase):
                     metadatas = results['metadatas'][0]
                     
                     for i, card_id in enumerate(ids):
-                        # Convert distance to confidence (cosine distance is 0-2, usually small for matches)
-                        # 0 distance = 1.0 confidence
+                        # Convert distance to confidence
                         dist = distances[i]
                         confidence = max(0.0, 1.0 - dist)
                         
                         # Check if already in match_results
                         existing = next((m for m in match_results if m["card_id"] == card_id), None)
                         if existing:
-                            # Boost confidence if both methods agree
                             existing["confidence"] = max(existing["confidence"], confidence)
                             existing["method"] = "hybrid"
                         else:
@@ -266,35 +307,122 @@ class FeatureMatcher(IdentifierBase):
                                 "metadata": metadatas[i],
                                 "method": "vector"
                             })
-                            
-                    # Re-sort
-                    match_results.sort(key=lambda x: x["confidence"], reverse=True)
-                    
             except Exception as e:
                 logger.warning(f"Vector search failed: {e}")
 
-        # OCR Fallback
-        if (not match_results or match_results[0]["confidence"] < 0.4) and self.ocr_reader:
-            logger.info("Low confidence match. Attempting OCR...")
+        # Log rejection details if best match is below threshold
+        if match_results:
+            best = match_results[0]
+            # Assuming threshold logic is handled by caller (Scanner), 
+            # but we can log here for debugging.
+            # The API uses self.confidence_threshold (0.75).
+            # We don't have access to API threshold here, but we can log top 1.
+            logger.warning(f"Matcher Best: {best['name']} (Score: {best['confidence']:.3f})")
+        else:
+            logger.warning("Matcher: No matches found.")
+
+        # OCR FIRST (more reliable than ORB for Pokemon cards)
+        ocr_results = []
+        if self.ocr_reader:
+            logger.warning("OCR: Attempting identification...")
             ocr_results = self._identify_with_ocr(image)
             if ocr_results:
-                match_results.extend(ocr_results)
-                # Re-sort
-                match_results.sort(key=lambda x: x["confidence"], reverse=True)
+                logger.warning(f"OCR: Found {len(ocr_results)} matches - Best: {ocr_results[0]['name']}")
+                # Give OCR results higher confidence since they're more reliable
+                for r in ocr_results:
+                    r["confidence"] = 0.80  # High confidence for OCR match
+                return ocr_results[:top_k]
+            else:
+                logger.warning("OCR: No matches found in database")
+        
+        # ORB Fallback (only if OCR failed)
+        # Require high confidence to avoid false positives
+        if match_results and match_results[0]["confidence"] >= 0.50:
+            logger.info(f"Using ORB fallback: {match_results[0]['name']}")
+            return match_results[:top_k]
 
-        # Return top-K matches
+        # Return top-K matches (may be empty)
         return match_results[:top_k]
+
+    def _preprocess_for_ocr(self, image: np.ndarray) -> np.ndarray:
+        """
+        Preprocess image for OCR to handle shadows and poor lighting.
+
+        If an enhancer is available, uses enhance_for_ocr() for optimal results.
+        Otherwise falls back to manual preprocessing:
+        1. CLAHE for adaptive contrast enhancement
+        2. Bilateral filtering for noise reduction while preserving edges
+        3. Histogram stretching for better text/background separation
+
+        Args:
+            image: Input image (BGR format)
+
+        Returns:
+            Preprocessed image optimized for OCR (BGR format)
+        """
+        # Use enhancer if available (has OCR-optimized pipeline)
+        if self.enhancer is not None:
+            try:
+                return self.enhancer.enhance_for_ocr(image)
+            except Exception as e:
+                logger.warning(f"OCR enhancement failed, using fallback: {e}")
+
+        # Fallback: manual preprocessing
+        # Convert to grayscale
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image.copy()
+
+        # Apply CLAHE (Contrast Limited Adaptive Histogram Equalization)
+        # This normalizes local contrast and handles shadows well
+        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+        enhanced = clahe.apply(gray)
+
+        # Apply bilateral filter to reduce noise while keeping edges sharp
+        # This helps OCR read text more clearly
+        denoised = cv2.bilateralFilter(enhanced, d=9, sigmaColor=75, sigmaSpace=75)
+
+        # Increase contrast using histogram stretching
+        # Normalize to use full dynamic range
+        min_val, max_val = np.percentile(denoised, (2, 98))
+        if max_val > min_val:
+            stretched = np.clip((denoised - min_val) * 255.0 / (max_val - min_val), 0, 255).astype(np.uint8)
+        else:
+            stretched = denoised
+
+        # Convert back to BGR for EasyOCR (it handles color images better)
+        result = cv2.cvtColor(stretched, cv2.COLOR_GRAY2BGR)
+
+        return result
 
     def _identify_with_ocr(self, image: np.ndarray) -> List[Dict]:
         """
         Attempt to identify card using OCR text reading
         """
         try:
-            # Read text
-            result = self.ocr_reader.readtext(image)
-            detected_text = " ".join([text[1] for text in result]).lower()
+            def _run_ocr(img: np.ndarray) -> str:
+                # Upscale small crops a bit to help OCR on live frames
+                h, w = img.shape[:2]
+                if w < 600:
+                    scale = 600 / max(1, w)
+                    img = cv2.resize(img, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_CUBIC)
+                pre = self._preprocess_for_ocr(img)
+                result = self.ocr_reader.readtext(pre)
+                return " ".join([text[1] for text in result]).lower()
+
+            # OCR is most reliable on the name area (top strip). Try that first,
+            # then fall back to full image if needed.
+            h, w = image.shape[:2]
+            top_h = max(1, int(h * 0.25))
+            title_strip = image[0:top_h, 0:w]
+
+            detected_text = _run_ocr(title_strip)
+            if not detected_text.strip():
+                detected_text = _run_ocr(image)
             
-            logger.debug(f"OCR Text: {detected_text}")
+            # WARNING level so it shows up in logs
+            logger.warning(f"OCR detected text: '{detected_text[:80]}...' (DB has {len(self.card_metadata)} cards)")
             
             # Simple keyword matching against database
             # In a real system, this would use a search index or vector DB
@@ -315,6 +443,9 @@ class FeatureMatcher(IdentifierBase):
                         "metadata": metadata,
                         "method": "ocr"
                     })
+            
+            if potential_matches:
+                logger.warning(f"OCR matched: {[m['name'] for m in potential_matches]}")
             
             return potential_matches
             

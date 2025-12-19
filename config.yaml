@@ -8,9 +8,10 @@ camera:
   height: 720
   fps: 30
 detection:
-  model_path: models/yolo11m.pt
-  use_card_specific_model: false
-  confidence_threshold: 0.25
+  # Use the bundled Pokemon card-specific detector (more reliable than COCO yolo11n.pt)
+  model_path: models/pokemon_card_detector_latest.pt
+  use_card_specific_model: true
+  confidence_threshold: 0.35
   iou_threshold: 0.45
   max_detections: 6
 identification:
@@ -20,7 +21,7 @@ identification:
 feature_matching:
   detector: ORB
   descriptor: BEBLID
-  n_features: 1000
+  n_features: 500
   match_method: FLANN
 api:
   primary: pokemontcg
@@ -39,3 +40,33 @@ performance:
   use_gpu: true
   num_threads: 4
   frame_skip: 0
+
+# Image preprocessing pipeline configuration
+preprocessing:
+  enabled: true
+  mode: balanced  # speed | balanced | quality
+
+  # Pre-detection enhancement (applied to full frame before YOLO)
+  detection:
+    enabled: true
+    techniques:
+      - lighting_normalization
+      - clahe_fast
+
+  # Identification enhancement (applied to card crops before OCR/feature matching)
+  identification:
+    enabled: true
+    techniques:
+      - white_balance
+      - clahe_enhanced
+      # - glare_reduction    # Enable for holographic cards (adds ~2-3ms)
+      # - shadow_removal     # Enable for angled lighting (adds ~2-3ms)
+
+  # Technique-specific parameters
+  clahe:
+    clip_limit: 2.0
+    tile_grid_size: [8, 8]
+
+  glare:
+    threshold: 240
+    blur_kernel: 5

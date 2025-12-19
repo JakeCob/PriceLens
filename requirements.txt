@@ -22,6 +22,9 @@ aiohttp==3.9.1
 # Price Data APIs
 requests==2.31.0
 python-dotenv==1.0.0
+tenacity>=8.2.0              # Retry with exponential backoff
+beautifulsoup4>=4.12.0       # TCGPlayer scraper fallback
+lxml>=5.0.0                  # Fast HTML parsing
 
 # Utilities
 pillow==10.1.0

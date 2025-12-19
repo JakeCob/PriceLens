@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 def build_features():
-    # ORB detector
+    # ORB detector - balanced features for speed + accuracy
     orb = cv2.ORB_create(nfeatures=1000)
     
     # Card database
@@ -41,7 +41,7 @@ def build_features():
             else:
                 card_name = filename
                 card_id = f"{set_name}-{filename}"
-            
+
             # Load and compute ORB features
             img = cv2.imread(str(img_path))
             if img is None:
@@ -49,8 +49,13 @@ def build_features():
                 continue
             
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            keypoints, descriptors = orb.detectAndCompute(gray, None)
             
+            # CLAHE preprocessing (must match feature_matcher.py)
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+            gray = clahe.apply(gray)
+            
+            keypoints, descriptors = orb.detectAndCompute(gray, None)
+
             if descriptors is None or len(keypoints) < 10:
                 logger.warning(f"Insufficient features for: {img_path}")
                 continue

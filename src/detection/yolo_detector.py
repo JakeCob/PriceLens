@@ -18,6 +18,11 @@ except ImportError:
 
 from src.detection.detector_base import DetectorBase
 
+# Import enhancer for type hints (lazy import at runtime)
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.preprocessing.enhancer import ImageEnhancer
+
 logger = logging.getLogger(__name__)
 
 
@@ -73,6 +78,7 @@ class YOLOCardDetector(DetectorBase):
         min_aspect_ratio: float = 0.5,
         max_aspect_ratio: float = 0.9,
         use_card_specific_model: bool = False,
+        enhancer: Optional["ImageEnhancer"] = None,
     ):
         """
         Initialize YOLO card detector
@@ -88,7 +94,12 @@ class YOLOCardDetector(DetectorBase):
             use_card_specific_model: Set to True if using Pokemon card-specific model
                                       (e.g., downloaded from Roboflow). This disables
                                       COCO class filtering and trusts the model output.
+            enhancer: Optional ImageEnhancer instance for pre-detection image enhancement.
+                      If provided, frames will be preprocessed before YOLO inference.
         """
+        # Store enhancer for pre-detection enhancement
+        self.enhancer = enhancer
+
         if YOLO is None:
             raise ImportError(
                 "Ultralytics YOLO not installed. "
@@ -139,10 +150,19 @@ class YOLOCardDetector(DetectorBase):
             self.blocked_class_ids = set()
             logger.info("Using card-specific model - no class filtering applied")
         else:
-            # COCO-pretrained model - DEMO MODE: accept everything except person
-            self.allowed_class_ids = None  # Disabled for demo - accept all classes
-            self.blocked_class_ids = {0}  # Only block person class
-            logger.info("DEMO MODE: Accepting all classes except person")
+            # COCO-pretrained model
+            # Expanded class list to improve card detection
+            # COCO Classes that might detect cards:
+            # 24: backpack (card sleeves), 25: umbrella (rectangular)
+            # 26: handbag, 27: tie, 28: suitcase (rectangular)
+            # 39: bottle, 62: tv, 63: laptop
+            # 65: remote, 67: cell phone, 73: book
+            # 74: clock, 75: vase, 76: scissors
+            
+            # Broader allowlist - trust aspect ratio filtering to reject non-cards
+            self.allowed_class_ids = {24, 25, 26, 27, 28, 39, 62, 63, 65, 67, 73, 74, 75, 76}
+            self.blocked_class_ids = {0}  # Block person only
+            logger.info(f"COCO MAPPING: Accepting classes {self.allowed_class_ids}")
             
             # Tighten aspect ratio for standard model (Pokemon cards are ~0.71)
             self.min_aspect_ratio = 0.5
@@ -215,6 +235,13 @@ class YOLOCardDetector(DetectorBase):
             logger.warning("Empty frame received")
             return []
 
+        # Apply pre-detection enhancement if enhancer is available
+        if self.enhancer is not None:
+            try:
+                frame = self.enhancer.enhance_for_detection(frame)
+            except Exception as e:
+                logger.warning(f"Pre-detection enhancement failed: {e}")
+
         logger.info(f"Detector received frame: {frame.shape}")  # Force INFO log
         scale = 1.0  # No resizing, so scale is 1.0
 
@@ -239,6 +266,7 @@ class YOLOCardDetector(DetectorBase):
             # verbose=True enables YOLO's own internal logging to stdout
             results = self.model.predict(
                 frame,
+                imgsz=320,  # Force 320px inference for speed on CPU
                 conf=self.conf_threshold,
                 iou=self.iou_threshold,
                 device=self.device,
@@ -255,7 +283,10 @@ class YOLOCardDetector(DetectorBase):
 
         # Parse results
         detections = []
-        filtered_count = {"class": 0, "aspect": 0, "blocked": 0}
+        filtered_count = {"class": 0, "aspect": 0, "blocked": 0, "size": 0, "face": 0}
+
+        frame_h, frame_w = frame.shape[:2]
+        frame_area = max(1, frame_h * frame_w)
 
         for result in results:
             logger.warning(f"Result boxes: {len(result.boxes)}")  # Log raw box count
@@ -285,6 +316,23 @@ class YOLOCardDetector(DetectorBase):
                 # Validate detection is card-like (rectangular)
                 width = x2 - x1
                 height = y2 - y1
+
+                # Filter by absolute/relative size (mainly for COCO-pretrained models).
+                # COCO often returns large "rectangles" over people/background objects that pass aspect ratio.
+                # Real cards are usually much smaller than the full frame in this scanner view.
+                bbox_area = max(1.0, width * height)
+                area_frac = bbox_area / float(frame_area)
+
+                if not self.use_card_specific_model:
+                    # Reject absurdly large boxes (commonly "stuck" around a person/background).
+                    if area_frac > 0.40 or width > frame_w * 0.95 or height > frame_h * 0.95:
+                        logger.warning(f"  FILTERED (size): area={area_frac:.2f} w={width:.0f} h={height:.0f}")
+                        filtered_count["size"] += 1
+                        continue
+                    # Reject tiny noise
+                    if area_frac < 0.002:
+                        filtered_count["size"] += 1
+                        continue
                 
                 # Calculate aspect ratio
                 aspect_ratio = width / height if height > 0 else 0
@@ -304,23 +352,25 @@ class YOLOCardDetector(DetectorBase):
                     continue
 
                 if aspect_valid:
-                    # Check for overlap with detected faces
-                    # If detection overlaps significantly with a face, it's likely a false positive
-                    is_face = False
-                    det_center = ((x1 + x2) / 2, (y1 + y2) / 2)
-                    
-                    for (fx, fy, fw, fh) in faces:
-                        # Scale face coords back if we resized (currently scale=1.0)
-                        fx, fy, fw, fh = fx/scale, fy/scale, fw/scale, fh/scale
-                        
-                        # Check if detection center is inside face box
-                        if (fx < det_center[0] < fx + fw) and (fy < det_center[1] < fy + fh):
-                            is_face = True
-                            break
-                    
-                    if is_face:
-                        logger.debug(f"Skipping face overlap: {class_name}")
-                        continue
+                    # Face-based rejection for COCO model:
+                    # If a detection contains a face center and is relatively large, it's likely the person/background.
+                    if faces and not self.use_card_specific_model:
+                        is_face_related = False
+                        for (fx, fy, fw, fh) in faces:
+                            fx, fy, fw, fh = fx / scale, fy / scale, fw / scale, fh / scale
+                            fcx = fx + (fw / 2.0)
+                            fcy = fy + (fh / 2.0)
+                            if (x1 <= fcx <= x2) and (y1 <= fcy <= y2):
+                                # Only reject if the box is big enough that it’s probably "the person",
+                                # not a small card near a face.
+                                if area_frac > 0.08:
+                                    is_face_related = True
+                                    break
+
+                        if is_face_related:
+                            logger.warning(f"  FILTERED (face): contains face center, area={area_frac:.2f}")
+                            filtered_count["face"] += 1
+                            continue
 
                     logger.warning(f"  PASSED: {class_name}, aspect={aspect_ratio:.3f}")
                     
@@ -339,7 +389,8 @@ class YOLOCardDetector(DetectorBase):
 
     def _is_face_overlap(self, card_bbox, faces) -> bool:
         """Check if card bbox overlaps with any detected face"""
-        card_area = (cx2 - cx1) * (cy2 - cy1)
+        cx1, cy1, cx2, cy2 = card_bbox
+        card_area = max(1, (cx2 - cx1) * (cy2 - cy1))
         
         for (fx, fy, fw, fh) in faces:
             fx2, fy2 = fx + fw, fy + fh
@@ -408,13 +459,17 @@ class YOLOCardDetector(DetectorBase):
             for det in detections:
                 det.card_id = f"card_{self.next_card_id}"
                 self.tracked_cards[det.card_id] = det
+                # Initialize streak bookkeeping so confirmation thresholds work
+                self.hit_streaks[det.card_id] = 1
+                self.miss_counts[det.card_id] = 0
 
                 # Initialize interpolator (if smoothing enabled)
                 if self.use_kalman_smoothing and self.interpolator:
                     self.interpolator.update(det.card_id, det.bbox, frame_idx)
 
                 self.next_card_id += 1
-            return detections
+            # Return only confirmed cards (usually none on first frame)
+            return [d for d in detections if d.card_id in self.confirmed_cards]
 
         # Match current detections to tracked cards using IoU
         matched_detections = []
@@ -446,7 +501,8 @@ class YOLOCardDetector(DetectorBase):
                 self.miss_counts[best_match_id] = 0  # Reset miss count on successful match
 
                 # Mark as confirmed - instant for card-specific models, 3 hits for generic models
-                required_hits = 1  # Instant confirmation for demo
+                use_card_specific = bool(getattr(self, "use_card_specific_model", False))
+                required_hits = 1 if use_card_specific else 3
                 if self.hit_streaks[best_match_id] >= required_hits:
                     self.confirmed_cards.add(best_match_id)
 

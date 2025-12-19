@@ -12,7 +12,8 @@ import {
     VolumeX,
     RotateCcw,
     ArrowLeft,
-    DollarSign
+    DollarSign,
+    FlipHorizontal
 } from "lucide-react";
 import Link from "next/link";
 
@@ -26,6 +27,15 @@ interface Detection {
 }
 
 const API_URL = "http://localhost:8080";
+
+type CurrencyCode = "USD" | "PHP";
+
+// Display-only currency conversion (backend prices are USD).
+// If you want live FX rates later, we can move this to an API endpoint.
+const CURRENCY_META: Record<CurrencyCode, { label: string; locale: string; usdRate: number }> = {
+    USD: { label: "USD ($)", locale: "en-US", usdRate: 1.0 },
+    PHP: { label: "PHP (₱)", locale: "en-PH", usdRate: 56.0 }, // fixed rate; adjust as needed
+};
 
 export default function ScannerPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -41,6 +51,59 @@ export default function ScannerPage() {
     const lastFpsTimeRef = useRef(Date.now());
     const streamRef = useRef<MediaStream | null>(null);
     const animationRef = useRef<number | null>(null);
+
+    const isStreamingRef = useRef(false);
+    const processingCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    const scanningStartRef = useRef<number | null>(null);
+
+    // Currency picker (display-only; backend prices are USD)
+    const [currency, setCurrency] = useState<CurrencyCode>("USD");
+    useEffect(() => {
+        try {
+            const saved = typeof window !== "undefined" ? window.localStorage.getItem("pricelens.currency") : null;
+            if (saved === "USD" || saved === "PHP") {
+                setCurrency(saved);
+            }
+        } catch { }
+    }, []);
+
+    useEffect(() => {
+        try {
+            if (typeof window !== "undefined") {
+                window.localStorage.setItem("pricelens.currency", currency);
+            }
+        } catch { }
+    }, [currency]);
+
+    const formatPrice = useCallback((usdAmount: number) => {
+        const meta = CURRENCY_META[currency];
+        const converted = usdAmount * meta.usdRate;
+        return new Intl.NumberFormat(meta.locale, {
+            style: "currency",
+            currency,
+            maximumFractionDigits: 2,
+        }).format(converted);
+    }, [currency]);
+
+    // Mirror State
+    const [isMirrored, setIsMirrored] = useState(false);
+    const isMirroredRef = useRef(false);
+
+    const toggleMirror = () => {
+        const newState = !isMirrored;
+        setIsMirrored(newState);
+        isMirroredRef.current = newState;
+    };
+
+    // Initial setup for processing canvas
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            // height will be set dynamically based on aspect ratio
+            processingCanvasRef.current = canvas;
+        }
+    }, []);
 
     // Start camera
     const startCamera = async () => {
@@ -69,6 +132,7 @@ export default function ScannerPage() {
                     videoRef.current?.play()
                         .then(() => {
                             setIsStreaming(true);
+                            isStreamingRef.current = true;
                             startDetectionLoop();
                         })
                         .catch((err) => {
@@ -93,83 +157,251 @@ export default function ScannerPage() {
             animationRef.current = null;
         }
         setIsStreaming(false);
+        isStreamingRef.current = false;
         setDetections([]);
     };
 
+    const [debugLog, setDebugLog] = useState<string[]>([]);
+
+    const log = (msg: string) => {
+        setDebugLog(prev => [msg, ...prev].slice(0, 5));
+        console.log(msg);
+    };
+
+    const sessionIdsRef = useRef<Set<string>>(new Set());
+    const sessionPricesRef = useRef<Map<string, number | null>>(new Map());
+
     // Send frame to backend
     const sendFrame = async () => {
-        if (!videoRef.current || !canvasRef.current || !isStreaming) return;
+        if (!videoRef.current || !processingCanvasRef.current || !isStreamingRef.current) {
+            return;
+        }
 
         const video = videoRef.current;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+        const processCanvas = processingCanvasRef.current;
+        const pCtx = processCanvas.getContext("2d");
+        if (!pCtx) return;
 
-        // Set canvas size to match video
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        // Use SPEED RESOLUTION (500px)
+        // 800px caused 1 FPS on CPU.
+        // 500px provides ~2.5x speed boost while maintaining sufficient detail for ORB.
+        const targetWidth = 500;
+        const scale = targetWidth / video.videoWidth;
+        const pWidth = targetWidth;
+        const pHeight = video.videoHeight * scale;
 
-        // Draw video frame to canvas
-        ctx.drawImage(video, 0, 0);
+        // Update processing canvas size
+        if (processCanvas.width !== pWidth) {
+            processCanvas.width = pWidth;
+        }
+        if (processCanvas.height !== pHeight) {
+            processCanvas.height = pHeight;
+        }
 
-        // Get base64 image
-        const imageData = canvas.toDataURL("image/jpeg", 0.8);
-        const base64Data = imageData.split(",")[1];
+        // Draw video frame to processing canvas (Downscale)
+        pCtx.drawImage(video, 0, 0, pWidth, pHeight);
 
-        try {
-            const response = await fetch(`${API_URL}/detect-live`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ image: base64Data }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setDetections(data.detections || []);
-
-                // Update FPS
-                frameCountRef.current++;
-                const now = Date.now();
-                if (now - lastFpsTimeRef.current >= 1000) {
-                    setFps(frameCountRef.current);
-                    frameCountRef.current = 0;
-                    lastFpsTimeRef.current = now;
+        // Get blob from processing canvas
+        return new Promise<void>((resolve) => {
+            processCanvas.toBlob(async (blob) => {
+                if (!blob) {
+                    resolve();
+                    return;
                 }
 
-                // Add detected cards to session
-                data.detections?.forEach((det: Detection) => {
-                    if (det.name !== "Scanning..." && det.price !== null) {
-                        if (!sessionCards.has(det.card_id)) {
-                            const newCards = new Map(sessionCards);
-                            newCards.set(det.card_id, det);
-                            setSessionCards(newCards);
-                            setSessionTotal(prev => prev + (det.price || 0));
+                const formData = new FormData();
+                formData.append("file", blob, "frame.jpg");
 
-                            // Play sound
-                            if (!isMuted) {
-                                const audio = new Audio("/sounds/success.mp3");
-                                audio.volume = 0.3;
-                                audio.play().catch(() => { });
+                try {
+                    const response = await fetch(`${API_URL}/detect-live`, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        // Check if streaming is still active before updating state
+                        // This prevents "ghost" overlays if the user stopped the camera
+                        // while the request was in flight.
+                        if (!isStreamingRef.current) return;
+
+                        // Scale coordinates back up to VIDEO size for display overlay
+                        // The overlay canvas matches the video element size (e.g. 1280x720)
+                        const displayScale = video.videoWidth / pWidth;
+                        const videoW = video.videoWidth;
+
+                        // UX Fix for "Taking too long": Global timer for "Scanning..." persistence
+                        const isScanningAny = (data.detections || []).some((d: Detection) => d.name === "Scanning...");
+
+                        if (isScanningAny) {
+                            if (!scanningStartRef.current) {
+                                scanningStartRef.current = Date.now();
                             }
+                        } else {
+                            scanningStartRef.current = null;
                         }
+
+                        const showUnknown = scanningStartRef.current && (Date.now() - scanningStartRef.current > 3000);
+
+                        const scaledDetections = (data.detections || []).map((det: Detection) => {
+                            // Scale raw coordinates
+                            const sx1 = det.bbox[0] * displayScale;
+                            const sy1 = det.bbox[1] * displayScale;
+                            const sx2 = det.bbox[2] * displayScale;
+                            const sy2 = det.bbox[3] * displayScale;
+
+                            let adjustedName = det.name;
+
+                            if (det.name === "Scanning..." && showUnknown) {
+                                adjustedName = "Unknown Card";
+                            }
+
+                            if (isMirroredRef.current) {
+                                // Flip X coordinates for mirrored view
+                                return {
+                                    ...det,
+                                    name: adjustedName,
+                                    bbox: [
+                                        videoW - sx2,
+                                        sy1,
+                                        videoW - sx1,
+                                        sy2
+                                    ]
+                                };
+                            } else {
+                                // Regular coordinates
+                                return {
+                                    ...det,
+                                    name: adjustedName,
+                                    bbox: [
+                                        sx1,
+                                        sy1,
+                                        sx2,
+                                        sy2
+                                    ]
+                                };
+                            }
+                        });
+
+                        setDetections(scaledDetections);
+
+                        // Update FPS (Detection Rate)
+                        frameCountRef.current++;
+                        const now = Date.now();
+                        if (now - lastFpsTimeRef.current >= 1000) {
+                            setFps(frameCountRef.current);
+                            frameCountRef.current = 0;
+                            lastFpsTimeRef.current = now;
+                        }
+
+                        // Add detected cards to session
+                        scaledDetections.forEach((det: Detection) => {
+                            // Add card if properly identified (not Scanning or Unknown)
+                            // Price may be null while still loading - that's OK, show as $0.00
+                            if (det.name !== "Scanning..." && det.name !== "Unknown Card" && det.card_id !== "unknown") {
+                                // Check against Ref to avoid stale closure issues
+                                if (!sessionIdsRef.current.has(det.card_id)) {
+                                    sessionIdsRef.current.add(det.card_id);
+                                    sessionPricesRef.current.set(det.card_id, det.price);
+
+                                    setSessionCards(prev => {
+                                        const newCards = new Map(prev);
+                                        newCards.set(det.card_id, det);
+                                        return newCards;
+                                    });
+                                    setSessionTotal(prev => prev + (det.price || 0));
+
+                                    // Play sound (Success Chime)
+                                    if (!isMuted) {
+                                        // Base64 encoded short success beep to avoid 404s
+                                        const successSound = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWgAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                                        // Note: The above is a placeholder empty MP3. Real beep below:
+                                        const beep = "data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"; // Truncated generic
+
+                                        // Using a simple oscillator beep since we can't easily embed a full mp3 string here without being huge.
+                                        // Better approach: Use Web Audio API for a synthetic beep.
+                                        try {
+                                            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+                                            if (AudioContext) {
+                                                const ctx = new AudioContext();
+                                                const osc = ctx.createOscillator();
+                                                const gain = ctx.createGain();
+
+                                                osc.connect(gain);
+                                                gain.connect(ctx.destination);
+
+                                                osc.type = "sine";
+                                                osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+                                                osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.1);
+
+                                                gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                                                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+
+                                                osc.start(ctx.currentTime);
+                                                osc.stop(ctx.currentTime + 0.1);
+                                            }
+                                        } catch (e) {
+                                            console.error("Audio error", e);
+                                        }
+                                    }
+                                }
+                                // Card is already in session: update price if it arrives later (or changes).
+                                else {
+                                    const prevPrice = sessionPricesRef.current.get(det.card_id);
+                                    const nextPrice = det.price;
+                                    if (nextPrice !== null && nextPrice !== undefined) {
+                                        if (prevPrice === null || prevPrice === undefined) {
+                                            sessionPricesRef.current.set(det.card_id, nextPrice);
+                                            setSessionCards(prev => {
+                                                const newCards = new Map(prev);
+                                                const existing = newCards.get(det.card_id);
+                                                newCards.set(det.card_id, existing ? { ...existing, ...det } : det);
+                                                return newCards;
+                                            });
+                                            setSessionTotal(prev => prev + nextPrice);
+                                        } else if (Math.abs(nextPrice - prevPrice) > 0.0001) {
+                                            sessionPricesRef.current.set(det.card_id, nextPrice);
+                                            setSessionCards(prev => {
+                                                const newCards = new Map(prev);
+                                                const existing = newCards.get(det.card_id);
+                                                newCards.set(det.card_id, existing ? { ...existing, ...det } : det);
+                                                return newCards;
+                                            });
+                                            setSessionTotal(prev => prev + (nextPrice - prevPrice));
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        // log(`Error: ${response.status} ${response.statusText}`);
                     }
-                });
-            }
-        } catch (err) {
-            console.error("Detection error:", err);
-        }
+                } catch (err) {
+                    // log(`Fetch error: ${err}`);
+                    console.error("Detection error:", err);
+                } finally {
+                    resolve();
+                }
+            }, "image/jpeg", 0.7); // Low quality for speed
+        });
     };
 
     // Detection loop
     const startDetectionLoop = () => {
+        // log("Starting detection loop");
         const loop = async () => {
+            if (!videoRef.current || videoRef.current.paused || videoRef.current.ended || !isStreamingRef.current) {
+                // log("Loop stop condition met");
+                return;
+            }
             await sendFrame();
             animationRef.current = requestAnimationFrame(loop);
         };
         loop();
     };
 
-    // Draw detection boxes
+    // Draw detection boxes (Overlay)
     useEffect(() => {
         if (!canvasRef.current || !videoRef.current) return;
 
@@ -177,9 +409,16 @@ export default function ScannerPage() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        // Clear and redraw video
+        // Match canvas size to video size for correct overlay projection
+        if (canvas.width !== videoRef.current.videoWidth || canvas.height !== videoRef.current.videoHeight) {
+            canvas.width = videoRef.current.videoWidth;
+            canvas.height = videoRef.current.videoHeight;
+        }
+
+        // Clear canvas (Transparent overlay)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(videoRef.current, 0, 0);
+
+        // Note: We DO NOT draw the video here. The video element is visible behind the canvas.
 
         // Draw detection boxes
         detections.forEach((det) => {
@@ -227,7 +466,7 @@ export default function ScannerPage() {
 
             // Label background
             const label = det.price !== null
-                ? `${det.name} - $${det.price.toFixed(2)}`
+                ? `${det.name} - ${formatPrice(det.price)}`
                 : det.name;
             ctx.font = "bold 16px Inter, sans-serif";
             const textWidth = ctx.measureText(label).width;
@@ -239,7 +478,7 @@ export default function ScannerPage() {
             ctx.fillStyle = isConfirmed ? "#10B981" : "#FFCB05";
             ctx.fillText(label, x1 + 8, y1 - 10);
         });
-    }, [detections]);
+    }, [detections, formatPrice]);
 
     // Cleanup on unmount
     useEffect(() => {
@@ -252,6 +491,8 @@ export default function ScannerPage() {
     const clearSession = () => {
         setSessionCards(new Map());
         setSessionTotal(0);
+        sessionIdsRef.current.clear();
+        sessionPricesRef.current.clear();
     };
 
     return (
@@ -276,6 +517,26 @@ export default function ScannerPage() {
                     <Badge variant="outline" className="font-mono">
                         {fps} FPS
                     </Badge>
+                    <select
+                        value={currency}
+                        onChange={(e) => setCurrency(e.target.value === "PHP" ? "PHP" : "USD")}
+                        className="h-9 rounded-md border border-border bg-background px-3 text-sm text-foreground"
+                        title="Currency"
+                    >
+                        {Object.entries(CURRENCY_META).map(([code, meta]) => (
+                            <option key={code} value={code}>
+                                {meta.label}
+                            </option>
+                        ))}
+                    </select>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={toggleMirror}
+                        title="Toggle Mirror Mode"
+                    >
+                        <FlipHorizontal className="w-5 h-5" />
+                    </Button>
                     <Button
                         variant="ghost"
                         size="icon"
@@ -293,7 +554,7 @@ export default function ScannerPage() {
                     <div className="relative aspect-video bg-slate-900 rounded-2xl overflow-hidden">
                         <video
                             ref={videoRef}
-                            className="absolute inset-0 w-full h-full object-cover"
+                            className={`absolute inset-0 w-full h-full object-cover transform ${isMirrored ? "scale-x-[-1]" : ""}`}
                             playsInline
                             muted
                         />
@@ -301,6 +562,8 @@ export default function ScannerPage() {
                             ref={canvasRef}
                             className="absolute inset-0 w-full h-full"
                         />
+
+
 
                         {/* Overlay when not streaming */}
                         {!isStreaming && (
@@ -352,7 +615,7 @@ export default function ScannerPage() {
 
                             <div className="text-center py-6 border-b border-border mb-4">
                                 <p className="text-4xl font-bold text-green-400">
-                                    ${sessionTotal.toFixed(2)}
+                                    {formatPrice(sessionTotal)}
                                 </p>
                                 <p className="text-sm text-muted-foreground mt-1">
                                     {sessionCards.size} cards scanned
@@ -371,7 +634,7 @@ export default function ScannerPage() {
                                             <p className="text-xs text-muted-foreground">{card.set}</p>
                                         </div>
                                         <p className="font-semibold text-green-400">
-                                            ${(card.price || 0).toFixed(2)}
+                                            {card.price === null ? "N/A" : formatPrice(card.price)}
                                         </p>
                                     </div>
                                 ))}

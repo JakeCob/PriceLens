@@ -19,7 +19,7 @@ def test_api():
     # 1. Start the server in a subprocess
     logger.info("Starting server...")
     server_process = subprocess.Popen(
-        [sys.executable, "run_web.py"],
+        [sys.executable, "scripts/run_api.py"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True

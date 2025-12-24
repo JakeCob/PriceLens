@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 8080
 
 # Run the web server
-CMD ["python", "run_web.py"]
+CMD ["python", "scripts/run_api.py"]

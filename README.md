@@ -69,9 +69,9 @@ The web interface provides a modern browser-based experience:
 
 1. **Start the Python backend** (API server):
 ```bash
-python run_web.py
+python scripts/run_api.py
 ```
-The backend runs at `http://localhost:8080`
+The backend runs at `http://localhost:7848`
 
 2. **Start the Next.js frontend** (in a separate terminal):
 ```bash

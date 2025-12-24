@@ -1,0 +1,116 @@
+# PriceLens Benchmark Configuration
+# Default settings for benchmark runs
+
+benchmark:
+  # Standard benchmark settings
+  iterations: 100
+  warmup: 10
+  
+  # Quick mode settings (--quick flag)
+  quick:
+    iterations: 20
+    warmup: 5
+
+# Test image settings  
+test_images:
+  # Use images from card database
+  card_database_path: "data/card_database"
+  
+  # Specific cards to use for benchmarking
+  sample_cards:
+    - "base1/Charizard_base1-4.jpg"
+    - "base1/Blastoise_base1-2.jpg"
+    - "base1/Pikachu_base1-58.jpg"
+    - "base1/Venusaur_base1-15.jpg"
+  
+  # Synthetic resolutions to test
+  resolutions:
+    - name: "720p"
+      width: 1280
+      height: 720
+    - name: "1080p"
+      width: 1920
+      height: 1080
+    - name: "480p"
+      width: 640
+      height: 480
+
+# Performance thresholds (in milliseconds)
+# Used for status indicators and regression detection
+thresholds:
+  detection:
+    good: 50
+    warning: 100
+    critical: 200
+    
+  identification:
+    good: 100
+    warning: 200
+    critical: 400
+    
+  preprocessing:
+    detection_pipeline:
+      good: 5
+      warning: 15
+      critical: 30
+    identification_pipeline:
+      good: 10
+      warning: 25
+      critical: 50
+      
+  pipeline:
+    # End-to-end pipeline
+    good: 150
+    warning: 300
+    critical: 500
+    
+  api:
+    cache_hit:
+      good: 1
+      warning: 10
+      critical: 50
+    cache_miss:
+      good: 500
+      warning: 2000
+      critical: 5000
+      
+  web_api:
+    detect_live:
+      good: 150
+      warning: 300
+      critical: 500
+    analyze_image:
+      good: 500
+      warning: 1000
+      critical: 2000
+
+# FPS targets
+fps:
+  target: 30
+  minimum: 15
+  optimal: 60
+
+# Memory limits (MB)
+memory:
+  gpu_warning: 2048
+  gpu_critical: 4096
+  ram_warning: 4096
+  ram_critical: 8192
+
+# Regression detection settings
+regression:
+  # Threshold for flagging as regression (percentage slower)
+  warning_threshold: 5
+  critical_threshold: 10
+  
+  # Threshold for flagging as improvement (percentage faster)
+  improvement_threshold: 5
+
+# Output settings
+output:
+  # Default output directory for benchmark results
+  directory: "data/benchmarks"
+  
+  # Filename patterns
+  filename_pattern: "benchmark_{timestamp}.json"
+  baseline_filename: "baseline.json"

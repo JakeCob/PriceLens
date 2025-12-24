@@ -34,6 +34,7 @@ pandas>=2.0.0  # For training notebooks and data analysis
 
 # Performance Optimization
 numba==0.58.1  # JIT compilation for feature matching
+faiss-cpu>=1.7.4  # Fast approximate nearest neighbor search
 
 # Database
 chromadb>=0.4.18

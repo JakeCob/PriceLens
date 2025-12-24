@@ -36,15 +36,27 @@ cleanup() {
 # Trap SIGINT (Ctrl+C) and SIGTERM
 trap cleanup SIGINT SIGTERM
 
+# Kill any existing processes on our ports
+echo -e "${YELLOW}Stopping any existing services...${NC}"
+# Kill processes on backend port 7848
+lsof -ti:7848 2>/dev/null | xargs -r kill -9 2>/dev/null || true
+# Kill processes on frontend port 7847
+lsof -ti:7847 2>/dev/null | xargs -r kill -9 2>/dev/null || true
+# Also kill any stray uvicorn or next processes for this project
+pkill -f "uvicorn src.web.api" 2>/dev/null || true
+pkill -f "next dev --port 7847" 2>/dev/null || true
+sleep 1
+
 # Start the FastAPI backend
 echo -e "${GREEN}Starting FastAPI backend server...${NC}"
 cd "$SCRIPT_DIR"
-python scripts/run_api.py &
+export PYTHONPATH="$SCRIPT_DIR"
+python -m uvicorn src.web.api:app --host 0.0.0.0 --port 7848 --reload &
 BACKEND_PID=$!
 echo -e "${GREEN}✓ Backend starting on http://localhost:7848${NC}"
 
 # Wait a moment for backend to initialize
-sleep 2
+sleep 3
 
 # Start the Next.js frontend
 echo -e "${GREEN}Starting Next.js frontend...${NC}"

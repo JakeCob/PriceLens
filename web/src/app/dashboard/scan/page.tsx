@@ -26,7 +26,7 @@ interface Detection {
     price: number | null;
 }
 
-const API_URL = "http://localhost:8080";
+const API_URL = "http://localhost:7848";
 
 type CurrencyCode = "USD" | "PHP";
 
